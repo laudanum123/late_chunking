@@ -260,7 +260,7 @@ def compare_retrieval_quality(docs_directory: str = "documents"):
 
         # Initialize vector stores
         late_chunking_store = FaissVectorStore(late_chunking_embedder.embedding_size)
-        traditional_store = ChromaVectorStore(traditional_embedder.embedding_size)
+        traditional_store = FaissVectorStore(traditional_embedder.embedding_size)
 
         # Load documents from directory
         try:
