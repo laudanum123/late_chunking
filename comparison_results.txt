@@ -1,0 +1,1563 @@
+RAG Comparison Results
+================================================================================
+
+Initializing embedders...
+
+Loaded 3 documents from documents
+
+Processing documents with late chunking approach...
+
+Processing documents with traditional approach...
+
+Comparing retrieval results:
+================================================================================
+
+Query: What is the current population of New York City and how does it compare to other US cities?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8645 |  With more than 20.1 million people in its metropolitan statistical area and 23.5 million in its combined statistical area as of 2020, New York City is one of the world's most populous megacities.
+2. Score: 0.8628 |  New York City has more than double the population of Los Angeles, the nation's second-most populous city.
+3. Score: 0.8602 | 
+With an estimated population in 2023 of 8,258,035 distributed over 300.46 square miles (778.2 km2), the city is the most densely populated major city in the United States.
+4. Score: 0.8579 |  The city's population density of 27,744.1 inhabitants per square mile (10,712.1/km2) makes it the densest of any American municipality with a population above 100,000.
+5. Score: 0.8568 |  by both population and urban area.
+6. Score: 0.8564 |  New York is the geographical and demographic center of both the Northeast megalopolis and the New York metropolitan area, the largest metropolitan area in the U.S.
+7. Score: 0.8548 | 
+Based on data from the 2020 census, New York City comprises about 43.6% of the state's population of 20,202,320, and about 39% of the population of the New York metropolitan area.
+8. Score: 0.8510 |  In 2021, the city was home to nearly 3.1 million residents born outside the U.S., the largest foreign-born population of any city in the world.
+9. Score: 0.8504 |  More than twice as many people live in New York City as in Los Angeles, the second-most populous U.S.
+10. Score: 0.8490 |  Manhattan's population density is 70,450.8 inhabitants per square mile (27,201.2/km2), the highest of any county in the United States.
+
+Traditional Results:
+1. Score: 0.1170 | Demographics
+New York City is the most populous city in the United States, with 8,804,190 residents as of the 2020 United States census, its highest decennial count ever, incorporating more immigration into the city than outmigration since the 2010 census.
+2. Score: 0.1326 | Between 2010 and 2020, New York City gained 629,000 residents, more than any other U.S.
+3. Score: 0.1370 | Based on data from the 2020 census, New York City comprises about 43.6% of the state's population of 20,202,320, and about 39% of the population of the New York metropolitan area.
+4. Score: 0.1470 | With more than 20.1 million people in its metropolitan statistical area and 23.5 million in its combined statistical area as of 2020, New York City is one of the world's most populous megacities.
+5. Score: 0.1491 | New York City's population exceeded 8 million for the first time in the 2000 United States census; further records were set in 2010, and 2020 U.S.
+6. Score: 0.1573 | The majority of New York City residents in 2020 (5,141,539 or 58.4%) were living in Brooklyn or Queens, the two boroughs on Long Island.
+7. Score: 0.1577 | New York, often called New York City or NYC, is the most populous city in the United States, located at the southern tip of New York State on one of the world's largest natural harbors.
+8. Score: 0.1588 | New York City has the largest European and non-Hispanic white population of any American city, numbering 2.7 million in 2012.
+9. Score: 0.1610 | With 960,000 Jewish inhabitants as of 2023, New York City is home to the highest Jewish population of any city in the world, and its metropolitan area concentrated over 2 million Jews as of 2021, the second largest Jewish population worldwide after the Tel Aviv metropolitan area in Israel.
+10. Score: 0.1723 | Manhattan's population density of 70,450.8 inhabitants per square mile (27,201.2/km2) in 2022 makes it the highest of any county in the United States and higher than the density of any individual American city.
+================================================================================
+
+Query: How did New York City get its name and what was it called before?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8542 |  The settlement was named New Amsterdam in 1626 and was chartered as a city in 1653.
+2. Score: 0.8542 | 
+
+Etymology
+In 1664, New York was named in honor of the Duke of York (later King James II of England).
+3. Score: 0.8467 |  The city came under English control in 1664 and was temporarily renamed New York after King Charles II granted the lands to his brother, the Duke of York, before being permanently renamed New York in November 1674.
+4. Score: 0.8312 | 
+New York City traces its origins to Fort Amsterdam and a trading post founded on Manhattan Island by Dutch colonists around 1624.
+5. Score: 0.8217 |  James's elder brother, King Charles II, appointed the Duke as proprietor of the former territory of New Netherland, including the city of New Amsterdam, when the Kingdom of England seized it from Dutch control.
+6. Score: 0.8101 |  The settlement was promptly renamed "New York" after the Duke of York (the future King James II and VII).
+7. Score: 0.8061 |  The modern city was formed by the 1898 consolidation of its five boroughs: Manhattan, Brooklyn, Queens, The Bronx, and Staten Island.
+8. Score: 0.7979 |  New York City was the U.S.
+9. Score: 0.7952 | 
+In 1790, for the first time, New York City surpassed Philadelphia as the nation's largest city.
+10. Score: 0.7952 | 
+
+Post-revolutionary period and early 19th century
+In January 1785, the assembly of the Congress of the Confederation made New York City the national capital.
+
+Traditional Results:
+1. Score: 0.1556 | The city came under English control in 1664 and was temporarily renamed New York after King Charles II granted the lands to his brother, the Duke of York, before being permanently renamed New York in November 1674.
+2. Score: 0.1667 | Etymology
+In 1664, New York was named in honor of the Duke of York (later King James II of England).
+3. Score: 0.1761 | New York City traces its origins to Fort Amsterdam and a trading post founded on Manhattan Island by Dutch colonists around 1624.
+4. Score: 0.1848 | In 1898, the City of New York was formed with the consolidation of Brooklyn (until then a separate city), the County of New York (which then included parts of the Bronx), the County of Richmond, and the western portion of the County of Queens.
+5. Score: 0.1912 | The settlement was promptly renamed "New York" after the Duke of York (the future King James II and VII).
+6. Score: 0.2113 | New York City was the U.S.
+7. Score: 0.2113 | Boroughs
+New York City is sometimes referred to collectively as the Five Boroughs.
+8. Score: 0.2151 | New York, often called New York City or NYC, is the most populous city in the United States, located at the southern tip of New York State on one of the world's largest natural harbors.
+9. Score: 0.2164 | On August 24, 1673, during the Third Anglo-Dutch War, Anthony Colve of the Dutch navy seized New York at the behest of Cornelis Evertsen the Youngest and rechristened it "New Orange" after William III, the Prince of Orange.
+10. Score: 0.2217 | Post-revolutionary period and early 19th century
+In January 1785, the assembly of the Congress of the Confederation made New York City the national capital.
+================================================================================
+
+Query: What role does Wall Street play in New York's economy and global finance?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8479 | 
+New York City remains the largest global center for trading in public equity and debt capital markets, driven in part by the size and financial development of the U.S.
+2. Score: 0.8407 |  Lower Manhattan is home to the New York Stock Exchange, at 11 Wall Street, and the Nasdaq, at 165 Broadway, representing the world's largest and second largest stock exchanges, respectively, when measured both by overall average daily trading volume and by total market capitalization of their listed companies in 2013.
+3. Score: 0.8374 | 
+
+Wall Street
+New York City's most important economic sector lies in its role as the headquarters for the U.S.
+4. Score: 0.8353 |  Several investment banks and investment managers headquartered in Manhattan are important participants in other global financial centers.: 34–35  New York is the principal commercial banking center of the United States.
+5. Score: 0.8349 |  economy.: 31–32  New York also leads in hedge fund management; private equity; and the monetary volume of mergers and acquisitions.
+6. Score: 0.8303 |  financial industry, metonymously known as Wall Street.
+7. Score: 0.8271 |  In fiscal year 2013–14, Wall Street's securities industry generated 19% of New York State's tax revenue.
+8. Score: 0.8196 |  The city is home to the world's two largest stock exchanges by market capitalization of their listed companies: the New York Stock Exchange and Nasdaq.
+9. Score: 0.8146 |  New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+10. Score: 0.8118 |  If the New York metropolitan area were its own country, it would have the tenth-largest economy in the world.
+
+Traditional Results:
+1. Score: 0.1299 | Wall Street
+New York City's most important economic sector lies in its role as the headquarters for the U.S.
+2. Score: 0.1377 | New York City remains the largest global center for trading in public equity and debt capital markets, driven in part by the size and financial development of the U.S.
+3. Score: 0.1524 | Economy
+New York City is a global hub of business and commerce, sometimes called the "Capital of the World".
+4. Score: 0.1598 | Anchored by Wall Street in the Financial District, Manhattan, New York City has been called both the world's premier financial and fintech center and the most economically powerful city in the world.
+5. Score: 0.1739 | New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+6. Score: 0.1772 | New York City is an established safe haven for global investors.
+7. Score: 0.1786 | New York City's role as the top global center for the advertising industry is metonymously reflected as Madison Avenue.
+8. Score: 0.1801 | New York is a global center of finance and commerce, culture, technology, entertainment and media, academics and scientific output, the arts and fashion, and, as home to the headquarters of the United Nations, international diplomacy.
+9. Score: 0.1869 | economy.: 31–32  New York also leads in hedge fund management; private equity; and the monetary volume of mergers and acquisitions.
+10. Score: 0.1876 | Several investment banks and investment managers headquartered in Manhattan are important participants in other global financial centers.: 34–35  New York is the principal commercial banking center of the United States.
+================================================================================
+
+Query: What are the five boroughs of New York City and how are they different?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8716 | 
+
+Boroughs
+New York City is sometimes referred to collectively as the Five Boroughs.
+2. Score: 0.8517 |  Each borough is coextensive with a respective county of New York State, making New York City one of the U.S.
+3. Score: 0.8311 |  It is home to Central Park and most of the city's skyscrapers, and is sometimes locally known as The City.
+4. Score: 0.8285 |  The modern city was formed by the 1898 consolidation of its five boroughs: Manhattan, Brooklyn, Queens, The Bronx, and Staten Island.
+5. Score: 0.8210 |  municipalities in multiple counties.
+6. Score: 0.8205 | 
+Manhattan (New York County) is the geographically smallest and most densely populated borough.
+7. Score: 0.8168 |  Manhattan is the cultural, administrative, and financial center of New York City and contains the headquarters of many major multinational corporations, the United Nations headquarters, Wall Street, and a number of important universities.
+8. Score: 0.8109 |  The city comprises five boroughs, each coextensive with a respective county.
+9. Score: 0.8093 | 
+The Bronx (Bronx County) is both New York City's northernmost borough and the only one that is mostly on the U.S.
+10. Score: 0.8075 |  New York is the geographical and demographic center of both the Northeast megalopolis and the New York metropolitan area, the largest metropolitan area in the U.S.
+
+Traditional Results:
+1. Score: 0.1165 | Boroughs
+New York City is sometimes referred to collectively as the Five Boroughs.
+2. Score: 0.1519 | The city comprises five boroughs, each coextensive with a respective county.
+3. Score: 0.1670 | The modern city was formed by the 1898 consolidation of its five boroughs: Manhattan, Brooklyn, Queens, The Bronx, and Staten Island.
+4. Score: 0.1841 | Each borough is coextensive with a respective county of New York State, making New York City one of the U.S.
+5. Score: 0.1931 | Bridges and tunnels
+The boroughs of Manhattan and Staten Island are located on islands with the same names, while Queens and Brooklyn are at the west end of the larger Long Island, and the Bronx is on New York State's mainland.
+6. Score: 0.2026 | The public CUNY system comprising 25 institutions across all five boroughs: senior colleges, community colleges, and other graduate/professional schools.
+7. Score: 0.2052 | Architecture
+New York has architecturally noteworthy buildings in a wide range of styles and from distinct time periods, from the Dutch Colonial Pieter Claesen Wyckoff House in Brooklyn, the oldest section of which dates to 1656, to the modern One World Trade Center, the skyscraper at Ground Zero in Lower Manhattan and the most expensive office tower in the world by construction cost.
+8. Score: 0.2060 | In 1898, the City of New York was formed with the consolidation of Brooklyn (until then a separate city), the County of New York (which then included parts of the Bronx), the County of Richmond, and the western portion of the County of Queens.
+9. Score: 0.2088 | New York City has an extensive web of freeways and parkways, which link the city's boroughs to each other and to North Jersey, Westchester County, Long Island, and southwestern Connecticut through bridges and tunnels.
+10. Score: 0.2103 | In contrast, New York City also has neighborhoods that are less densely populated and feature free-standing dwellings.
+================================================================================
+
+Query: How does New York City's public transportation system work, especially the subway?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8471 |  The rail network, connecting New York City to its suburbs, consists of the Long Island Rail Road, Metro-North Railroad, and New Jersey Transit.
+2. Score: 0.8401 | 
+New York City's commuter rail network is the largest in North America.
+3. Score: 0.8354 |  For inter-city rail, New York City is served by Amtrak, whose busiest station by a significant margin is Penn Station on the West Side of Manhattan, from which Amtrak provides connections to Boston, Philadelphia, and Washington, D.C.
+4. Score: 0.8350 | 
+
+Rail
+The New York City Subway system is the largest rapid transit system in the world when measured by stations in operation, with 472, and by length of routes.
+5. Score: 0.8305 | 
+
+Buses
+New York City's public bus fleet runs 24/7 and is the largest in North America.
+6. Score: 0.8300 |  Nearly all of New York's subway system is open 24 hours a day, in contrast to the overnight shutdown common to subway systems in most cities.
+7. Score: 0.8277 |  Due to their high usage of mass transit, New Yorkers spend less of their household income on transportation than the national average, saving $19 billion annually on transportation compared to other urban Americans.
+8. Score: 0.8268 |  The combined systems converge at Grand Central Terminal and New York Penn Station and contain more than 250 stations and 20 rail lines.
+9. Score: 0.8261 |  The New York City Subway is the busiest metropolitan rail transit system in the Western Hemisphere, with 1.70 billion passenger rides in 2019, while Grand Central Terminal is the world's largest railway station by number of train platforms.
+10. Score: 0.8244 |  along the Northeast Corridor, and long-distance train service to other North American cities.
+
+Traditional Results:
+1. Score: 0.1354 | Public transport is widely used in New York City.
+2. Score: 0.1633 | Transportation
+Rapid transit
+Mass transit in New York City, most of which runs 24 hours a day, accounts for one in every three users of mass transit in the United States, and two-thirds of the nation's rail riders live in the New York City metropolitan area.
+3. Score: 0.1636 | Nearly all of New York's subway system is open 24 hours a day, in contrast to the overnight shutdown common to subway systems in most cities.
+4. Score: 0.1677 | Like the New York City Subway, the PATH operates 24 hours a day, meaning three of the five rapid transit systems in the United States which operate on 24-hour schedules are wholly or partly in New York.
+5. Score: 0.1707 | Rail
+The New York City Subway system is the largest rapid transit system in the world when measured by stations in operation, with 472, and by length of routes.
+6. Score: 0.1722 | The opening of the New York City Subway in 1904, first built as separate private systems, helped bind the new city together.
+7. Score: 0.1797 | The New York City Subway is the busiest metropolitan rail transit system in the Western Hemisphere, with 1.70 billion passenger rides in 2019, while Grand Central Terminal is the world's largest railway station by number of train platforms.
+8. Score: 0.1836 | New York's high rate of public transit use, more than 610,000 daily cycling trips as of 2022, and many pedestrian commuters make it the most energy-efficient major city in the United States.
+9. Score: 0.1840 | The rail network, connecting New York City to its suburbs, consists of the Long Island Rail Road, Metro-North Railroad, and New Jersey Transit.
+10. Score: 0.1852 | For inter-city rail, New York City is served by Amtrak, whose busiest station by a significant margin is Penn Station on the West Side of Manhattan, from which Amtrak provides connections to Boston, Philadelphia, and Washington, D.C.
+================================================================================
+
+Query: What is the significance of Central Park and when was it established?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.7545 |  Members of the business elite lobbied for the establishment of Central Park, which in 1857 became the first landscaped park in an American city.
+2. Score: 0.7540 | 
+
+Parks
+The city of New York has a complex park system, with various lands operated by the National Park Service, the New York State Office of Parks, Recreation and Historic Preservation, and the New York City Department of Parks and Recreation.
+3. Score: 0.7503 |  cities, citing the city's park acreage, investment in parks and that 99% of residents are within 1⁄2 mile (0.80 km) of a park.
+4. Score: 0.7346 |  Also in Queens, the park includes a significant portion of the western Rockaway Peninsula, most notably Jacob Riis Park and Fort Tilden.
+5. Score: 0.7336 |  In Brooklyn and Queens, the park contains over 9,000 acres (36 km2) of salt marsh, wetlands, islands, and water, including most of Jamaica Bay and the Jamaica Bay Wildlife Refuge.
+6. Score: 0.7289 |  In its 2023 ParkScore ranking, the Trust for Public Land reported that the park system in New York City was the tenth-best park system among the most populous U.S.
+7. Score: 0.7283 | 
+Gateway National Recreation Area contains over 26,000 acres (110 km2), most of it in New York City.
+8. Score: 0.7244 |  The facility was established in 1825 on the site of a battery used during the American Revolution, and it is one of America's longest-serving military forts.
+9. Score: 0.7160 |  The opening of the New York City Subway in 1904, first built as separate private systems, helped bind the new city together.
+10. Score: 0.7160 |  The largest municipal park in the city is Pelham Bay Park in the Bronx, with 2,772 acres (1,122 ha), and the most visited urban park is the Central Park, and one of the most filmed and visited locations in the world, with 42 million visitors in 2023.
+
+Traditional Results:
+1. Score: 0.1584 | Members of the business elite lobbied for the establishment of Central Park, which in 1857 became the first landscaped park in an American city.
+2. Score: 0.2027 | It is home to Central Park and most of the city's skyscrapers, and is sometimes locally known as The City.
+3. Score: 0.2380 | The Occupy Wall Street protests in Zuccotti Park in the Financial District of Lower Manhattan began on September 17, 2011, receiving global attention and popularizing the Occupy movement against social and economic inequality worldwide.
+4. Score: 0.2438 | The largest municipal park in the city is Pelham Bay Park in the Bronx, with 2,772 acres (1,122 ha), and the most visited urban park is the Central Park, and one of the most filmed and visited locations in the world, with 42 million visitors in 2023.
+5. Score: 0.2450 | Parks
+The city of New York has a complex park system, with various lands operated by the National Park Service, the New York State Office of Parks, Recreation and Historic Preservation, and the New York City Department of Parks and Recreation.
+6. Score: 0.2479 | The borough has a long beachfront shoreline including Coney Island, established in the 1870s as one of the earliest amusement grounds in the U.S.
+7. Score: 0.2497 | Post-revolutionary period and early 19th century
+In January 1785, the assembly of the Congress of the Confederation made New York City the national capital.
+8. Score: 0.2502 | The facility was established in 1825 on the site of a battery used during the American Revolution, and it is one of America's longest-serving military forts.
+9. Score: 0.2504 | The opening of the New York City Subway in 1904, first built as separate private systems, helped bind the new city together.
+10. Score: 0.2525 | In its 2023 ParkScore ranking, the Trust for Public Land reported that the park system in New York City was the tenth-best park system among the most populous U.S.
+================================================================================
+
+Query: How did the September 11, 2001 attacks impact New York City?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8449 |  New York City suffered the bulk of the economic damage and largest loss of human life in the aftermath of the September 11, 2001, attacks.
+2. Score: 0.8438 |  Two of the four airliners hijacked that day were flown into the twin towers of the World Trade Center, resulting in the collapse of both buildings and the deaths of 2,753 people, including 343 first responders from the New York City Fire Department and 71 law enforcement officers.
+3. Score: 0.8291 |  Shortly after the British occupation began, the Great Fire of New York destroyed nearly 500 buildings, about a quarter of the structures in the city, including Trinity Church.
+4. Score: 0.8223 | 
+New York City was heavily affected by Hurricane Sandy in late October 2012.
+5. Score: 0.8186 | 
+The area was rebuilt with a new World Trade Center, the National September 11 Memorial and Museum, and other new buildings and infrastructure, including the World Trade Center Transportation Hub, the city's third-largest hub.
+6. Score: 0.8181 |  Hurricane Sandy brought a destructive storm surge to New York City on the evening of October 29, 2012, flooding numerous streets, tunnels, and subway lines in Lower Manhattan and other areas of the city and cutting off electricity in many parts of the city and its suburbs.
+7. Score: 0.8121 | 
+The attempt at a peaceful solution to the war took place at the Conference House on Staten Island between American delegates, including Benjamin Franklin, and British general Lord Howe on September 11, 1776.
+8. Score: 0.8061 |  Sandy's impacts included flooding that led to the days-long shutdown of the subway system and flooding of all East River subway tunnels and of all road tunnels entering Manhattan except the Lincoln Tunnel.
+9. Score: 0.8057 |  The city was a haven for Loyalist refugees and escaped slaves who joined the British lines for freedom promised by the Crown, with as many as 10,000 escaped slaves crowded into the city during the British occupation, the largest such community on the continent.
+10. Score: 0.8027 | 
+The draft riots deteriorated into attacks on New York's elite, followed by attacks on Black New Yorkers after fierce competition for a decade between Irish immigrants and Black people for work.
+
+Traditional Results:
+1. Score: 0.1187 | New York City suffered the bulk of the economic damage and largest loss of human life in the aftermath of the September 11, 2001, attacks.
+2. Score: 0.1659 | Two of the four airliners hijacked that day were flown into the twin towers of the World Trade Center, resulting in the collapse of both buildings and the deaths of 2,753 people, including 343 first responders from the New York City Fire Department and 71 law enforcement officers.
+3. Score: 0.1708 | Hurricane Sandy brought a destructive storm surge to New York City on the evening of October 29, 2012, flooding numerous streets, tunnels, and subway lines in Lower Manhattan and other areas of the city and cutting off electricity in many parts of the city and its suburbs.
+4. Score: 0.1726 | New York City's residents are prominently known for their resilience historically, and more recently related to their management of the impacts of the September 11 terrorist attacks and the COVID-19 pandemic.
+5. Score: 0.1802 | New York City was heavily affected by Hurricane Sandy in late October 2012.
+6. Score: 0.1881 | The area was rebuilt with a new World Trade Center, the National September 11 Memorial and Museum, and other new buildings and infrastructure, including the World Trade Center Transportation Hub, the city's third-largest hub.
+7. Score: 0.1909 | The draft riots deteriorated into attacks on New York's elite, followed by attacks on Black New Yorkers after fierce competition for a decade between Irish immigrants and Black people for work.
+8. Score: 0.1951 | Shortly after the British occupation began, the Great Fire of New York destroyed nearly 500 buildings, about a quarter of the structures in the city, including Trinity Church.
+9. Score: 0.2052 | In the 1970s, job losses due to industrial restructuring caused New York City to suffer from economic problems and rising crime rates.
+10. Score: 0.2084 | New York City has focused on reducing its environmental impact and carbon footprint.
+================================================================================
+
+Query: What makes New York City a global cultural capital, especially in terms of arts and entertainment?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8889 | 
+
+Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+2. Score: 0.8687 | 
+
+Media and entertainment
+New York City has been described as the entertainment and digital media capital of the world.
+3. Score: 0.8656 | 
+The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+4. Score: 0.8576 |  It is a center for the advertising, music, newspaper, digital media, and publishing industries and is the largest media market in North America.
+5. Score: 0.8549 |  New York is a global center of finance and commerce, culture, technology, entertainment and media, academics and scientific output, the arts and fashion, and, as home to the headquarters of the United Nations, international diplomacy.
+6. Score: 0.8548 |  Times Square is the brightly illuminated hub of the Broadway Theater District, and a major center of the world's entertainment industry, attracting 50 million visitors annually to one of the world's busiest pedestrian intersections.
+7. Score: 0.8430 |  WNYC, a public radio station owned by the city until 1997, has the largest public radio audience in the United States.
+8. Score: 0.8419 |  New York City has been considered the dance capital of the world.
+9. Score: 0.8411 |  The city is also home to hundreds of cultural institutions and historic sites.
+10. Score: 0.8395 |  New York is the geographical and demographic center of both the Northeast megalopolis and the New York metropolitan area, the largest metropolitan area in the U.S.
+
+Traditional Results:
+1. Score: 0.0952 | New York is a global center of finance and commerce, culture, technology, entertainment and media, academics and scientific output, the arts and fashion, and, as home to the headquarters of the United Nations, international diplomacy.
+2. Score: 0.1097 | Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+3. Score: 0.1251 | Media and entertainment
+New York City has been described as the entertainment and digital media capital of the world.
+4. Score: 0.1369 | The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+5. Score: 0.1377 | New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+6. Score: 0.1383 | Economy
+New York City is a global hub of business and commerce, sometimes called the "Capital of the World".
+7. Score: 0.1400 | New York City has been ranked first among cities across the globe in attracting capital, business, and tourists.
+8. Score: 0.1407 | New York City remains the largest global center for trading in public equity and debt capital markets, driven in part by the size and financial development of the U.S.
+9. Score: 0.1463 | Manhattan is the cultural, administrative, and financial center of New York City and contains the headquarters of many major multinational corporations, the United Nations headquarters, Wall Street, and a number of important universities.
+10. Score: 0.1476 | New York City has more than 2,000 arts and cultural organizations and more than 500 art galleries.
+================================================================================
+
+Query: What are the major tourist attractions in New York City and how many visitors does it receive annually?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8447 |  New York has witnessed a growing combined volume of international and domestic tourists, with as many as 66.6 million visitors to the city per year, including as many as 13.5 million visitors from outside the United States, with the highest numbers from the United Kingdom, Canada, Brazil, and China.
+2. Score: 0.8414 |  A record 66.6 million tourists visited New York City in 2019, bringing in $47.4 billion in tourism revenue.
+3. Score: 0.8397 | 
+Many districts and monuments in New York City are major landmarks, including three of the world's ten-most-visited tourist attractions in 2023.
+4. Score: 0.8291 |  Times Square is the brightly illuminated hub of the Broadway Theater District, and a major center of the world's entertainment industry, attracting 50 million visitors annually to one of the world's busiest pedestrian intersections.
+5. Score: 0.8273 |  Visitor numbers dropped by two-thirds in 2020 during the pandemic, rebounding to 63.3 million in 2023.
+6. Score: 0.8246 |  Major landmarks in New York City include the Metropolitan Museum of Art, the Statue of Liberty, the Empire State Building, and Central Park.
+7. Score: 0.8153 |  Perennially high demand from younger adults has pushed median monthly one-bedroom apartment rents in New York City over US$4,000 and two-bedroom rents over $5,000, by a significant margin the highest in the U.S.
+8. Score: 0.8145 | 
+
+Tourism
+Tourism is a vital industry for New York City, and NYC Tourism + Conventions represents the city's official bureau of tourism.
+9. Score: 0.8027 |  The largest municipal park in the city is Pelham Bay Park in the Bronx, with 2,772 acres (1,122 ha), and the most visited urban park is the Central Park, and one of the most filmed and visited locations in the world, with 42 million visitors in 2023.
+10. Score: 0.7970 | 
+
+External links
+Official website 
+NYC Go – official tourism website
+ Geographic data related to New York City at OpenStreetMap
+Collections – 145,000 NYC photographs at the Museum of the City of New York
+"The New New York Skyline (interactive)".
+
+Traditional Results:
+1. Score: 0.1028 | New York has witnessed a growing combined volume of international and domestic tourists, with as many as 66.6 million visitors to the city per year, including as many as 13.5 million visitors from outside the United States, with the highest numbers from the United Kingdom, Canada, Brazil, and China.
+2. Score: 0.1222 | A record 66.6 million tourists visited New York City in 2019, bringing in $47.4 billion in tourism revenue.
+3. Score: 0.1623 | Many districts and monuments in New York City are major landmarks, including three of the world's ten-most-visited tourist attractions in 2023.
+4. Score: 0.1681 | New York City has been ranked first among cities across the globe in attracting capital, business, and tourists.
+5. Score: 0.1890 | Cycling is increasingly popular in New York City; in 2022 there were approximately 61,200 people who commuted daily using a bicycle and 610,000 daily bike trips, with both numbers nearly doubling over the previous decade.
+6. Score: 0.1915 | Major landmarks in New York City include the Metropolitan Museum of Art, the Statue of Liberty, the Empire State Building, and Central Park.
+7. Score: 0.1927 | New York's high rate of public transit use, more than 610,000 daily cycling trips as of 2022, and many pedestrian commuters make it the most energy-efficient major city in the United States.
+8. Score: 0.1939 | Between 2010 and 2020, New York City gained 629,000 residents, more than any other U.S.
+9. Score: 0.1961 | New York City's population exceeded 8 million for the first time in the 2000 United States census; further records were set in 2010, and 2020 U.S.
+10. Score: 0.1977 | The New York City bus system serves the most passengers of any city in the nation: In 2022, MTA New York City Transit's buses served 483.5 million trips, while MTA Regional Bus Operations handled 100.3 million trips.
+================================================================================
+
+Query: How has immigration shaped New York City's demographics and culture?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8641 |  The New York region continues to be by far the leading metropolitan gateway for legal immigrants admitted into the United States, substantially exceeding the combined totals of Los Angeles and Miami.
+2. Score: 0.8621 | 
+
+Ethnicity and nationality
+According to 2022 estimates from the American Community Survey, the largest self-reported ancestries in New York City were Dominican (8.7%), Chinese (7.5%), Puerto Rican (6.9%), Italian (5.5%), Mexican (4.4%), Irish (4.4%), Asian Indian (3.1%), German (2.9%), Jamaican (2.4%), Ecuadorian (2.3%), English (2.1%), Polish (1.9%), Russian (1.7%), Arab (1.4%), Haitian (1.4%), Guyanese (1.3%), Filipino (1.1%), and Korean (1.1%).
+3. Score: 0.8584 | 
+Based on data from 2018 to 2022, approximately 36.3% of the city's population is foreign born (compared to 13.7% nationwide), and 40% of all children are born to mothers who are immigrants.
+4. Score: 0.8572 |  Central Asians, primarily Uzbek Americans, are a rapidly growing segment of the city's non-Hispanic White population.
+5. Score: 0.8559 |  The European diaspora residing in the city is very diverse and many European ethnic groups have formed enclaves.
+6. Score: 0.8545 | 
+New York City has the largest European and non-Hispanic white population of any American city, numbering 2.7 million in 2012.
+7. Score: 0.8544 |  Queens has the largest Asian American and Andean populations in the United States, and is also the most ethnically and linguistically diverse urban area in the world.
+8. Score: 0.8520 |  In 2021, the city was home to nearly 3.1 million residents born outside the U.S., the largest foreign-born population of any city in the world.
+9. Score: 0.8498 |  Throughout its history, New York has been a major port of entry for immigrants into the United States.
+10. Score: 0.8488 |  As many as 800 languages are spoken in New York, and the New York City metropolitan statistical area has the largest foreign-born population of any metropolitan region in the world.
+
+Traditional Results:
+1. Score: 0.1527 | Demographics
+New York City is the most populous city in the United States, with 8,804,190 residents as of the 2020 United States census, its highest decennial count ever, incorporating more immigration into the city than outmigration since the 2010 census.
+2. Score: 0.1531 | Cuisine
+New York City's food culture includes an array of international cuisines influenced by the city's long immigrant history.
+3. Score: 0.1572 | Ethnicity and nationality
+According to 2022 estimates from the American Community Survey, the largest self-reported ancestries in New York City were Dominican (8.7%), Chinese (7.5%), Puerto Rican (6.9%), Italian (5.5%), Mexican (4.4%), Irish (4.4%), Asian Indian (3.1%), German (2.9%), Jamaican (2.4%), Ecuadorian (2.3%), English (2.1%), Polish (1.9%), Russian (1.7%), Arab (1.4%), Haitian (1.4%), Guyanese (1.3%), Filipino (1.1%), and Korean (1.1%).
+4. Score: 0.1681 | Throughout its history, New York has been a major port of entry for immigrants into the United States.
+5. Score: 0.1762 | The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+6. Score: 0.1796 | The New York region continues to be by far the leading metropolitan gateway for legal immigrants admitted into the United States, substantially exceeding the combined totals of Los Angeles and Miami.
+7. Score: 0.1815 | New York City's population exceeded 8 million for the first time in the 2000 United States census; further records were set in 2010, and 2020 U.S.
+8. Score: 0.1823 | New York City's population jumped from 123,706 in 1820 (10,886 of whom were Black and of which 518 were enslaved) to 312,710 by 1840 (16,358 of whom were Black).
+9. Score: 0.1832 | New York City has the largest European and non-Hispanic white population of any American city, numbering 2.7 million in 2012.
+10. Score: 0.1850 | New York City was a prime destination in the early 20th century for Blacks during the Great Migration from the American South, and by 1916, New York City had the largest urban African diaspora in North America.
+================================================================================
+
+Query: What is the history of Broadway theater and its impact on New York's culture?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8336 | 
+Broadway theatre is one of the premier forms of English-language theatre in the world, named after Broadway, the major thoroughfare that crosses Times Square, sometimes referred to as "The Great White Way".
+2. Score: 0.8141 | 
+Forty-one venues mostly in Midtown Manhattan's Theatre District, each with at least 500 seats, are classified as Broadway theatres.
+3. Score: 0.8123 | 
+
+Theater
+The central hub of the American theater scene is Manhattan, with its divisions of Broadway, off-Broadway, and off-off-Broadway.
+4. Score: 0.8108 |  Times Square is the brightly illuminated hub of the Broadway Theater District, and a major center of the world's entertainment industry, attracting 50 million visitors annually to one of the world's busiest pedestrian intersections.
+5. Score: 0.8092 |  The 2018–19 Broadway theatre season set records with total attendance of 14.8 million and gross revenue of $1.83 billion Recovering from closures forced by the COVID-19 pandemic, 2022–23 revenues rebounded to $1.58 billion with total attendance of 12.3 million.
+6. Score: 0.8069 |  According to The Broadway League, shows on Broadway sold approximately US$1.54 billion worth of tickets in both the 2022–2023 and the 2023–2024 seasons.
+7. Score: 0.8050 | 
+
+Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+8. Score: 0.8022 | 
+The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+9. Score: 0.7984 |  Many movie and television stars have gotten their big break working in New York productions.
+10. Score: 0.7926 |  Both seasons featured theater attendance of approximately 12.3 million each.
+
+Traditional Results:
+1. Score: 0.1752 | Broadway theatre is one of the premier forms of English-language theatre in the world, named after Broadway, the major thoroughfare that crosses Times Square, sometimes referred to as "The Great White Way".
+2. Score: 0.2066 | Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+3. Score: 0.2100 | Cuisine
+New York City's food culture includes an array of international cuisines influenced by the city's long immigrant history.
+4. Score: 0.2112 | The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+5. Score: 0.2187 | Throughout its history, New York has been a major port of entry for immigrants into the United States.
+6. Score: 0.2200 | Theater
+The central hub of the American theater scene is Manhattan, with its divisions of Broadway, off-Broadway, and off-off-Broadway.
+7. Score: 0.2233 | According to The Broadway League, shows on Broadway sold approximately US$1.54 billion worth of tickets in both the 2022–2023 and the 2023–2024 seasons.
+8. Score: 0.2246 | The 2018–19 Broadway theatre season set records with total attendance of 14.8 million and gross revenue of $1.83 billion Recovering from closures forced by the COVID-19 pandemic, 2022–23 revenues rebounded to $1.58 billion with total attendance of 12.3 million.
+9. Score: 0.2252 | Architecture
+New York has architecturally noteworthy buildings in a wide range of styles and from distinct time periods, from the Dutch Colonial Pieter Claesen Wyckoff House in Brooklyn, the oldest section of which dates to 1656, to the modern One World Trade Center, the skyscraper at Ground Zero in Lower Manhattan and the most expensive office tower in the world by construction cost.
+10. Score: 0.2268 | Arts
+Lincoln Center for the Performing Arts, anchoring Lincoln Square on the Upper West Side of Manhattan, is home to numerous influential arts organizations, including the Metropolitan Opera, New York City Opera, New York Philharmonic, and New York City Ballet, as well as the Vivian Beaumont Theater, the Juilliard School, Jazz at Lincoln Center, and Alice Tully Hall.
+================================================================================
+
+Query: How does New York City's climate vary throughout the year?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8563 |  The city receives an average of 49.5 inches (1,260 mm) of precipitation annually, which is relatively evenly spread throughout the year.
+2. Score: 0.8455 | 
+Winters are chilly and damp, and prevailing wind patterns that blow sea breezes offshore temper the moderating effects of the Atlantic Ocean; yet the Atlantic and the partial shielding from colder air by the Appalachian Mountains keep the city warmer in the winter than inland North American cities at similar or lesser latitudes.
+3. Score: 0.8397 |  The suburbs to the immediate north and west are in the transitional zone between humid subtropical and humid continental climates (Dfa).
+4. Score: 0.8271 |  Spring and autumn are unpredictable and can range from cool to warm, although they are usually mild with low humidity.
+5. Score: 0.8261 | 
+
+Climate
+Under the Köppen climate classification, New York City has a humid subtropical climate (Cfa), and is the northernmost major city on the North American continent with this categorization.
+6. Score: 0.8184 | 
+Nighttime temperatures are 9.5 °F (5.3 °C) degrees higher for the average city resident due to the urban heat island effect, caused by paved streets and tall buildings.
+7. Score: 0.8157 |  New York averages over 2,500 hours of sunshine annually.
+8. Score: 0.8153 |  Daytime temperatures exceed 90 °F (32 °C) on average of 17 days each summer and in some years exceed 100 °F (38 °C), although this is a rare occurrence, last noted on July 18, 2012.
+9. Score: 0.8153 |  Temperatures usually drop to 10 °F (−12 °C) several times per winter, yet can also reach 60 °F (16 °C) for several days even in the coldest winter month.
+10. Score: 0.8083 |  The daily mean temperature in January, the area's coldest month, is 33.3 °F (0.7 °C).
+
+Traditional Results:
+1. Score: 0.1538 | Climate
+Under the Köppen climate classification, New York City has a humid subtropical climate (Cfa), and is the northernmost major city on the North American continent with this categorization.
+2. Score: 0.1846 | Winters are chilly and damp, and prevailing wind patterns that blow sea breezes offshore temper the moderating effects of the Atlantic Ocean; yet the Atlantic and the partial shielding from colder air by the Appalachian Mountains keep the city warmer in the winter than inland North American cities at similar or lesser latitudes.
+3. Score: 0.1957 | Environment
+Environmental issues in New York City are affected by the city's size, density, abundant public transportation infrastructure, and its location at the mouth of the Hudson River.
+4. Score: 0.1981 | New York averages over 2,500 hours of sunshine annually.
+5. Score: 0.2112 | As an oceanic port city, New York City is vulnerable to long-term manifestations of global warming like sea level rise exacerbated by land subsidence.
+6. Score: 0.2119 | Like other large cities, New York City has a degree of income disparity, as indicated by its Gini coefficient of 0.55 as of 2022.
+7. Score: 0.2126 | Cuisine
+New York City's food culture includes an array of international cuisines influenced by the city's long immigrant history.
+8. Score: 0.2131 | Cycling network
+New York City has mixed cycling conditions which include urban density, relatively flat terrain, congested roadways with stop-and-go traffic, and many pedestrians.
+9. Score: 0.2147 | Crime overall has trended downward in New York City since the 1990s; violent crime decreased more than 75% from 1993 to 2005, and continued decreasing during periods when the nation as a whole saw increases.
+10. Score: 0.2213 | New York City's residents are prominently known for their resilience historically, and more recently related to their management of the impacts of the September 11 terrorist attacks and the COVID-19 pandemic.
+================================================================================
+
+Query: What are the major sports teams in New York City and where do they play?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8551 | 
+
+Sports
+New York City is home to the headquarters of the National Football League, Major League Baseball, the National Basketball Association, the National Hockey League, and Major League Soccer.
+2. Score: 0.8543 |  The New York Islanders, traditionally representing Long Island, play in UBS Arena in Elmont, New York, but played in Brooklyn's Barclays Center from 2015 to 2020.
+3. Score: 0.8519 | 
+In soccer, New York City is represented by New York City FC of Major League Soccer, who play their home games at Yankee Stadium and the New York Red Bulls, who play their home games at Red Bull Arena in nearby Harrison, New Jersey.
+4. Score: 0.8511 |  The New York Rangers, one of the league's Original Six, play at Madison Square Garden in Manhattan.
+5. Score: 0.8470 |  There is one Minor League Baseball team in the city, the Mets-affiliated Brooklyn Cyclones, and the city gained a club in the independent Atlantic League when the Staten Island FerryHawks began play in 2022.
+6. Score: 0.8467 | 
+The metropolitan area is home to three National Hockey League teams.
+7. Score: 0.8454 | 
+The city's National Basketball Association teams are the New York Knicks, who play at Madison Square Garden, and the Brooklyn Nets, who play at the Barclays Center.
+8. Score: 0.8341 | 
+The city has played host to more than 40 major professional teams in the five sports and their respective competing leagues.
+9. Score: 0.8315 |  The New Jersey Devils play at Prudential Center in nearby Newark, New Jersey.
+10. Score: 0.8277 |  NJ/NY Gotham FC plays their home games in Red Bull Arena, representing the metropolitan area in the National Women's Soccer League.
+
+Traditional Results:
+1. Score: 0.0893 | Sports
+New York City is home to the headquarters of the National Football League, Major League Baseball, the National Basketball Association, the National Hockey League, and Major League Soccer.
+2. Score: 0.1089 | In soccer, New York City is represented by New York City FC of Major League Soccer, who play their home games at Yankee Stadium and the New York Red Bulls, who play their home games at Red Bull Arena in nearby Harrison, New Jersey.
+3. Score: 0.1282 | The city's two Major League Baseball teams are the New York Mets, who play at 41,800-seat Citi Field in Queens and the New York Yankees, who play at Yankee Stadium in the Bronx, which has 47,400 seats.
+4. Score: 0.1492 | The city's National Basketball Association teams are the New York Knicks, who play at Madison Square Garden, and the Brooklyn Nets, who play at the Barclays Center.
+5. Score: 0.1666 | The city has played host to more than 40 major professional teams in the five sports and their respective competing leagues.
+6. Score: 0.1731 | Open tennis tournament at the USTA Billie Jean King National Tennis Center in Flushing Meadows–Corona Park, with plans to build a soccer-specific stadium to be built for New York City FC.
+7. Score: 0.1756 | There is one Minor League Baseball team in the city, the Mets-affiliated Brooklyn Cyclones, and the city gained a club in the independent Atlantic League when the Staten Island FerryHawks began play in 2022.
+8. Score: 0.1813 | The city is represented in the National Football League by the New York Giants and the New York Jets, although both teams play their home games at MetLife Stadium in nearby East Rutherford, New Jersey, which hosted Super Bowl XLVIII in 2014.
+9. Score: 0.1865 | The New York Rangers, one of the league's Original Six, play at Madison Square Garden in Manhattan.
+10. Score: 0.1889 | Boxing is a prominent part of the city's sporting scene, with events like the New York Golden Gloves held at Madison Square Garden each year.
+================================================================================
+
+Query: How has New York's architecture evolved, especially its famous skyscrapers?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8332 | 
+
+Architecture
+New York has architecturally noteworthy buildings in a wide range of styles and from distinct time periods, from the Dutch Colonial Pieter Claesen Wyckoff House in Brooklyn, the oldest section of which dates to 1656, to the modern One World Trade Center, the skyscraper at Ground Zero in Lower Manhattan and the most expensive office tower in the world by construction cost.
+2. Score: 0.8319 | 
+Manhattan's skyline, with its many skyscrapers, has been recognized as an iconic symbol of the city, and the city has been home to several of the tallest buildings in the world.
+3. Score: 0.8176 | 
+The character of New York's large residential districts is often defined by the elegant brownstone rowhouses and townhouses and shabby tenements that were built during a period of rapid expansion from 1870 to 1930.
+4. Score: 0.8129 |  That action left bedrock at a relatively shallow depth, providing a solid foundation for most of Manhattan's skyscrapers.
+5. Score: 0.7950 | 
+The area was rebuilt with a new World Trade Center, the National September 11 Memorial and Museum, and other new buildings and infrastructure, including the World Trade Center Transportation Hub, the city's third-largest hub.
+6. Score: 0.7909 |  The new One World Trade Center is the tallest skyscraper in the Western Hemisphere and the seventh-tallest building in the world by pinnacle height, with its spire reaching a symbolic 1,776 feet (541.3 m), a reference to the year of U.S.
+7. Score: 0.7895 |  The erosive forward movement of the ice (and its subsequent retreat) contributed to the separation of what is now Long Island and Staten Island.
+8. Score: 0.7873 |  As of 2019, New York City had 6,455 high-rise buildings, the third most in the world after Hong Kong and Seoul.
+9. Score: 0.7852 | 
+During the Wisconsin glaciation, 75,000 to 11,000 years ago, the New York City area was situated at the edge of a large ice sheet.
+10. Score: 0.7851 |  In neighborhoods such as Riverdale (in the Bronx), Ditmas Park (in Brooklyn), and Douglaston (in Queens), large single-family homes are common in various architectural styles such as Tudor Revival and Victorian.
+
+Traditional Results:
+1. Score: 0.1303 | Architecture
+New York has architecturally noteworthy buildings in a wide range of styles and from distinct time periods, from the Dutch Colonial Pieter Claesen Wyckoff House in Brooklyn, the oldest section of which dates to 1656, to the modern One World Trade Center, the skyscraper at Ground Zero in Lower Manhattan and the most expensive office tower in the world by construction cost.
+2. Score: 0.1636 | Manhattan's skyline, with its many skyscrapers, has been recognized as an iconic symbol of the city, and the city has been home to several of the tallest buildings in the world.
+3. Score: 0.1878 | The character of New York's large residential districts is often defined by the elegant brownstone rowhouses and townhouses and shabby tenements that were built during a period of rapid expansion from 1870 to 1930.
+4. Score: 0.1998 | Since 2010, Brooklyn has evolved into a thriving hub of entrepreneurship and high technology startup firms, and of postmodern art and design.
+5. Score: 0.2016 | As of 2019, New York City had 6,455 high-rise buildings, the third most in the world after Hong Kong and Seoul.
+6. Score: 0.2193 | Major landmarks in New York City include the Metropolitan Museum of Art, the Statue of Liberty, the Empire State Building, and Central Park.
+7. Score: 0.2206 | New York City's residents are prominently known for their resilience historically, and more recently related to their management of the impacts of the September 11 terrorist attacks and the COVID-19 pandemic.
+8. Score: 0.2214 | The Brooklyn Bridge, with its stone neo-Gothic suspension towers, is an icon of the city itself; opened in 1883, it was the first steel-wire suspension bridge and was the longest suspension bridge in the world until 1903.
+9. Score: 0.2231 | Organized crime has long been associated with New York City, beginning with the Forty Thieves and the Roach Guards in the Five Points neighborhood in the 1820s, followed by the Tongs in the same neighborhood, which ultimately evolved into Chinatown, Manhattan.
+10. Score: 0.2261 | Many districts and monuments in New York City are major landmarks, including three of the world's ten-most-visited tourist attractions in 2023.
+================================================================================
+
+Query: What role does education play in New York City, including its universities and schools?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8769 |  The city's educational infrastructure spans primary education, secondary education, higher education, and research.
+2. Score: 0.8631 |  The New York City Public Schools system, managed by the New York City Department of Education, is the largest public school system in the United States, serving about 1.1 million students in approximately 1,800 separate primary and secondary schools, including charter schools, as of the 2017–2018 school year.
+3. Score: 0.8612 | 
+More than a million students, the highest number of any city in the United States, are enrolled in New York City's more than 120 higher education institutions, with more than half a million in the City University of New York (CUNY) system alone as of 2020, including both degree and professional programs.
+4. Score: 0.8513 | 
+The public CUNY system comprising 25 institutions across all five boroughs: senior colleges, community colleges, and other graduate/professional schools.
+5. Score: 0.8483 | 
+
+Human resources
+Education
+New York City has the largest educational system of any city in the world.
+6. Score: 0.8466 |  The New York City Charter School Center assists the setup of new charter schools.
+7. Score: 0.8429 |  According to Academic Ranking of World Universities, New York City has, on average, the best higher education institutions of any global city.
+8. Score: 0.8373 |  There are approximately 900 additional privately run secular and religious schools in the city.
+9. Score: 0.8341 |  The public State University of New York (SUNY) system includes campuses in New York City, including SUNY Downstate Health Sciences University, Fashion Institute of Technology, SUNY Maritime College, and SUNY College of Optometry.
+10. Score: 0.8281 | 
+
+The New York Public Library (NYPL) has the largest collection of any public library system in the United States.
+
+Traditional Results:
+1. Score: 0.1486 | More than a million students, the highest number of any city in the United States, are enrolled in New York City's more than 120 higher education institutions, with more than half a million in the City University of New York (CUNY) system alone as of 2020, including both degree and professional programs.
+2. Score: 0.1521 | New York City is home to such notable private universities as Barnard College, Columbia University, Cooper Union, Fordham University, New York University, New York Institute of Technology, Rockefeller University, Mercy University, Cornell Tech and Yeshiva University; several of these universities are ranked among the top universities in the world, while some of the world's most prestigious institutions like Princeton University and Yale University remain in the New York metropolitan area.
+3. Score: 0.1581 | The New York City Public Schools system, managed by the New York City Department of Education, is the largest public school system in the United States, serving about 1.1 million students in approximately 1,800 separate primary and secondary schools, including charter schools, as of the 2017–2018 school year.
+4. Score: 0.1624 | New York is a major center for non-commercial educational media.
+5. Score: 0.1797 | The city's educational infrastructure spans primary education, secondary education, higher education, and research.
+6. Score: 0.1812 | According to Academic Ranking of World Universities, New York City has, on average, the best higher education institutions of any global city.
+7. Score: 0.1816 | Human resources
+Education
+New York City has the largest educational system of any city in the world.
+8. Score: 0.1974 | Manhattan is the cultural, administrative, and financial center of New York City and contains the headquarters of many major multinational corporations, the United Nations headquarters, Wall Street, and a number of important universities.
+9. Score: 0.2010 | New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+10. Score: 0.2020 | The New York City Charter School Center assists the setup of new charter schools.
+================================================================================
+
+Query: How does New York City handle environmental challenges and sustainability?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8566 | 
+
+Environment
+Environmental issues in New York City are affected by the city's size, density, abundant public transportation infrastructure, and its location at the mouth of the Hudson River.
+2. Score: 0.8380 |  New York City has focused on reducing its environmental impact and carbon footprint.
+3. Score: 0.8334 |  For example, it is one of the country's biggest sources of pollution and has the lowest per-capita greenhouse gas emissions rate and electricity usage.
+4. Score: 0.8288 | 
+As an oceanic port city, New York City is vulnerable to long-term manifestations of global warming like sea level rise exacerbated by land subsidence.
+5. Score: 0.8210 |  Mass transit use is the highest in the United States.
+6. Score: 0.8207 |  Climate change has spawned the development of a significant climate resiliency and environmental sustainability economy in the city.
+7. Score: 0.8158 |  Governors Island is planned to host a US$1 billion research and education center to make New York City the global leader in addressing the climate crisis.
+8. Score: 0.8141 |  The largest municipal park in the city is Pelham Bay Park in the Bronx, with 2,772 acres (1,122 ha), and the most visited urban park is the Central Park, and one of the most filmed and visited locations in the world, with 42 million visitors in 2023.
+9. Score: 0.8087 | 
+New York's high rate of public transit use, more than 610,000 daily cycling trips as of 2022, and many pedestrian commuters make it the most energy-efficient major city in the United States.
+10. Score: 0.8080 |  Each borough is coextensive with a respective county of New York State, making New York City one of the U.S.
+
+Traditional Results:
+1. Score: 0.1260 | New York City has focused on reducing its environmental impact and carbon footprint.
+2. Score: 0.1280 | Environment
+Environmental issues in New York City are affected by the city's size, density, abundant public transportation infrastructure, and its location at the mouth of the Hudson River.
+3. Score: 0.1724 | Climate change has spawned the development of a significant climate resiliency and environmental sustainability economy in the city.
+4. Score: 0.1730 | New York City's residents are prominently known for their resilience historically, and more recently related to their management of the impacts of the September 11 terrorist attacks and the COVID-19 pandemic.
+5. Score: 0.1906 | As an oceanic port city, New York City is vulnerable to long-term manifestations of global warming like sea level rise exacerbated by land subsidence.
+6. Score: 0.1989 | Government and politics
+Government
+New York City is a metropolitan municipality with a strong mayor–council form of government.
+7. Score: 0.1994 | New York City is an established safe haven for global investors.
+8. Score: 0.2002 | Parks
+The city of New York has a complex park system, with various lands operated by the National Park Service, the New York State Office of Parks, Recreation and Historic Preservation, and the New York City Department of Parks and Recreation.
+9. Score: 0.2020 | New York was voted the world's most resilient city in 2021 and 2022, per Time Out's global poll of urban residents.
+10. Score: 0.2026 | Real estate
+New York City real estate is a safe haven for global investors.
+================================================================================
+
+Query: What is unique about New York City's food culture and cuisine?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8640 | 
+
+Cuisine
+New York City's food culture includes an array of international cuisines influenced by the city's long immigrant history.
+2. Score: 0.8551 |  Chinese and other Asian restaurants, sandwich joints, trattorias, diners, and coffeehouses are ubiquitous throughout the city.
+3. Score: 0.8506 |  Some 4,000 mobile food vendors licensed by the city, many immigrant-owned, have made Middle Eastern foods such as falafel and kebabs examples of modern New York street food.
+4. Score: 0.8414 |  The city is home to "nearly one thousand of the finest and most diverse haute cuisine restaurants in the world", according to Michelin.
+5. Score: 0.8334 |  Central and Eastern European immigrants, especially Jewish immigrants from those regions, brought New York-style bagels, cheesecake, hot dogs, knishes, and delicatessens (delis) to the city.
+6. Score: 0.8308 |  The Met maintains extensive holdings of African, Asian, Oceanian, Byzantine, and Islamic art.
+7. Score: 0.8180 | 
+
+Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+8. Score: 0.8142 |  Italian immigrants brought New York-style pizza and Italian cuisine into the city, while Jewish immigrants and Irish immigrants brought pastrami and corned beef, respectively.
+9. Score: 0.8112 |  The Queens Night Market in Flushing Meadows–Corona Park attracts more than ten thousand people nightly to sample food from more than 85 countries.
+10. Score: 0.8101 |  Its permanent collection contains more than two million works, divided among 17 curatorial departments, and includes works of art from classical antiquity and ancient Egypt; paintings and sculptures from nearly all the European masters; and an extensive collection of American and modern art.
+
+Traditional Results:
+1. Score: 0.1030 | Cuisine
+New York City's food culture includes an array of international cuisines influenced by the city's long immigrant history.
+2. Score: 0.1827 | The city is the birthplace of many cultural movements, including the Harlem Renaissance in literature and visual art; abstract expressionism (known as the New York School) in painting; and hip-hop, punk, hardcore, salsa, freestyle, Tin Pan Alley, certain forms of jazz, and (along with Philadelphia) disco in music.
+3. Score: 0.1939 | Some 4,000 mobile food vendors licensed by the city, many immigrant-owned, have made Middle Eastern foods such as falafel and kebabs examples of modern New York street food.
+4. Score: 0.1943 | New York is a global center of finance and commerce, culture, technology, entertainment and media, academics and scientific output, the arts and fashion, and, as home to the headquarters of the United Nations, international diplomacy.
+5. Score: 0.1944 | Culture
+New York City is frequently the setting for novels, movies, and television programs and has been described as the cultural capital of the world.
+6. Score: 0.1951 | Italian immigrants brought New York-style pizza and Italian cuisine into the city, while Jewish immigrants and Irish immigrants brought pastrami and corned beef, respectively.
+7. Score: 0.1958 | The city is home to "nearly one thousand of the finest and most diverse haute cuisine restaurants in the world", according to Michelin.
+8. Score: 0.1983 | Brooklyn is known for its cultural, social, and ethnic diversity, an independent art scene, distinct neighborhoods, and a distinctive architectural heritage.
+9. Score: 0.1999 | New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+10. Score: 0.2006 | As many as 800 languages are spoken in New York City, making it the most linguistically diverse city in the world.
+================================================================================
+
+Query: How does the New York City government structure work?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8373 | 
+
+Government and politics
+Government
+New York City is a metropolitan municipality with a strong mayor–council form of government.
+2. Score: 0.8283 |  The New York City Administrative Code, the New York City Rules, and The City Record are the code of local laws, compilation of regulations, and official journal, respectively.
+3. Score: 0.8241 |  Each borough is coextensive with a respective county of New York State, making New York City one of the U.S.
+4. Score: 0.8240 | 
+Each borough is coextensive with a judicial district of the state Unified Court System, of which the Criminal Court and the Civil Court are the local courts, while the New York Supreme Court conducts major trials and appeals.
+5. Score: 0.8114 |  It is home to Central Park and most of the city's skyscrapers, and is sometimes locally known as The City.
+6. Score: 0.8110 | 
+The City Council is a unicameral body of 51 council members whose districts are defined by geographic population boundaries.
+7. Score: 0.8091 | 
+Manhattan (New York County) is the geographically smallest and most densely populated borough.
+8. Score: 0.8086 | 
+
+Boroughs
+New York City is sometimes referred to collectively as the Five Boroughs.
+9. Score: 0.8075 |  The opening of the New York City Subway in 1904, first built as separate private systems, helped bind the new city together.
+10. Score: 0.8074 | 
+New York City is divided between, and is host to the main branches of, two different U.S.
+
+Traditional Results:
+1. Score: 0.1676 | Parks
+The city of New York has a complex park system, with various lands operated by the National Park Service, the New York State Office of Parks, Recreation and Historic Preservation, and the New York City Department of Parks and Recreation.
+2. Score: 0.1877 | In 1898, the City of New York was formed with the consolidation of Brooklyn (until then a separate city), the County of New York (which then included parts of the Bronx), the County of Richmond, and the western portion of the County of Queens.
+3. Score: 0.1928 | New York City enforces a right-to-shelter law guaranteeing shelter to anyone who needs it, regardless of their immigration, socioeconomic, or housing status, which entails providing adequate shelter and food.
+4. Score: 0.1965 | Each borough is coextensive with a respective county of New York State, making New York City one of the U.S.
+5. Score: 0.2007 | The New York City Public Schools system, managed by the New York City Department of Education, is the largest public school system in the United States, serving about 1.1 million students in approximately 1,800 separate primary and secondary schools, including charter schools, as of the 2017–2018 school year.
+6. Score: 0.2032 | The Encyclopedia of New York City.
+7. Score: 0.2054 | New York City is divided between, and is host to the main branches of, two different U.S.
+8. Score: 0.2098 | Each borough is coextensive with a judicial district of the state Unified Court System, of which the Criminal Court and the Civil Court are the local courts, while the New York Supreme Court conducts major trials and appeals.
+9. Score: 0.2116 | New York City has an extensive web of freeways and parkways, which link the city's boroughs to each other and to North Jersey, Westchester County, Long Island, and southwestern Connecticut through bridges and tunnels.
+10. Score: 0.2125 | The opening of the New York City Subway in 1904, first built as separate private systems, helped bind the new city together.
+================================================================================
+
+Query: What are the major bridges and tunnels connecting New York's boroughs?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8514 |  The Throgs Neck Bridge and Whitestone Bridge connect Queens and the Bronx, while the Triborough Bridge connects the three boroughs of Manhattan, Queens, and the Bronx.
+2. Score: 0.8393 |  Manhattan Island is linked to New York City's outer boroughs and to New Jersey by an extensive network of bridges and tunnels.
+3. Score: 0.8275 |  The tunnel was built instead of a bridge to allow unfettered passage of large passenger and cargo ships that sailed through New York Harbor and up the Hudson River to Manhattan's piers.
+4. Score: 0.8241 | 
+
+The Lincoln Tunnel, which carries 120,000 vehicles a day under the Hudson River between New Jersey and Midtown Manhattan, is the busiest vehicular tunnel in the world.
+5. Score: 0.8121 |  The Queens–Midtown Tunnel, built to relieve congestion on the bridges connecting Manhattan with Queens and Brooklyn, was the largest non-federal project in its time when it was completed in 1940.
+6. Score: 0.8098 |  The 14-lane George Washington Bridge, connecting Manhattan to New Jersey across the Hudson River, is the world's busiest motor vehicle bridge.
+7. Score: 0.8024 |  Carey Tunnel) is the longest continuous underwater vehicular tunnel in North America and runs underneath Battery Park, connecting the Financial District in Lower Manhattan to Red Hook in Brooklyn.
+8. Score: 0.8013 |  The Holland Tunnel, connecting Lower Manhattan to Jersey City, New Jersey, was the first mechanically ventilated vehicular tunnel when it opened in 1927.
+9. Score: 0.7994 | 
+
+Bridges and tunnels
+The boroughs of Manhattan and Staten Island are located on islands with the same names, while Queens and Brooklyn are at the west end of the larger Long Island, and the Bronx is on New York State's mainland.
+10. Score: 0.7879 |  Also in Queens, the park includes a significant portion of the western Rockaway Peninsula, most notably Jacob Riis Park and Fort Tilden.
+
+Traditional Results:
+1. Score: 0.1299 | Bridges and tunnels
+The boroughs of Manhattan and Staten Island are located on islands with the same names, while Queens and Brooklyn are at the west end of the larger Long Island, and the Bronx is on New York State's mainland.
+2. Score: 0.1317 | New York City has an extensive web of freeways and parkways, which link the city's boroughs to each other and to North Jersey, Westchester County, Long Island, and southwestern Connecticut through bridges and tunnels.
+3. Score: 0.1352 | Manhattan Island is linked to New York City's outer boroughs and to New Jersey by an extensive network of bridges and tunnels.
+4. Score: 0.1541 | The Throgs Neck Bridge and Whitestone Bridge connect Queens and the Bronx, while the Triborough Bridge connects the three boroughs of Manhattan, Queens, and the Bronx.
+5. Score: 0.1578 | The Queens–Midtown Tunnel, built to relieve congestion on the bridges connecting Manhattan with Queens and Brooklyn, was the largest non-federal project in its time when it was completed in 1940.
+6. Score: 0.1753 | It is connected to Brooklyn by the Verrazzano-Narrows Bridge, and to Manhattan by way of the free Staten Island Ferry.
+7. Score: 0.1837 | The rail network, connecting New York City to its suburbs, consists of the Long Island Rail Road, Metro-North Railroad, and New Jersey Transit.
+8. Score: 0.1937 | The Lincoln Tunnel, which carries 120,000 vehicles a day under the Hudson River between New Jersey and Midtown Manhattan, is the busiest vehicular tunnel in the world.
+9. Score: 0.2006 | Carey Tunnel) is the longest continuous underwater vehicular tunnel in North America and runs underneath Battery Park, connecting the Financial District in Lower Manhattan to Red Hook in Brooklyn.
+10. Score: 0.2008 | The elevated AirTrain JFK in Queens connects JFK International Airport to the New York City Subway and the Long Island Rail Road.
+================================================================================
+
+Query: How has technology and Silicon Alley contributed to New York's economy?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8630 |  Silicon Alley, once a metonym for the sphere encompassing the metropolitan region's high technology industries, is no longer a relevant moniker as the city's tech environment has expanded dramatically both in location and in scope since at least 2003, when tech business appeared in more places in Manhattan and in other boroughs, and not much silicon was involved.
+2. Score: 0.8587 |  The technology sector has been claiming a greater share of New York City's economy since 2010.
+3. Score: 0.8494 |  New York City's current tech sphere encompasses the array of applications involving universal applications of artificial intelligence (AI), broadband internet, new media, financial technology (fintech) and cryptocurrency, biotechnology, game design, and other fields within information technology that are supported by its entrepreneurship ecosystem and venture capital investments.
+4. Score: 0.8469 | 
+
+Tech and biotech
+New York is a top-tier global technology hub.
+5. Score: 0.8404 |  Tech:NYC, founded in 2016, is a non-profit organization which represents New York City's technology industry with government, civic institutions, in business, and in the media, and whose primary goals are to further augment New York's substantial tech talent base and to advocate for policies that will nurture tech companies to grow in the city.
+6. Score: 0.8347 |  Technology-driven startup companies and entrepreneurial employment are growing in New York City and the region.
+7. Score: 0.8176 | 
+Manhattan contained over 500 million square feet (46.5 million m2) of office space in 2018, making New York City the largest office market in the world, while Midtown Manhattan, with 400 million square feet (37.2 million m2) in 2018, is the largest central business district in the world.
+8. Score: 0.8136 |  New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+9. Score: 0.8124 |  Several investment banks and investment managers headquartered in Manhattan are important participants in other global financial centers.: 34–35  New York is the principal commercial banking center of the United States.
+10. Score: 0.8122 |  Important new sectors, such as Silicon Alley, emerged in the city's economy.
+
+Traditional Results:
+1. Score: 0.1276 | Important new sectors, such as Silicon Alley, emerged in the city's economy.
+2. Score: 0.1383 | New York City's current tech sphere encompasses the array of applications involving universal applications of artificial intelligence (AI), broadband internet, new media, financial technology (fintech) and cryptocurrency, biotechnology, game design, and other fields within information technology that are supported by its entrepreneurship ecosystem and venture capital investments.
+3. Score: 0.1412 | The technology sector has been claiming a greater share of New York City's economy since 2010.
+4. Score: 0.1480 | Silicon Alley, once a metonym for the sphere encompassing the metropolitan region's high technology industries, is no longer a relevant moniker as the city's tech environment has expanded dramatically both in location and in scope since at least 2003, when tech business appeared in more places in Manhattan and in other boroughs, and not much silicon was involved.
+5. Score: 0.1486 | New York is a center for worldwide banking and finance, health care, and life sciences, medical technology and research, retailing, world trade, transportation, tourism, real estate, new media, traditional media, advertising, legal services, accountancy, insurance, and the arts in the United States; while Silicon Alley, metonymous for New York's broad-spectrum high technology sphere, continues to expand.
+6. Score: 0.1665 | Tech:NYC, founded in 2016, is a non-profit organization which represents New York City's technology industry with government, civic institutions, in business, and in the media, and whose primary goals are to further augment New York's substantial tech talent base and to advocate for policies that will nurture tech companies to grow in the city.
+7. Score: 0.1777 | Tech and biotech
+New York is a top-tier global technology hub.
+8. Score: 0.1796 | Technology-driven startup companies and entrepreneurial employment are growing in New York City and the region.
+9. Score: 0.1842 | While a resurgence in the financial industry greatly improved the city's economic health in the 1980s, New York's crime rate continued to increase through that decade and into the beginning of the 1990s.
+10. Score: 0.2018 | The biotechnology sector is growing in New York City, based on the city's strength in academic scientific research and public and commercial financial support.
+================================================================================
+
+Query: What is the current role of Bonn in German government?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8881 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+2. Score: 0.8706 |  Bonn currently shares the status of Germany's seat of government with Berlin, with the President, the Chancellor and many government ministries (such as Food & Agriculture and Defence) maintaining large presences in Bonn.
+3. Score: 0.8703 |  The title of Federal City (German: Bundesstadt) reflects its important political status within Germany.
+4. Score: 0.8649 |  Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+5. Score: 0.8646 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+6. Score: 0.8601 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+7. Score: 0.8557 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+8. Score: 0.8541 |  From 1949 to 1990, Bonn was the capital of West Germany.
+9. Score: 0.8497 | 
+The global headquarters of Deutsche Post DHL and Deutsche Telekom, both DAX-listed corporations, are in Bonn.
+10. Score: 0.8487 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+
+Traditional Results:
+1. Score: 0.1038 | Bonn currently shares the status of Germany's seat of government with Berlin, with the President, the Chancellor and many government ministries (such as Food & Agriculture and Defence) maintaining large presences in Bonn.
+2. Score: 0.1161 | Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+3. Score: 0.1296 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+4. Score: 0.1346 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+5. Score: 0.1487 | With Bonn being chosen as the provisional federal capital (provisorische Bundeshauptstadt) and seat of the government of the Federal Republic of Germany (then informally West Germany), Cologne benefited by being sandwiched between two important political centres.
+6. Score: 0.1507 | Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+7. Score: 0.1527 | From 1990 to 1999, Bonn served as the seat of government of reunited Germany.
+8. Score: 0.1543 | Politics and government
+Mayor
+The current mayor of Bonn is Katja Dörner of Alliance 90/The Greens since 2020.
+9. Score: 0.1569 | Bonn is the birthplace of Germany's present day constitution, the Basic Law.
+10. Score: 0.1573 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+================================================================================
+
+Query: Tell me about Bonn's history as a capital city
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8815 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+2. Score: 0.8814 |  From 1949 to 1990, Bonn was the capital of West Germany.
+3. Score: 0.8804 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+4. Score: 0.8792 |  It was the capital city of the Electorate of Cologne from 1597 to 1794, residence of the Archbishops and Prince-electors of Cologne.
+5. Score: 0.8766 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+6. Score: 0.8657 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+7. Score: 0.8546 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+8. Score: 0.8516 |  Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+9. Score: 0.8472 |  The elector Clemens August (ruled 1723–1761) ordered the construction of a series of Baroque buildings which still give the city its character.
+10. Score: 0.8441 | 
+
+20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+
+Traditional Results:
+1. Score: 0.1583 | Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+2. Score: 0.1613 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+3. Score: 0.1680 | From 1949 to 1990, Bonn was the capital of West Germany.
+4. Score: 0.1691 | Bonn was chosen because Adenauer and other prominent politicians intended to make Berlin the capital of the reunified Germany, and they felt that locating the capital in a major city like Frankfurt or Hamburg would imply a permanent capital and even weaken support in West Germany for reunification.
+5. Score: 0.1699 | In its permanent exhibition, the Haus der Geschichte presents German history from 1945 until the present, also shedding light on Bonn's own role as former capital of West Germany.
+6. Score: 0.1749 | Bonn's time as the capital of West Germany is commonly referred to as the Bonn Republic, in contrast to the Berlin Republic which followed reunification in 1990.
+7. Score: 0.1787 | The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+8. Score: 0.1835 | With Bonn being chosen as the provisional federal capital (provisorische Bundeshauptstadt) and seat of the government of the Federal Republic of Germany (then informally West Germany), Cologne benefited by being sandwiched between two important political centres.
+9. Score: 0.1838 | Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+10. Score: 0.1849 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+================================================================================
+
+Query: What international organizations are located in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8300 | 
+The headquarters of the International Paralympic Committee has been located in Bonn since 1999.
+2. Score: 0.8269 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+3. Score: 0.8240 |  The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+4. Score: 0.8223 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+5. Score: 0.8222 | 
+The successful German Baseball team Bonn Capitals are also found in the city of Bonn.
+6. Score: 0.8221 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+7. Score: 0.8122 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+8. Score: 0.8118 | 
+
+International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+9. Score: 0.8106 | 
+The global headquarters of Deutsche Post DHL and Deutsche Telekom, both DAX-listed corporations, are in Bonn.
+10. Score: 0.8094 |  From 1949 to 1990, Bonn was the capital of West Germany.
+
+Traditional Results:
+1. Score: 0.1350 | A total of 19 United Nations (UN) institutions operate from Bonn today.
+2. Score: 0.1375 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+3. Score: 0.1423 | International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+4. Score: 0.1497 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+5. Score: 0.1583 | Moreover, the city of Bonn has developed a concept of international co-operation and maintains sustainability oriented project partnerships in addition to traditional city twinning, among others with Minsk in Belarus, Ulaanbaatar in Mongolia, Bukhara in Uzbekistan, Chengdu in China and La Paz in Bolivia.
+6. Score: 0.1650 | Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+7. Score: 0.1665 | The headquarters of the International Paralympic Committee has been located in Bonn since 1999.
+8. Score: 0.1696 | The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+9. Score: 0.1744 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+10. Score: 0.1755 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+================================================================================
+
+Query: How can I visit Beethoven's birthplace?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.7829 | 
+Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+2. Score: 0.7813 | 
+
+Culture
+Beethoven's birthplace is located in Bonngasse near the market place.
+3. Score: 0.7797 |  Remigius, where Beethoven was baptized
+
+Castles and residences
+Godesburg fortress ruins
+The Röttgen suburb was once home to Schloss Herzogsfreude, now lost, but once a hunting lodge of elector Clemens August.
+4. Score: 0.7688 |  Birthplace of composer Ludwig van Beethoven, a center of Rhenish carnival, and its geography by the Middle Rhine make it an important tourist destination.
+5. Score: 0.7606 | 
+The Beethoven Monument stands on the Münsterplatz, which is flanked by the Bonn Minster, one of Germany's oldest churches.
+6. Score: 0.7593 |  This axis is interrupted by a railway line and Bonn Hauptbahnhof, a building erected in 1883/84.
+7. Score: 0.7559 | 
+
+Churches
+Bonn Minster
+Doppelkirche Schwarzrheindorf built in 1151
+Old Cemetery Bonn (Alter Friedhof), one of the best known cemeteries in Germany
+Kreuzbergkirche, built in 1627 with Johann Balthasar Neumann's Heilige Stiege, it is a stairway for Christian pilgrims
+St.
+8. Score: 0.7474 |  In addition he was a patron of the young Ludwig van Beethoven, who was born in Bonn in 1770; the elector financed the composer's first journey to Vienna.
+9. Score: 0.7430 |  It is used for receptions of guests of the city, and as an office for the mayor.
+10. Score: 0.7425 |  As Dörner was elected Lord Mayor of Bonn in September 2020, she resigned as a member of parliament after her entry into office.
+
+Traditional Results:
+1. Score: 0.1364 | Culture
+Beethoven's birthplace is located in Bonngasse near the market place.
+2. Score: 0.1557 | Birthplace of composer Ludwig van Beethoven, a center of Rhenish carnival, and its geography by the Middle Rhine make it an important tourist destination.
+3. Score: 0.1605 | Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+4. Score: 0.1736 | The Beethoven Monument stands on the Münsterplatz, which is flanked by the Bonn Minster, one of Germany's oldest churches.
+5. Score: 0.1777 | In addition he was a patron of the young Ludwig van Beethoven, who was born in Bonn in 1770; the elector financed the composer's first journey to Vienna.
+6. Score: 0.1823 | Remigius, where Beethoven was baptized
+
+Castles and residences
+Godesburg fortress ruins
+The Röttgen suburb was once home to Schloss Herzogsfreude, now lost, but once a hunting lodge of elector Clemens August.
+7. Score: 0.2334 | The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+8. Score: 0.2403 | Notable people
+Pre–20th century
+Johann Peter Salomon (1745–1815), musician
+Franz Anton Ries (1755–1846), violinist and violin teacher
+Ludwig van Beethoven (1770–1827), composer
+Salomon Oppenheim, Jr.
+9. Score: 0.2427 | Kolumba, Cologne, completed 2007
+Cathedral Treasury "Domschatzkammer" – historic underground vaults of the Cathedral
+EL-DE Haus – former local headquarters of the Gestapo houses a museum documenting Nazi rule in Cologne with a special focus on the persecution of political dissenters and minorities
+German Sports and Olympic Museum – exhibitions about sports from antiquity until the present
+Imhoff-Schokoladenmuseum – Chocolate Museum
+Geomuseum of the University of Cologne – the exhibition includes fossils (such as dinosaur bones and the skeleton of an Eryops), stones and minerals
+Forum for Internet Technology in Contemporary Art – collections of Internet-based art, corporate part of (NewMediaArtProjectNetwork):cologne, the experimental platform for art and New Media
+Flora und Botanischer Garten Köln – the city's formal park and main botanical garden
+Forstbotanischer Garten Köln – an arboretum and woodland botanical garden
+
+Music fairs and festivals
+The city was home to the internationally famous Ringfest, and now to the C/o pop festival.
+10. Score: 0.2489 | Churches
+Bonn Minster
+Doppelkirche Schwarzrheindorf built in 1151
+Old Cemetery Bonn (Alter Friedhof), one of the best known cemeteries in Germany
+Kreuzbergkirche, built in 1627 with Johann Balthasar Neumann's Heilige Stiege, it is a stairway for Christian pilgrims
+St.
+================================================================================
+
+Query: What are the main transportation options in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8433 |  In addition, regular ferries operate between Bonn-Mehlem and Königswinter, Bonn-Bad Godesberg and Königswinter-Niederdollendorf, and Bonn-Graurheindorf and Niederkassel-Mondorf.
+2. Score: 0.8341 |  Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+3. Score: 0.8334 | 
+
+Rail and bus system
+Bonn's central railway station, Bonn Hauptbahnhof is the city's main public transportation hub.
+4. Score: 0.8288 | 
+With Bonn being divided into two parts by the Rhine, three bridges are crucial for inner-city road traffic: the Konrad-Adenauer-Brücke (A562) in the South, the Friedrich-Ebert-Brücke (A565) in the North, and the Kennedybrücke (B56) in the centre.
+5. Score: 0.8273 |  It is served by regional (S-Bahn and Regionalbahn) and long-distance (IC and ICE) trains.
+6. Score: 0.8263 |  Regular passenger transport occurs to Cologne and Düsseldorf.
+7. Score: 0.8239 |  The Bonn Stadtbahn has 4 regular lines that connect the main north–south axis (centre to Bad Godesberg) and quarters east of the Rhine (Beuel and Oberkassel), as well as many nearby towns like Brühl, Wesseling, Sankt Augustin, Siegburg, Königswinter, and Bad Honnef.
+8. Score: 0.8232 | 
+
+Road network
+Four Autobahns run through or are adjacent to Bonn: the A59 (right bank of the Rhine, connecting Bonn with Düsseldorf and Duisburg), the A555 (left bank of the Rhine, connecting Bonn with Cologne), the A562 (connecting the right with the left bank of the Rhine south of Bonn), and the A565 (connecting the A59 and the A555 with the A61 to the southwest).
+9. Score: 0.8220 |  These urban rail lines are supplemented by a bus system of roughly 30 regular lines, especially since some parts of the city like Hardtberg and most of Bad Godesberg completely lack a Stadtbahn/Tram connection.
+10. Score: 0.8218 |  Another long-distance station, (Siegburg/Bonn), is located in the nearby town of Siegburg and serves as Bonn's station on the high-speed rail line between Cologne and Frankfurt, offering faster connections to Southern Germany.
+
+Traditional Results:
+1. Score: 0.1056 | Rail and bus system
+Bonn's central railway station, Bonn Hauptbahnhof is the city's main public transportation hub.
+2. Score: 0.1319 | Nearby Bonn is linked by both the Stadtbahn and main line railway trains, with occasional recreational boats on the Rhine.
+3. Score: 0.1344 | Bonn has a Stadtbahn light rail and a tram system.
+4. Score: 0.1463 | Regular passenger transport occurs to Cologne and Düsseldorf.
+5. Score: 0.1481 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+6. Score: 0.1514 | In addition, regular ferries operate between Bonn-Mehlem and Königswinter, Bonn-Bad Godesberg and Königswinter-Niederdollendorf, and Bonn-Graurheindorf and Niederkassel-Mondorf.
+7. Score: 0.1534 | The Bonn Stadtbahn has 4 regular lines that connect the main north–south axis (centre to Bad Godesberg) and quarters east of the Rhine (Beuel and Oberkassel), as well as many nearby towns like Brühl, Wesseling, Sankt Augustin, Siegburg, Königswinter, and Bad Honnef.
+8. Score: 0.1563 | With Bonn being divided into two parts by the Rhine, three bridges are crucial for inner-city road traffic: the Konrad-Adenauer-Brücke (A562) in the South, the Friedrich-Ebert-Brücke (A565) in the North, and the Kennedybrücke (B56) in the centre.
+9. Score: 0.1591 | Road network
+Four Autobahns run through or are adjacent to Bonn: the A59 (right bank of the Rhine, connecting Bonn with Düsseldorf and Duisburg), the A555 (left bank of the Rhine, connecting Bonn with Cologne), the A562 (connecting the right with the left bank of the Rhine south of Bonn), and the A565 (connecting the A59 and the A555 with the A61 to the southwest).
+10. Score: 0.1616 | Railway
+Cologne has a railway service with Deutsche Bahn InterCity and ICE-trains stopping at Köln Hauptbahnhof (Cologne Main Station), Köln Messe/Deutz and Cologne/Bonn Airport.
+================================================================================
+
+Query: What is the significance of the University of Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8628 |  The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+2. Score: 0.8566 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+3. Score: 0.8528 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+4. Score: 0.8489 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+5. Score: 0.8459 |  The title of Federal City (German: Bundesstadt) reflects its important political status within Germany.
+6. Score: 0.8424 |  From 1949 to 1990, Bonn was the capital of West Germany.
+7. Score: 0.8394 | 
+
+Education
+The Rheinische Friedrich Wilhelms Universität Bonn (University of Bonn) is one of the largest universities in Germany.
+8. Score: 0.8367 | 
+
+20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+9. Score: 0.8363 |  It was the capital city of the Electorate of Cologne from 1597 to 1794, residence of the Archbishops and Prince-electors of Cologne.
+10. Score: 0.8355 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+
+Traditional Results:
+1. Score: 0.1239 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+2. Score: 0.1278 | Education
+The Rheinische Friedrich Wilhelms Universität Bonn (University of Bonn) is one of the largest universities in Germany.
+3. Score: 0.1454 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+4. Score: 0.1636 | Affiliated with the University of Bonn, it is also a zoological research institution housing the Leibniz-Institut für Biodiversität der Tiere.
+5. Score: 0.1740 | The city district of Bonn is a partner of the English university city of Oxford, England, UK (since 1947), of Budafok, District XXII of Budapest, Hungary (since 1991) and of Opole, Poland (officially since 1997; contacts were established 1954).
+6. Score: 0.1780 | Nearby is the Kurfürstliches Schloss, built as a residence for the prince-elector and now the main building of the University of Bonn.
+7. Score: 0.1785 | Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+8. Score: 0.1829 | A total of 19 United Nations (UN) institutions operate from Bonn today.
+9. Score: 0.1839 | Bonn is the birthplace of Germany's present day constitution, the Basic Law.
+10. Score: 0.1847 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+================================================================================
+
+Query: What major companies are headquartered in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8315 | 
+The global headquarters of Deutsche Post DHL and Deutsche Telekom, both DAX-listed corporations, are in Bonn.
+2. Score: 0.8304 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+3. Score: 0.8268 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+4. Score: 0.8246 | 
+The third largest employer in the city of Bonn is the University of Bonn (including the university clinics) and Stadtwerke Bonn also follows as a major employer.
+5. Score: 0.8191 | 
+On the other hand, there are several traditional, nationally known private companies in Bonn such as luxury food producers Verpoorten and Kessko, the Klais organ manufacture and the Bonn flag factory.
+6. Score: 0.8186 | 
+
+Economy
+The head offices of Deutsche Telekom, its subsidiary Telekom Deutschland, Deutsche Post, German Academic Exchange Service, and SolarWorld are in Bonn.
+7. Score: 0.8145 |  The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+8. Score: 0.8123 | 
+Other companies of supraregional importance are Weck Glaswerke (production site), Fairtrade, Eaton Industries (formerly Klöckner & Moeller), IVG Immobilien, Kautex Textron, SolarWorld, Vapiano and the SER Group.
+9. Score: 0.8096 |  The title of Federal City (German: Bundesstadt) reflects its important political status within Germany.
+10. Score: 0.8087 |  Since April 2018, the head office of the company is located in the Rhineland-Palatinate municipality of Grafschaft.
+
+Traditional Results:
+1. Score: 0.1354 | The third largest employer in the city of Bonn is the University of Bonn (including the university clinics) and Stadtwerke Bonn also follows as a major employer.
+2. Score: 0.1404 | The global headquarters of Deutsche Post DHL and Deutsche Telekom, both DAX-listed corporations, are in Bonn.
+3. Score: 0.1541 | Economy
+The head offices of Deutsche Telekom, its subsidiary Telekom Deutschland, Deutsche Post, German Academic Exchange Service, and SolarWorld are in Bonn.
+4. Score: 0.1557 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+5. Score: 0.1577 | On the other hand, there are several traditional, nationally known private companies in Bonn such as luxury food producers Verpoorten and Kessko, the Klais organ manufacture and the Bonn flag factory.
+6. Score: 0.1651 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+7. Score: 0.1681 | The successful German Baseball team Bonn Capitals are also found in the city of Bonn.
+8. Score: 0.1709 | Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+9. Score: 0.1735 | A total of 19 United Nations (UN) institutions operate from Bonn today.
+10. Score: 0.1760 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+================================================================================
+
+Query: How is Bonn connected to the Rhine river?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8496 | 
+
+Road network
+Four Autobahns run through or are adjacent to Bonn: the A59 (right bank of the Rhine, connecting Bonn with Düsseldorf and Duisburg), the A555 (left bank of the Rhine, connecting Bonn with Cologne), the A562 (connecting the right with the left bank of the Rhine south of Bonn), and the A565 (connecting the A59 and the A555 with the A61 to the southwest).
+2. Score: 0.8414 |  Spanning an area of more 141.2 km2 (55 sq mi) on both sides of the river Rhine, almost three-quarters of the city lies on the river's left bank.
+3. Score: 0.8225 | 
+To the south and to the west, Bonn borders the Eifel region which encompasses the Rhineland Nature Park.
+4. Score: 0.8214 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+5. Score: 0.8186 |  Three Bundesstraßen, which have a general 100 kilometres per hour (62 miles per hour) speed limit in contrast to the Autobahn, connect Bonn to its immediate surroundings (Bundesstraßen B9, B42 and B56).
+6. Score: 0.8184 | 
+With Bonn being divided into two parts by the Rhine, three bridges are crucial for inner-city road traffic: the Konrad-Adenauer-Brücke (A562) in the South, the Friedrich-Ebert-Brücke (A565) in the North, and the Kennedybrücke (B56) in the centre.
+7. Score: 0.8184 |  Natural borders are constituted by the river Sieg to the north-east and by the Siebengebirge (also known as the Seven Hills) to the east.
+8. Score: 0.8182 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+9. Score: 0.8170 |  From 1949 to 1990, Bonn was the capital of West Germany.
+10. Score: 0.8165 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+
+Traditional Results:
+1. Score: 0.1431 | Nearby Bonn is linked by both the Stadtbahn and main line railway trains, with occasional recreational boats on the Rhine.
+2. Score: 0.1546 | With Bonn being divided into two parts by the Rhine, three bridges are crucial for inner-city road traffic: the Konrad-Adenauer-Brücke (A562) in the South, the Friedrich-Ebert-Brücke (A565) in the North, and the Kennedybrücke (B56) in the centre.
+3. Score: 0.1550 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+4. Score: 0.1568 | Road network
+Four Autobahns run through or are adjacent to Bonn: the A59 (right bank of the Rhine, connecting Bonn with Düsseldorf and Duisburg), the A555 (left bank of the Rhine, connecting Bonn with Cologne), the A562 (connecting the right with the left bank of the Rhine south of Bonn), and the A565 (connecting the A59 and the A555 with the A61 to the southwest).
+5. Score: 0.1570 | The Bonn Stadtbahn has 4 regular lines that connect the main north–south axis (centre to Bad Godesberg) and quarters east of the Rhine (Beuel and Oberkassel), as well as many nearby towns like Brühl, Wesseling, Sankt Augustin, Siegburg, Königswinter, and Bad Honnef.
+6. Score: 0.1714 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+7. Score: 0.1790 | A Rhine crossing of a special kind is provided by the Cologne Cable Car (German: Kölner Seilbahn), a cableway that runs across the river between the Cologne Zoological Garden in Riehl and the Rheinpark in Deutz.
+8. Score: 0.1854 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+9. Score: 0.1870 | Thus they took up residence in Bonn and later in Brühl on the Rhine.
+10. Score: 0.1903 | 20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+================================================================================
+
+Query: What museums can I visit in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8653 | 
+Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+2. Score: 0.8503 |  Numerous temporary exhibitions emphasize different features, such as Nazism or important personalities in German history.
+3. Score: 0.8487 |  The Haus der Geschichte is one of the foremost German museums of contemporary German history, with branches in Berlin and Leipzig.
+4. Score: 0.8422 | 
+The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+5. Score: 0.8402 |  German artists on display include Georg Baselitz, Joseph Beuys, Hanne Darboven, Anselm Kiefer, Blinky Palermo and Wolf Vostell.
+6. Score: 0.8392 |  Next to its changing exhibitions, the Bundeskunsthalle regularly hosts concerts, discussion panels, congresses, and lectures.
+7. Score: 0.8343 |  The latter is focused on Rhenish Expressionism and post-war German art.
+8. Score: 0.8324 |  Affiliated with the University of Bonn, it is also a zoological research institution housing the Leibniz-Institut für Biodiversität der Tiere.
+9. Score: 0.8315 |  In its permanent exhibition, the Haus der Geschichte presents German history from 1945 until the present, also shedding light on Bonn's own role as former capital of West Germany.
+10. Score: 0.8265 | 
+
+Nature
+There are several parks, leisure and protected areas in and around Bonn.
+
+Traditional Results:
+1. Score: 0.1303 | The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+2. Score: 0.1369 | Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+3. Score: 0.1608 | The Kunstmuseum Bonn or Bonn Museum of Modern Art is an art museum founded in 1947.
+4. Score: 0.1625 | Museums
+Farina Fragrance Museum – birthplace of Eau de Cologne
+Römisch-Germanisches Museum (Roman-Germanic Museum) – ancient Roman and Germanic culture
+Wallraf-Richartz Museum – European painting from the 13th to the early 20th century
+Museum Ludwig – modern art
+Museum Schnütgen – medieval art
+Museum für Angewandte Kunst – applied art
+Kolumba Kunstmuseum des Erzbistums Köln (art museum of the Archbishopric of Cologne) – modern art museum built around medieval ruins of St.
+5. Score: 0.1707 | Kolumba, Cologne, completed 2007
+Cathedral Treasury "Domschatzkammer" – historic underground vaults of the Cathedral
+EL-DE Haus – former local headquarters of the Gestapo houses a museum documenting Nazi rule in Cologne with a special focus on the persecution of political dissenters and minorities
+German Sports and Olympic Museum – exhibitions about sports from antiquity until the present
+Imhoff-Schokoladenmuseum – Chocolate Museum
+Geomuseum of the University of Cologne – the exhibition includes fossils (such as dinosaur bones and the skeleton of an Eryops), stones and minerals
+Forum for Internet Technology in Contemporary Art – collections of Internet-based art, corporate part of (NewMediaArtProjectNetwork):cologne, the experimental platform for art and New Media
+Flora und Botanischer Garten Köln – the city's formal park and main botanical garden
+Forstbotanischer Garten Köln – an arboretum and woodland botanical garden
+
+Music fairs and festivals
+The city was home to the internationally famous Ringfest, and now to the C/o pop festival.
+6. Score: 0.1742 | The Museum Koenig is Bonn's natural history museum.
+7. Score: 0.1754 | The famous Roman-Germanic Museum features art and architecture from the city's distant past; the Museum Ludwig houses one of the most important collections of modern art in Europe, including a Picasso collection matched only by the museums in Barcelona and Paris.
+8. Score: 0.1778 | In its permanent exhibition, the Haus der Geschichte presents German history from 1945 until the present, also shedding light on Bonn's own role as former capital of West Germany.
+9. Score: 0.1794 | Culture
+Cologne has numerous museums.
+10. Score: 0.1820 | Nature
+There are several parks, leisure and protected areas in and around Bonn.
+================================================================================
+
+Query: How did Bonn's role change after German reunification?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8595 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+2. Score: 0.8447 |  It also broke along generational lines as well; older legislators with memories of Berlin's past glory favoured Berlin, while younger legislators favoured Bonn.
+3. Score: 0.8429 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+4. Score: 0.8407 |  Bonn was chosen because Adenauer and other prominent politicians intended to make Berlin the capital of the reunified Germany, and they felt that locating the capital in a major city like Frankfurt or Hamburg would imply a permanent capital and even weaken support in West Germany for reunification.
+5. Score: 0.8386 |  From 1949 to 1990, Bonn was the capital of West Germany.
+6. Score: 0.8380 |  Administered within the Prussian Rhine Province, the city became part of the German Empire in 1871 during the Prussian-led unification of Germany.
+7. Score: 0.8355 | 
+
+20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+8. Score: 0.8338 |  Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+9. Score: 0.8326 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+10. Score: 0.8306 |  The vote broke largely along regional lines, with legislators from the south and west favouring Bonn and legislators from the north and east voting for Berlin.
+
+Traditional Results:
+1. Score: 0.1400 | Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+2. Score: 0.1528 | Bonn was chosen because Adenauer and other prominent politicians intended to make Berlin the capital of the reunified Germany, and they felt that locating the capital in a major city like Frankfurt or Hamburg would imply a permanent capital and even weaken support in West Germany for reunification.
+3. Score: 0.1564 | Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+4. Score: 0.1627 | Bonn's time as the capital of West Germany is commonly referred to as the Bonn Republic, in contrast to the Berlin Republic which followed reunification in 1990.
+5. Score: 0.1651 | From 1990 to 1999, Bonn served as the seat of government of reunited Germany.
+6. Score: 0.1742 | With Bonn being chosen as the provisional federal capital (provisorische Bundeshauptstadt) and seat of the government of the Federal Republic of Germany (then informally West Germany), Cologne benefited by being sandwiched between two important political centres.
+7. Score: 0.1781 | From 1949 to 1990, Bonn was the capital of West Germany.
+8. Score: 0.1816 | Bonn currently shares the status of Germany's seat of government with Berlin, with the President, the Chancellor and many government ministries (such as Food & Agriculture and Defence) maintaining large presences in Bonn.
+9. Score: 0.1825 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+10. Score: 0.1832 | 20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+================================================================================
+
+Query: What is the climate like in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8673 |  In 1969, the independent towns of Bad Godesberg and Beuel as well as several villages were incorporated into Bonn, resulting in a city more than twice as large as before.
+2. Score: 0.8642 | 
+
+Climate
+Bonn has an oceanic climate (Köppen: Cfb; Trewartha: Dobk).
+3. Score: 0.8496 |  These are Bonn, Bonn-Bad Godesberg, Bonn-Beuel and Bonn-Hardtberg.
+4. Score: 0.8460 | 
+Its least annual precipitation was 381.5 mm (15.02 in) in 1959.
+5. Score: 0.8429 | 
+Its greatest annual precipitation was 956.7 mm (37.67 in) in 2007.
+6. Score: 0.8405 | 
+The Bonn weather station has recorded the following extreme values:
+
+Its highest temperature was 40.9 °C (105.6 °F) on 25 July 2019.
+7. Score: 0.8392 | 
+Its lowest temperature was −23.0 °C (−9.4 °F) on 27 January 1942.
+8. Score: 0.8329 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+9. Score: 0.8285 |  In the south of the Cologne lowland in the Rhine valley, Bonn is in one of Germany's warmest regions.
+10. Score: 0.8229 |  The urban district of Bonn is then again divided into four administrative municipal districts (German: Stadtbezirk).
+
+Traditional Results:
+1. Score: 0.1355 | Climate
+Bonn has an oceanic climate (Köppen: Cfb; Trewartha: Dobk).
+2. Score: 0.1403 | The Bonn weather station has recorded the following extreme values:
+
+Its highest temperature was 40.9 °C (105.6 °F) on 25 July 2019.
+3. Score: 0.1526 | In the south of the Cologne lowland in the Rhine valley, Bonn is in one of Germany's warmest regions.
+4. Score: 0.1629 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+5. Score: 0.1700 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+6. Score: 0.1711 | Politics and government
+Mayor
+The current mayor of Bonn is Katja Dörner of Alliance 90/The Greens since 2020.
+7. Score: 0.1720 | Geography
+Topography
+Situated in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area with over 11 million inhabitants, Bonn lies within the German state of North Rhine-Westphalia, on the border with Rhineland-Palatinate.
+8. Score: 0.1749 | Nature
+There are several parks, leisure and protected areas in and around Bonn.
+9. Score: 0.1772 | The metropolitan area of the Cologne Bonn Region is home to 3,573,500 living on 4,415/km2 (11,430/sq mi).
+10. Score: 0.1823 | The airport is shared with the neighbouring city of Bonn.
+================================================================================
+
+Query: How old is the city of Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8594 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+2. Score: 0.8580 |  It was the capital city of the Electorate of Cologne from 1597 to 1794, residence of the Archbishops and Prince-electors of Cologne.
+3. Score: 0.8520 |  From 1949 to 1990, Bonn was the capital of West Germany.
+4. Score: 0.8475 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+5. Score: 0.8448 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+6. Score: 0.8412 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+7. Score: 0.8309 |  About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+8. Score: 0.8262 |  Bonn's population is predicted to surpass the populations of Wuppertal and Bochum before the year 2030.
+9. Score: 0.8255 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+10. Score: 0.8170 |  It used to be based in the Rococo-style Altes Rathaus (old city hall), built in 1737, located adjacent to Bonn's central market square.
+
+Traditional Results:
+1. Score: 0.1298 | Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+2. Score: 0.1447 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+3. Score: 0.1644 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+4. Score: 0.1755 | It used to be based in the Rococo-style Altes Rathaus (old city hall), built in 1737, located adjacent to Bonn's central market square.
+5. Score: 0.1770 | The city district of Bonn is a partner of the English university city of Oxford, England, UK (since 1947), of Budafok, District XXII of Budapest, Hungary (since 1991) and of Opole, Poland (officially since 1997; contacts were established 1954).
+6. Score: 0.1786 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+7. Score: 0.1798 | International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+8. Score: 0.1816 | Central Bonn is surrounded by a number of traditional towns and villages which were independent up to several decades ago.
+9. Score: 0.1839 | Cologne – Remains of an old city.
+10. Score: 0.1859 | Bonn is the birthplace of Germany's present day constitution, the Basic Law.
+================================================================================
+
+Query: What role did Bonn play during Roman times?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8248 |  Among the legions stationed in Bonn, the "1st", i.e.
+2. Score: 0.8138 | 
+
+Middle ages and early modern period
+Between the 11th and 13th centuries, the Romanesque style Bonn Minster was built, and in 1597 Bonn became the seat of the Archdiocese of Cologne.
+3. Score: 0.8103 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+4. Score: 0.8097 |  Units of the Bonn legion were deployed to theatres of war ranging from modern-day Algeria to what is now the Russian republic of Chechnya.
+5. Score: 0.8093 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+6. Score: 0.8075 |  Once past the South Gate, the Cologne–Mainz road continued along what are now streets named Belderberg, Adenauerallee et al.
+7. Score: 0.8067 |  During the final decades of Imperial rule, the troops were supplied by Franci chieftains employed by the Roman administration.
+8. Score: 0.8035 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+9. Score: 0.8034 |  Between its walls it contained a dense grid of streets and a multitude of buildings, ranging from spacious headquarters and large officers' quarters to barracks, stables and a military jail.
+10. Score: 0.8027 |  The remaining civilian population then took refuge inside the fort along with the remnants of the troops stationed here.
+
+Traditional Results:
+1. Score: 0.1785 | Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+2. Score: 0.1816 | To date, Bonn's Roman fort remains the largest fort of its type known from the ancient world, i.e.
+3. Score: 0.1852 | Bonn was of little relevance in these years.
+4. Score: 0.1861 | On both sides of the road, the local settlement, Bonna, grew into a sizeable Roman town.
+5. Score: 0.1972 | The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+6. Score: 0.1979 | In its permanent exhibition, the Haus der Geschichte presents German history from 1945 until the present, also shedding light on Bonn's own role as former capital of West Germany.
+7. Score: 0.2011 | 20th century and the "Bonn Republic"
+During the Second World War, Bonn acquired military significance because of its strategic location on the Rhine, which formed a natural barrier to easy penetration into the German heartland from the west.
+8. Score: 0.2012 | Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+9. Score: 0.2024 | Units of the Bonn legion were deployed to theatres of war ranging from modern-day Algeria to what is now the Russian republic of Chechnya.
+10. Score: 0.2026 | Among the legions stationed in Bonn, the "1st", i.e.
+================================================================================
+
+Query: What cultural attractions can tourists visit in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8413 |  Birthplace of composer Ludwig van Beethoven, a center of Rhenish carnival, and its geography by the Middle Rhine make it an important tourist destination.
+2. Score: 0.8374 | 
+Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+3. Score: 0.8324 | 
+
+Nature
+There are several parks, leisure and protected areas in and around Bonn.
+4. Score: 0.8257 | 
+
+Geography
+Topography
+Situated in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area with over 11 million inhabitants, Bonn lies within the German state of North Rhine-Westphalia, on the border with Rhineland-Palatinate.
+5. Score: 0.8229 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+6. Score: 0.8173 |  Numerous temporary exhibitions emphasize different features, such as Nazism or important personalities in German history.
+7. Score: 0.8156 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+8. Score: 0.8153 |  One of its main objectives is to show the cultural heritage outside of Germany or Europe.
+9. Score: 0.8135 |  Next to its changing exhibitions, the Bundeskunsthalle regularly hosts concerts, discussion panels, congresses, and lectures.
+10. Score: 0.8132 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+
+Traditional Results:
+1. Score: 0.1542 | Nature
+There are several parks, leisure and protected areas in and around Bonn.
+2. Score: 0.1726 | Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+3. Score: 0.1733 | Kolumba, Cologne, completed 2007
+Cathedral Treasury "Domschatzkammer" – historic underground vaults of the Cathedral
+EL-DE Haus – former local headquarters of the Gestapo houses a museum documenting Nazi rule in Cologne with a special focus on the persecution of political dissenters and minorities
+German Sports and Olympic Museum – exhibitions about sports from antiquity until the present
+Imhoff-Schokoladenmuseum – Chocolate Museum
+Geomuseum of the University of Cologne – the exhibition includes fossils (such as dinosaur bones and the skeleton of an Eryops), stones and minerals
+Forum for Internet Technology in Contemporary Art – collections of Internet-based art, corporate part of (NewMediaArtProjectNetwork):cologne, the experimental platform for art and New Media
+Flora und Botanischer Garten Köln – the city's formal park and main botanical garden
+Forstbotanischer Garten Köln – an arboretum and woodland botanical garden
+
+Music fairs and festivals
+The city was home to the internationally famous Ringfest, and now to the C/o pop festival.
+4. Score: 0.1738 | Culture
+Cologne has numerous museums.
+5. Score: 0.1767 | The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+6. Score: 0.1823 | Cologne is a major cultural center for the Rhineland; it hosts more than 30 museums and hundreds of galleries.
+7. Score: 0.1854 | Nearby Bonn is linked by both the Stadtbahn and main line railway trains, with occasional recreational boats on the Rhine.
+8. Score: 0.1862 | Geography
+Topography
+Situated in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area with over 11 million inhabitants, Bonn lies within the German state of North Rhine-Westphalia, on the border with Rhineland-Palatinate.
+9. Score: 0.1867 | Daily, more than 67,000 people travel via Bonn Hauptbahnhof.
+10. Score: 0.1879 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+================================================================================
+
+Query: How is public transportation organized in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8418 |  Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+2. Score: 0.8380 | 
+
+Rail and bus system
+Bonn's central railway station, Bonn Hauptbahnhof is the city's main public transportation hub.
+3. Score: 0.8351 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+4. Score: 0.8319 |  In addition, regular ferries operate between Bonn-Mehlem and Königswinter, Bonn-Bad Godesberg and Königswinter-Niederdollendorf, and Bonn-Graurheindorf and Niederkassel-Mondorf.
+5. Score: 0.8310 |  It is served by regional (S-Bahn and Regionalbahn) and long-distance (IC and ICE) trains.
+6. Score: 0.8266 |  While the Stadtbahn mostly has its own right-of-way, the tram often operates on general road lanes.
+7. Score: 0.8264 |  The Bonn Stadtbahn has 4 regular lines that connect the main north–south axis (centre to Bad Godesberg) and quarters east of the Rhine (Beuel and Oberkassel), as well as many nearby towns like Brühl, Wesseling, Sankt Augustin, Siegburg, Königswinter, and Bad Honnef.
+8. Score: 0.8245 | 
+
+Road network
+Four Autobahns run through or are adjacent to Bonn: the A59 (right bank of the Rhine, connecting Bonn with Düsseldorf and Duisburg), the A555 (left bank of the Rhine, connecting Bonn with Cologne), the A562 (connecting the right with the left bank of the Rhine south of Bonn), and the A565 (connecting the A59 and the A555 with the A61 to the southwest).
+9. Score: 0.8244 |  Within this governmental district, the city of Bonn is an urban district in its own right.
+10. Score: 0.8242 |  These urban rail lines are supplemented by a bus system of roughly 30 regular lines, especially since some parts of the city like Hardtberg and most of Bad Godesberg completely lack a Stadtbahn/Tram connection.
+
+Traditional Results:
+1. Score: 0.1136 | Rail and bus system
+Bonn's central railway station, Bonn Hauptbahnhof is the city's main public transportation hub.
+2. Score: 0.1236 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+3. Score: 0.1532 | Bonn has a Stadtbahn light rail and a tram system.
+4. Score: 0.1567 | Regular passenger transport occurs to Cologne and Düsseldorf.
+5. Score: 0.1585 | The urban district of Bonn is then again divided into four administrative municipal districts (German: Stadtbezirk).
+6. Score: 0.1611 | The Bonn tram system consists of two lines that connect closer quarters in the south, north and east of Bonn to the Central Station.
+7. Score: 0.1638 | Within this governmental district, the city of Bonn is an urban district in its own right.
+8. Score: 0.1645 | With Bonn being divided into two parts by the Rhine, three bridges are crucial for inner-city road traffic: the Konrad-Adenauer-Brücke (A562) in the South, the Friedrich-Ebert-Brücke (A565) in the North, and the Kennedybrücke (B56) in the centre.
+9. Score: 0.1658 | Three Bundesstraßen, which have a general 100 kilometres per hour (62 miles per hour) speed limit in contrast to the Autobahn, connect Bonn to its immediate surroundings (Bundesstraßen B9, B42 and B56).
+10. Score: 0.1693 | The Bonn Stadtbahn has 4 regular lines that connect the main north–south axis (centre to Bad Godesberg) and quarters east of the Rhine (Beuel and Oberkassel), as well as many nearby towns like Brühl, Wesseling, Sankt Augustin, Siegburg, Königswinter, and Bad Honnef.
+================================================================================
+
+Query: What is special about Bonn's educational institutions?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8267 |  The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+2. Score: 0.8244 |  It is also the location of the German research institute Deutsche Forschungsgemeinschaft (DFG) offices and of the German Academic Exchange Service (Deutscher Akademischer Austauschdienst – DAAD).
+3. Score: 0.8230 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+4. Score: 0.8223 | 
+Libysch Schule, private Arabic high school
+Independent Bonn International School, (IBIS) private primary school (serving from kindergarten, reception, and years 1 to 6)
+École de Gaulle - Adenauer, private French-speaking school serving grades pre-school ("maternelle") to grade 4 (CM1)
+Kardinal-Frings-Gymnasium (KFG), private catholic school of the Archdiocese of Cologne in Beuel
+Liebfrauenschule (LFS), private catholic school of the Archdiocese of Cologne
+Sankt-Adelheid-Gymnasium, private catholic school of the Archdiocese of Cologne in Beuel
+Clara-Fey-Gymnasium, private Catholic school of the Archdiocese of Cologne in Bad Godesberg
+Ernst-Kalkuhl-Gymnasium, private boarding and day school in Oberkassel
+Otto-Kühne-Schule ("PÄDA"), private day school in Bad Godesberg
+Collegium Josephinum Bonn ("CoJoBo"), private catholic day school
+Akademie für Internationale Bildung, private higher educational facility offering programs for international students
+Former schools
+King Fahd Academy, private Islamic school in Bad Godesberg
+
+Demographics
+As of 2011, Bonn had a population of 327,913.
+5. Score: 0.8178 | 
+
+Private schools
+Aloisiuskolleg, a Jesuit private school in Bad Godesberg with boarding facilities
+Amos-Comenius-Gymnasium, a Protestant private school in Bad Godesberg
+Bonn International School (BIS), a private English-speaking school set in the former American Compound in the Rheinaue, which offers places from kindergarten to 12th grade.
+6. Score: 0.8113 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+7. Score: 0.8095 | 
+
+Education
+The Rheinische Friedrich Wilhelms Universität Bonn (University of Bonn) is one of the largest universities in Germany.
+8. Score: 0.8085 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+9. Score: 0.8073 |  The title of Federal City (German: Bundesstadt) reflects its important political status within Germany.
+10. Score: 0.8066 |  Within this governmental district, the city of Bonn is an urban district in its own right.
+
+Traditional Results:
+1. Score: 0.1460 | Education
+The Rheinische Friedrich Wilhelms Universität Bonn (University of Bonn) is one of the largest universities in Germany.
+2. Score: 0.1523 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+3. Score: 0.1715 | A total of 19 United Nations (UN) institutions operate from Bonn today.
+4. Score: 0.1725 | The city district of Bonn is a partner of the English university city of Oxford, England, UK (since 1947), of Budafok, District XXII of Budapest, Hungary (since 1991) and of Opole, Poland (officially since 1997; contacts were established 1954).
+5. Score: 0.1731 | Libysch Schule, private Arabic high school
+Independent Bonn International School, (IBIS) private primary school (serving from kindergarten, reception, and years 1 to 6)
+École de Gaulle - Adenauer, private French-speaking school serving grades pre-school ("maternelle") to grade 4 (CM1)
+Kardinal-Frings-Gymnasium (KFG), private catholic school of the Archdiocese of Cologne in Beuel
+Liebfrauenschule (LFS), private catholic school of the Archdiocese of Cologne
+Sankt-Adelheid-Gymnasium, private catholic school of the Archdiocese of Cologne in Beuel
+Clara-Fey-Gymnasium, private Catholic school of the Archdiocese of Cologne in Bad Godesberg
+Ernst-Kalkuhl-Gymnasium, private boarding and day school in Oberkassel
+Otto-Kühne-Schule ("PÄDA"), private day school in Bad Godesberg
+Collegium Josephinum Bonn ("CoJoBo"), private catholic day school
+Akademie für Internationale Bildung, private higher educational facility offering programs for international students
+Former schools
+King Fahd Academy, private Islamic school in Bad Godesberg
+
+Demographics
+As of 2011, Bonn had a population of 327,913.
+6. Score: 0.1792 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+7. Score: 0.1825 | Education
+Cologne is home to numerous universities and colleges, and host to some 72,000 students.
+8. Score: 0.1866 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+9. Score: 0.1869 | Affiliated with the University of Bonn, it is also a zoological research institution housing the Leibniz-Institut für Biodiversität der Tiere.
+10. Score: 0.1892 | The Deutsches Museum Bonn, affiliated with one of the world's foremost science museums, the Deutsches Museum in Munich, is an interactive science museum focusing on post-war German scientists, engineers, and inventions.
+================================================================================
+
+Query: What UN organizations are based in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8365 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+2. Score: 0.8335 |  The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+3. Score: 0.8181 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+4. Score: 0.8171 |  A total of 19 United Nations (UN) institutions operate from Bonn today.
+5. Score: 0.8151 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+6. Score: 0.8142 | 
+The global headquarters of Deutsche Post DHL and Deutsche Telekom, both DAX-listed corporations, are in Bonn.
+7. Score: 0.8056 | 
+The headquarters of the International Paralympic Committee has been located in Bonn since 1999.
+8. Score: 0.8046 | 
+The successful German Baseball team Bonn Capitals are also found in the city of Bonn.
+9. Score: 0.8021 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+10. Score: 0.8001 |  Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+
+Traditional Results:
+1. Score: 0.1006 | A total of 19 United Nations (UN) institutions operate from Bonn today.
+2. Score: 0.1074 | The city is home to the University of Bonn and a total of 20 United Nations institutions, the highest number in all of Germany.
+3. Score: 0.1622 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+4. Score: 0.1692 | International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+5. Score: 0.1740 | Moreover, the city of Bonn has developed a concept of international co-operation and maintains sustainability oriented project partnerships in addition to traditional city twinning, among others with Minsk in Belarus, Ulaanbaatar in Mongolia, Bukhara in Uzbekistan, Chengdu in China and La Paz in Bolivia.
+6. Score: 0.1794 | Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+7. Score: 0.1888 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+8. Score: 0.1889 | Education
+The Rheinische Friedrich Wilhelms Universität Bonn (University of Bonn) is one of the largest universities in Germany.
+9. Score: 0.1890 | Affiliated with the University of Bonn, it is also a zoological research institution housing the Leibniz-Institut für Biodiversität der Tiere.
+10. Score: 0.1892 | The headquarters of the International Paralympic Committee has been located in Bonn since 1999.
+================================================================================
+
+Query: How did Bonn become the capital of West Germany?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.9171 |  From 1949 to 1990, Bonn was the capital of West Germany.
+2. Score: 0.9064 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+3. Score: 0.9050 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+4. Score: 0.8963 |  It was the capital city of the Electorate of Cologne from 1597 to 1794, residence of the Archbishops and Prince-electors of Cologne.
+5. Score: 0.8923 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+6. Score: 0.8891 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+7. Score: 0.8866 |  Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+8. Score: 0.8817 |  Bonn was chosen because Adenauer and other prominent politicians intended to make Berlin the capital of the reunified Germany, and they felt that locating the capital in a major city like Frankfurt or Hamburg would imply a permanent capital and even weaken support in West Germany for reunification.
+9. Score: 0.8767 |  Bonn's time as the capital of West Germany is commonly referred to as the Bonn Republic, in contrast to the Berlin Republic which followed reunification in 1990.
+10. Score: 0.8726 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+
+Traditional Results:
+1. Score: 0.0770 | From 1949 to 1990, Bonn was the capital of West Germany.
+2. Score: 0.1021 | Bonn's time as the capital of West Germany is commonly referred to as the Bonn Republic, in contrast to the Berlin Republic which followed reunification in 1990.
+3. Score: 0.1041 | Following the advocacy of West Germany's first chancellor, Konrad Adenauer, a former Cologne Mayor and a native of that area, Bonn became the de facto capital, officially designated the "temporary seat of the Federal institutions," of the newly formed Federal Republic of Germany in 1949.
+4. Score: 0.1068 | Bonn was chosen because Adenauer and other prominent politicians intended to make Berlin the capital of the reunified Germany, and they felt that locating the capital in a major city like Frankfurt or Hamburg would imply a permanent capital and even weaken support in West Germany for reunification.
+5. Score: 0.1091 | The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+6. Score: 0.1296 | With Bonn being chosen as the provisional federal capital (provisorische Bundeshauptstadt) and seat of the government of the Federal Republic of Germany (then informally West Germany), Cologne benefited by being sandwiched between two important political centres.
+7. Score: 0.1309 | As the political centre of West Germany, Bonn saw six Chancellors and six Presidents of the Federal Republic of Germany.
+8. Score: 0.1365 | The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+9. Score: 0.1485 | Transportation
+Air traffic
+Named after Konrad Adenauer, the first post-war Chancellor of West Germany, Cologne Bonn Airport is situated 15 kilometres (9.3 miles) north-east from the city centre of Bonn.
+10. Score: 0.1517 | Bonn (German pronunciation: [bɔn] ) is a federal city in the German state of North Rhine-Westphalia, located on the banks of the Rhine.
+================================================================================
+
+Query: What are the main leisure areas in Bonn?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8330 | 
+
+Nature
+There are several parks, leisure and protected areas in and around Bonn.
+2. Score: 0.8166 | 
+The successful German Baseball team Bonn Capitals are also found in the city of Bonn.
+3. Score: 0.8129 | 
+
+Geography
+Topography
+Situated in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area with over 11 million inhabitants, Bonn lies within the German state of North Rhine-Westphalia, on the border with Rhineland-Palatinate.
+4. Score: 0.8055 |  Spanning an area of more 141.2 km2 (55 sq mi) on both sides of the river Rhine, almost three-quarters of the city lies on the river's left bank.
+5. Score: 0.8038 | 
+Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+6. Score: 0.8013 | 
+
+International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+7. Score: 0.8010 |  Birthplace of composer Ludwig van Beethoven, a center of Rhenish carnival, and its geography by the Middle Rhine make it an important tourist destination.
+8. Score: 0.7990 |  These institutions include the headquarters for Secretariat of the UN Framework Convention Climate Change (UNFCCC), the Secretariat of the UN Convention to Combat Desertification (UNCCD), and the UN Volunteers programme.
+9. Score: 0.7971 | 
+To the south and to the west, Bonn borders the Eifel region which encompasses the Rhineland Nature Park.
+10. Score: 0.7966 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+
+Traditional Results:
+1. Score: 0.1015 | Nature
+There are several parks, leisure and protected areas in and around Bonn.
+2. Score: 0.1618 | Nearby Bonn is linked by both the Stadtbahn and main line railway trains, with occasional recreational boats on the Rhine.
+3. Score: 0.1626 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+4. Score: 0.1642 | About 24 km (15 mi) south-southeast of Cologne, Bonn is in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area and the second biggest metropolitan region by GDP in the European Union, with over 11 million inhabitants.
+5. Score: 0.1654 | The Rheinaue is Bonn's most important leisure park, with its role being comparable to what Central Park is for New York City.
+6. Score: 0.1658 | Geography
+Topography
+Situated in the southernmost part of the Rhine-Ruhr region, Germany's largest metropolitan area with over 11 million inhabitants, Bonn lies within the German state of North Rhine-Westphalia, on the border with Rhineland-Palatinate.
+7. Score: 0.1690 | Rail and bus system
+Bonn's central railway station, Bonn Hauptbahnhof is the city's main public transportation hub.
+8. Score: 0.1757 | The geographical centre of Bonn is the Bundeskanzlerplatz (Chancellor Square) in Bonn-Gronau.
+9. Score: 0.1836 | In the south of the Cologne lowland in the Rhine valley, Bonn is in one of Germany's warmest regions.
+10. Score: 0.1861 | The third largest employer in the city of Bonn is the University of Bonn (including the university clinics) and Stadtwerke Bonn also follows as a major employer.
+================================================================================
+
+Query: What is Bonn's connection to Beethoven?
+--------------------------------------------------------------------------------
+
+Late Chunking Results:
+1. Score: 0.8307 | 
+Due to a political compromise (Berlin-Bonn Act) following the reunification, the German federal government maintains a substantial presence in Bonn.
+2. Score: 0.8299 |  The era when Bonn served as the capital of West Germany is referred to by historians as the Bonn Republic.
+3. Score: 0.8208 |  In addition he was a patron of the young Ludwig van Beethoven, who was born in Bonn in 1770; the elector financed the composer's first journey to Vienna.
+4. Score: 0.8182 | 
+Founded in the 1st century BC as an Ubii and then Roman settlement in the province Germania Inferior, Bonn is one of Germany's oldest cities.
+5. Score: 0.8180 |  Birthplace of composer Ludwig van Beethoven, a center of Rhenish carnival, and its geography by the Middle Rhine make it an important tourist destination.
+6. Score: 0.8176 |  From 1949 to 1990, Bonn was the capital of West Germany.
+7. Score: 0.8140 |  It was the capital city of the Electorate of Cologne from 1597 to 1794, residence of the Archbishops and Prince-electors of Cologne.
+8. Score: 0.8044 | 
+
+International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+9. Score: 0.8040 |  The city served as the capital of West Germany from its formation in 1949 until 1990 and as the capital of reunited Germany from 1990 until 1999 when the seat of government was moved back to Berlin.
+10. Score: 0.8022 |  Roughly a third of all ministerial jobs are located in Bonn as of 2019, and the city is considered a second, unofficial, capital of the country.
+
+Traditional Results:
+1. Score: 0.1733 | The Beethoven Monument stands on the Münsterplatz, which is flanked by the Bonn Minster, one of Germany's oldest churches.
+2. Score: 0.1761 | Culture
+Beethoven's birthplace is located in Bonngasse near the market place.
+3. Score: 0.1822 | Other museums include the Beethoven House, birthplace of Ludwig van Beethoven, the Rheinisches Landesmuseum Bonn (Rhinish Regional Museum Bonn), the Bonn Women's Museum, the Rheinisches Malermuseum and the Arithmeum.
+4. Score: 0.1866 | The airport is shared with the neighbouring city of Bonn.
+5. Score: 0.1879 | Bonn is part of the Verkehrsverbund Rhein-Sieg (Rhine-Sieg Transport Association) which is the public transport association covering the area of the Cologne/Bonn Region.
+6. Score: 0.1886 | International relations
+Since 1983, the City of Bonn has established friendship relations with the City of Tel Aviv, Israel, and since 1988 Bonn, in former times the residence of the Princes Electors of Cologne, and Potsdam, Germany, the formerly most important residential city of the Prussian rulers, have established a city-to-city partnership.
+7. Score: 0.1895 | Nearby Bonn is linked by both the Stadtbahn and main line railway trains, with occasional recreational boats on the Rhine.
+8. Score: 0.1943 | Bonn has a Stadtbahn light rail and a tram system.
+9. Score: 0.1944 | Another long-distance station, (Siegburg/Bonn), is located in the nearby town of Siegburg and serves as Bonn's station on the high-speed rail line between Cologne and Frankfurt, offering faster connections to Southern Germany.
+10. Score: 0.1954 | Bonn is the secondary seat of the President, the Chancellor, and the Bundesrat, and the primary seat of six federal government ministries and twenty federal authorities.
+================================================================================

@@ -1,0 +1,7 @@
+transformers
+torch
+numpy
+faiss-cpu
+tqdm
+wikipedia-api==0.6.0
+chromadb
