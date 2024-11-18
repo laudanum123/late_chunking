@@ -1,4 +1,17 @@
-embedding_models:
+# Configuration for Late Chunking RAG Comparison
+
+# Model configuration
+model:
+  name: "jinaai/jina-embeddings-v2-base-en"
+  type: "huggingface"
+  embedding_size: 768
+  max_length: 8192
+
+# Default embedder to use
+default_embedder: "jina"
+
+# Embedder configurations
+embedders:
   jina:
     name: "jinaai/jina-embeddings-v2-base-en"
     type: "huggingface"
@@ -11,4 +24,6 @@ embedding_models:
     max_length: 8191
     api_key: "${OPENAI_API_KEY}"  # Will be loaded from environment variable
 
-default_model: "jina"  # Can be "jina" or "openai"
+# Output configuration
+output_dir: "output"
+cache_dir: "cache"  # Optional cache directory for model downloads

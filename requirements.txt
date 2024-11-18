@@ -1,6 +1,6 @@
-torch==2.0.1
-transformers==4.31.0
-numpy==1.24.3
+torch>=2.0.0
+transformers>=4.30.0
+numpy>=1.24.0
 tqdm==4.65.0
 scikit-learn==1.2.2
 matplotlib==3.7.1
@@ -9,6 +9,7 @@ plotly==5.16.1
 pandas==2.0.3
 openai==0.28.1
 pyyaml==6.0.1
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 wikipedia-api==0.6.0
-faiss-cpu
+faiss-cpu>=1.7.4
+pydantic>=2.0.0
