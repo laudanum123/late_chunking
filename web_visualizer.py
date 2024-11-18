@@ -2,32 +2,51 @@ from flask import Flask, render_template, jsonify, request
 import numpy as np
 from sklearn.manifold import TSNE
 import plotly.express as px
-import plotly.utils
 import json
 import pandas as pd
-from rag_comparison import FaissVectorStore
-from embedders import load_config
+from pathlib import Path
+import faiss
+import pickle
+import logging
+
+from late_chunking.embedders import EmbeddingConfig
+from late_chunking.rag_comparison import RAGComparison
 
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 
 def load_embedding_data(model_name=None):
     """Load embedding data from saved vector stores"""
-    store_suffix = f"_{model_name}" if model_name else ""
-    late_chunking_store = FaissVectorStore.load(f"vector_stores/late_chunking{store_suffix}")
-    traditional_store = FaissVectorStore.load(f"vector_stores/traditional{store_suffix}")
+    vector_store_dir = Path("vector_stores") / "comprehensive_comparison"
+    late_store_path = vector_store_dir / "late_chunking"
+    trad_store_path = vector_store_dir / "traditional"
     
-    if late_chunking_store is None or traditional_store is None:
-        raise ValueError(f"Vector stores not found for model {model_name}. Please run rag_comparison.py first.")
-    
-    return late_chunking_store, traditional_store
+    # Load FAISS indices and chunks
+    try:
+        # Load traditional store
+        trad_index = faiss.read_index(str(trad_store_path / "index.faiss"))
+        with open(trad_store_path / "chunks.pkl", 'rb') as f:
+            trad_chunks = pickle.load(f)
+            
+        # Load late chunking store
+        late_index = faiss.read_index(str(late_store_path / "index.faiss"))
+        with open(late_store_path / "chunks.pkl", 'rb') as f:
+            late_chunks = pickle.load(f)
+            
+        return {
+            'traditional': {'index': trad_index, 'chunks': trad_chunks},
+            'late_chunking': {'index': late_index, 'chunks': late_chunks}
+        }
+    except Exception as e:
+        raise ValueError(f"Error loading vector stores: {str(e)}. Please run comprehensive_comparison.py first.")
 
-def create_visualization_data(store, title):
+def create_visualization_data(store_data, title):
     """Create Plotly visualization data from a vector store"""
     # Get all embeddings from the FAISS index
-    num_vectors = store.index.ntotal
-    embeddings = np.zeros((num_vectors, store.embedding_size))
+    num_vectors = store_data['index'].ntotal
+    embeddings = np.zeros((num_vectors, store_data['index'].d))
     for i in range(num_vectors):
-        embeddings[i] = store.index.reconstruct(i)
+        embeddings[i] = store_data['index'].reconstruct(i)
     
     # Reduce dimensionality with t-SNE
     tsne = TSNE(n_components=2, random_state=42, perplexity=min(30, len(embeddings)-1))
@@ -37,8 +56,8 @@ def create_visualization_data(store, title):
     df = pd.DataFrame({
         'x': reduced_embeddings[:, 0],
         'y': reduced_embeddings[:, 1],
-        'doc_id': [chunk[3] for chunk in store.chunks],
-        'text': [chunk[0] for chunk in store.chunks]
+        'doc_id': [chunk.doc_id for chunk in store_data['chunks']],
+        'text': [chunk.text for chunk in store_data['chunks']]
     })
     
     # Create Plotly figure
@@ -82,25 +101,21 @@ def create_visualization_data(store, title):
 
 @app.route('/')
 def index():
-    # Load available models from config
-    config = load_config()
-    models = list(config['embedding_models'].keys())
-    return render_template('visualizer.html', models=models)
+    return render_template('visualizer.html')
 
 @app.route('/get_visualizations')
 def get_visualizations():
     try:
-        model = request.args.get('model', None)
-        late_chunking_store, traditional_store = load_embedding_data(model)
+        stores = load_embedding_data()
         
         late_chunking_viz = create_visualization_data(
-            late_chunking_store, 
-            f"Late Chunking Embeddings ({model if model else 'default'})"
+            stores['late_chunking'], 
+            "Late Chunking Embeddings"
         )
         
         traditional_viz = create_visualization_data(
-            traditional_store,
-            f"Traditional Chunking Embeddings ({model if model else 'default'})"
+            stores['traditional'],
+            "Traditional Chunking Embeddings"
         )
         
         return jsonify({
