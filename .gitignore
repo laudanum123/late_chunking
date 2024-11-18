@@ -8,3 +8,17 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Environment variables
+.env
+
+# vector store
+vector_stores/
+
+# output files
+visualizations/
+comparison_results.txt
+late_chunking_embeddings.png
+traditional_embeddings.png
+
+comparison_results.txt

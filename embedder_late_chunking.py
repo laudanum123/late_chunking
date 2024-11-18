@@ -132,39 +132,37 @@ class LateChunkingEmbedder:
 
     def embed_text(self, text: str) -> List[ChunkWithEmbedding]:
         """
-        Embed text using late chunking approach, returning chunks with their embeddings
-        and character positions. Handles texts exceeding maximum context size through
-        macro-chunking.
+        Embed text using late chunking approach.
+        Returns list of ChunkWithEmbedding objects.
         """
-        # First split into macro chunks if needed
-        macro_chunks = self._create_macro_chunks(text)
-        all_results = []
+        chunks = []
         
-        for chunk_text, chunk_start in macro_chunks:
-            # Get chunks and their spans for this macro chunk
-            chunks, token_spans, char_spans = self._chunk_by_sentences(chunk_text)
+        # Process text in macro chunks
+        for chunk_text, chunk_start in self._create_macro_chunks(text):
+            # Get sentence chunks and their spans
+            sentence_chunks, token_spans, char_spans = self._chunk_by_sentences(chunk_text)
             
-            # Get contextualized embeddings
+            # Adjust character spans based on chunk start position
+            char_spans = [(start + chunk_start, end + chunk_start) for start, end in char_spans]
+            
+            # Get embeddings for all sentences in this chunk
             inputs = self.tokenizer(chunk_text, return_tensors='pt').to(self.device)
             with torch.no_grad():
-                model_output = self.model(**inputs)
+                outputs = self.model(**inputs)
             
             # Create embeddings using late chunking
-            embeddings = self._late_chunking(model_output, token_spans)
+            embeddings = self._late_chunking(outputs, token_spans)
             
-            # Combine chunks with their embeddings and spans
-            # Adjust character positions based on macro chunk start position
-            for chunk, embedding, (start_char, end_char) in zip(chunks, embeddings, char_spans):
-                all_results.append(
-                    ChunkWithEmbedding(
-                        text=chunk,
-                        embedding=embedding,
-                        start_char=chunk_start + start_char,
-                        end_char=chunk_start + end_char
-                    )
-                )
+            # Create ChunkWithEmbedding objects
+            for chunk, embedding, (start, end) in zip(sentence_chunks, embeddings, char_spans):
+                chunks.append(ChunkWithEmbedding(
+                    text=chunk,
+                    embedding=embedding,
+                    start_char=start,
+                    end_char=end
+                ))
         
-        return all_results
+        return chunks
 
     def embed_query(self, query: str) -> np.ndarray:
         """
@@ -187,24 +185,3 @@ class LateChunkingEmbedder:
         Assumes embeddings are already L2 normalized.
         """
         return np.dot(embedding1, embedding2)
-
-# Example usage
-if __name__ == "__main__":
-    embedder = LateChunkingEmbedder()
-    
-    input_text = "Berlin is the capital and largest city of Germany, both by area and by population. Its more than 3.85 million inhabitants make it the European Union's most populous city, as measured by population within city limits. The city is also one of the states of Germany, and is the third smallest state in the country in terms of area."
-    
-    # Get chunks with embeddings
-    chunks_with_embeddings = embedder.embed_text(input_text)
-    
-    # Example query
-    query = "Berlin"
-    query_embedding = embedder.embed_query(query)
-    
-    # Print chunks and their similarities with the query
-    print(f"Query: {query}\n")
-    print("Chunks and their similarities:")
-    for chunk in chunks_with_embeddings:
-        similarity = embedder.compute_similarity(query_embedding, chunk.embedding)
-        print(f'Chunk: "{chunk.text}"')
-        print(f'Similarity: {similarity:.4f}\n')

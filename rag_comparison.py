@@ -3,14 +3,15 @@ os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
 
 from embedder_late_chunking import LateChunkingEmbedder
 import numpy as np
-from dataclasses import dataclass
-from typing import List, Dict, Tuple
 import faiss
-import chromadb
-from chromadb.utils import embedding_functions
-from transformers import AutoTokenizer, AutoModel
-import torch
+import pickle
+import argparse
+from typing import List, Tuple, Dict, Optional
 from tqdm import tqdm
+import matplotlib.pyplot as plt
+from sklearn.manifold import TSNE
+from dataclasses import dataclass
+from embedders import create_embedder, load_config
 
 @dataclass
 class Document:
@@ -26,59 +27,6 @@ class SearchResult:
     char_start: int = None
     char_end: int = None
 
-class TraditionalEmbedder:
-    def __init__(self, model_name: str = 'jinaai/jina-embeddings-v2-base-en'):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-        self.model = AutoModel.from_pretrained(model_name, trust_remote_code=True)
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.model.to(self.device)
-        # Get embedding size from model config
-        self.embedding_size = self.model.config.hidden_size
-
-    def _chunk_text(self, text: str) -> List[str]:
-        """Use same sentence-based chunking as LateChunkingEmbedder"""
-        inputs = self.tokenizer(text, return_tensors='pt', return_offsets_mapping=True)
-        punctuation_mark_id = self.tokenizer.convert_tokens_to_ids('.')
-        sep_id = self.tokenizer.convert_tokens_to_ids('[SEP]')
-        token_offsets = inputs['offset_mapping'][0]
-        token_ids = inputs['input_ids'][0]
-        
-        # Find sentence boundaries and track both start and end positions
-        chunk_boundaries = []
-        current_start = 0
-        
-        for i, (token_id, (start, end)) in enumerate(zip(token_ids, token_offsets)):
-            if token_id == punctuation_mark_id and (
-                i + 1 < len(token_offsets) and (
-                    token_offsets[i + 1][0] - token_offsets[i][1] > 0
-                    or token_ids[i + 1] == sep_id
-                )
-            ):
-                chunk_boundaries.append((current_start, end))
-                if i + 1 < len(token_offsets):
-                    current_start = token_offsets[i + 1][0]
-        
-        # Add final chunk if there's remaining text
-        if current_start < token_offsets[-1][1]:
-            chunk_boundaries.append((current_start, token_offsets[-1][1]))
-            
-        # Create non-overlapping chunks using the boundaries
-        chunks = [text[start:end] for start, end in chunk_boundaries]
-        return chunks
-
-    def embed_chunks(self, chunks: List[str]) -> np.ndarray:
-        embeddings = []
-        for chunk in chunks:
-            inputs = self.tokenizer(chunk, return_tensors='pt', padding=True, truncation=True).to(self.device)
-            with torch.no_grad():
-                outputs = self.model(**inputs)
-                # Mean pooling
-                embedding = outputs[0][0].mean(dim=0)
-                # L2 normalize
-                embedding = embedding / torch.norm(embedding)
-                embeddings.append(embedding.cpu().numpy())
-        return np.array(embeddings)
-
 class FaissVectorStore:
     def __init__(self, embedding_size: int):
         # Always use cosine similarity
@@ -86,6 +34,7 @@ class FaissVectorStore:
         self.documents: List[Document] = []
         self.chunks: List[Tuple[str, int, int, str]] = []  # (chunk_text, start, end, doc_id)
         self.duplicate_threshold = 0.95
+        self.embedding_size = embedding_size
 
     def _find_duplicates(self, embeddings: np.ndarray) -> np.ndarray:
         """
@@ -106,6 +55,11 @@ class FaissVectorStore:
     def add_embeddings(self, embeddings: np.ndarray, chunks: List[Tuple[str, int, int, str]]):
         if len(embeddings) == 0:
             return
+            
+        # Convert embeddings to float32 and ensure correct shape
+        embeddings = np.array(embeddings, dtype=np.float32)
+        if len(embeddings.shape) == 1:
+            embeddings = embeddings.reshape(1, -1)
             
         # Normalize embeddings for cosine similarity
         faiss.normalize_L2(embeddings)
@@ -150,64 +104,44 @@ class FaissVectorStore:
                 ))
         return results
 
-class ChromaVectorStore:
-    def __init__(self, embedding_size: int):
-        self.client = chromadb.Client()
-        self.collection = self.client.create_collection(
-            name="traditional_chunks",
-            metadata={"hnsw:space": "cosine"}
-        )
-        self.chunks: List[Tuple[str, int, int, str]] = []
-        self.duplicate_threshold = 0.95
+    def save(self, filepath: str):
+        """Save the vector store to disk"""
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        
+        # Save the index
+        faiss.write_index(self.index, f"{filepath}.index")
+        
+        # Save the chunks and other attributes
+        state = {
+            'chunks': self.chunks,
+            'documents': self.documents,
+            'duplicate_threshold': self.duplicate_threshold,
+            'embedding_size': self.embedding_size
+        }
+        with open(f"{filepath}.state", 'wb') as f:
+            pickle.dump(state, f)
 
-    def add_embeddings(self, embeddings: np.ndarray, chunks: List[Tuple[str, int, int, str]]):
-        if len(embeddings) == 0:
-            return
+    @classmethod
+    def load(cls, filepath: str) -> Optional['FaissVectorStore']:
+        """Load the vector store from disk"""
+        if not (os.path.exists(f"{filepath}.index") and os.path.exists(f"{filepath}.state")):
+            return None
             
-        # Convert embeddings to list format for Chroma
-        embeddings_list = embeddings.tolist()
+        # Load the state
+        with open(f"{filepath}.state", 'rb') as f:
+            state = pickle.load(f)
+            
+        # Create instance and restore state
+        instance = cls(state['embedding_size'])
+        instance.chunks = state['chunks']
+        instance.documents = state['documents']
+        instance.duplicate_threshold = state['duplicate_threshold']
         
-        # Generate IDs for the chunks
-        ids = [str(i + len(self.chunks)) for i in range(len(chunks))]
+        # Load the index
+        instance.index = faiss.read_index(f"{filepath}.index")
         
-        # Add embeddings to Chroma
-        self.collection.add(
-            embeddings=embeddings_list,
-            documents=[chunk[0] for chunk in chunks],
-            ids=ids,
-            metadatas=[{
-                "doc_id": chunk[3],
-                "char_start": chunk[1],
-                "char_end": chunk[2]
-            } for chunk in chunks]
-        )
-        
-        # Store chunks for reference
-        self.chunks.extend(chunks)
-
-    def search(self, query_embedding: np.ndarray, k: int = 5) -> List[SearchResult]:
-        # Ensure query_embedding is 2D and convert to list
-        query_embedding = query_embedding.reshape(1, -1)
-        
-        # Search in Chroma
-        results = self.collection.query(
-            query_embeddings=query_embedding.tolist(),
-            n_results=k
-        )
-        
-        # Convert results to SearchResult format
-        search_results = []
-        for i in range(len(results['ids'][0])):
-            metadata = results['metadatas'][0][i]
-            search_results.append(SearchResult(
-                document_id=metadata["doc_id"],
-                chunk_text=results['documents'][0][i],
-                score=float(results['distances'][0][i]),
-                char_start=metadata["char_start"],
-                char_end=metadata["char_end"]
-            ))
-        
-        return search_results
+        return instance
 
 def load_documents_from_directory(directory_path: str) -> List[Document]:
     """
@@ -243,7 +177,56 @@ def load_documents_from_directory(directory_path: str) -> List[Document]:
     
     return documents
 
-def compare_retrieval_quality(docs_directory: str = "documents"):
+def visualize_embeddings(embeddings: np.ndarray, doc_ids: List[str], title: str, output_file: str):
+    """
+    Create a 2D visualization of embeddings using t-SNE.
+    
+    Args:
+        embeddings (np.ndarray): Matrix of embeddings
+        doc_ids (List[str]): List of document IDs corresponding to each embedding
+        title (str): Title for the plot
+        output_file (str): Path to save the visualization
+    """
+    # Create t-SNE reducer
+    tsne = TSNE(n_components=2, random_state=42, perplexity=min(30, len(embeddings)-1))
+    
+    # Reduce dimensionality to 2D
+    reduced_embeddings = tsne.fit_transform(embeddings)
+    
+    # Create a mapping of unique document IDs to colors
+    unique_docs = list(set(doc_ids))
+    colors = plt.cm.rainbow(np.linspace(0, 1, len(unique_docs)))
+    doc_to_color = dict(zip(unique_docs, colors))
+    
+    # Create the plot
+    plt.figure(figsize=(12, 8))
+    
+    # Plot points colored by document
+    for doc_id in unique_docs:
+        mask = [d == doc_id for d in doc_ids]
+        points = reduced_embeddings[mask]
+        plt.scatter(points[:, 0], points[:, 1], 
+                   c=[doc_to_color[doc_id]], 
+                   label=doc_id,
+                   alpha=0.6)
+    
+    plt.title(title)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.tight_layout()
+    
+    # Save the plot
+    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.close()
+
+def compare_retrieval_quality(docs_directory: str = "documents", recompute: bool = False, model_name: str = None):
+    """
+    Compare retrieval quality between late chunking and traditional approaches.
+    
+    Args:
+        docs_directory (str): Directory containing the documents to process
+        recompute (bool): If True, recompute all embeddings. If False, try to load from disk.
+        model_name (str): Name of the embedding model to use (from config.yaml)
+    """
     # Create or open the output file
     with open('comparison_results.txt', 'w', encoding='utf-8') as f:
         f.write("RAG Comparison Results\n")
@@ -251,16 +234,30 @@ def compare_retrieval_quality(docs_directory: str = "documents"):
         
         print("Initializing embedders...")
         f.write("Initializing embedders...\n")
+        
+        # Create embedders using config
         late_chunking_embedder = LateChunkingEmbedder(max_length=8000)
-        traditional_embedder = TraditionalEmbedder()
+        traditional_embedder = create_embedder(model_name)
+        
+        print(f"Using embedding model: {traditional_embedder.__class__.__name__}")
+        f.write(f"Using embedding model: {traditional_embedder.__class__.__name__}\n")
 
-        # Get sample embedding size
-        sample_emb = traditional_embedder.embed_chunks(["test"])[0]
-        embedding_size = len(sample_emb)
+        # Try to load existing vector stores if not recomputing
+        late_chunking_store = None
+        traditional_store = None
+        
+        store_suffix = f"_{model_name}" if model_name else ""
+        
+        if not recompute:
+            print("\nTrying to load existing vector stores...")
+            late_chunking_store = FaissVectorStore.load(f"vector_stores/late_chunking{store_suffix}")
+            traditional_store = FaissVectorStore.load(f"vector_stores/traditional{store_suffix}")
 
-        # Initialize vector stores
-        late_chunking_store = FaissVectorStore(late_chunking_embedder.embedding_size)
-        traditional_store = FaissVectorStore(traditional_embedder.embedding_size)
+        # Initialize new stores if needed
+        if late_chunking_store is None:
+            late_chunking_store = FaissVectorStore(late_chunking_embedder.embedding_size)
+        if traditional_store is None:
+            traditional_store = FaissVectorStore(traditional_embedder.embedding_size)
 
         # Load documents from directory
         try:
@@ -271,30 +268,67 @@ def compare_retrieval_quality(docs_directory: str = "documents"):
             print(f"Error loading documents: {str(e)}")
             return
 
-        print("\nProcessing documents with late chunking approach...")
-        f.write("\nProcessing documents with late chunking approach...\n")
-        for doc in tqdm(documents):
-            # Late chunking approach
-            chunks_with_embeddings = late_chunking_embedder.embed_text(doc.text)
-            embeddings = np.array([c.embedding for c in chunks_with_embeddings])
-            chunks_info = [(c.text, c.start_char, c.end_char, doc.id) for c in chunks_with_embeddings]
-            late_chunking_store.add_embeddings(embeddings, chunks_info)
+        # Only process documents if recomputing or stores were not loaded
+        if recompute or len(late_chunking_store.chunks) == 0:
+            print("\nProcessing documents with late chunking approach...")
+            f.write("\nProcessing documents with late chunking approach...\n")
+            for doc in tqdm(documents):
+                chunks_with_embeddings = late_chunking_embedder.embed_text(doc.text)
+                embeddings = np.array([c.embedding for c in chunks_with_embeddings])
+                chunks_info = [(c.text, c.start_char, c.end_char, doc.id) for c in chunks_with_embeddings]
+                late_chunking_store.add_embeddings(embeddings, chunks_info)
+            
+            # Save the late chunking store
+            late_chunking_store.save(f"vector_stores/late_chunking{store_suffix}")
 
-        print("\nProcessing documents with traditional approach...")
-        f.write("\nProcessing documents with traditional approach...\n")
-        for doc in tqdm(documents):
-            # Traditional approach
-            chunks = traditional_embedder._chunk_text(doc.text)
-            embeddings = traditional_embedder.embed_chunks(chunks)
-            pos = 0
-            chunks_info = []
-            for chunk in chunks:
-                start = doc.text.find(chunk.strip("."), pos)
-                if start != -1:
-                    chunks_info.append((chunk, start, start + len(chunk), doc.id))
-                    pos = start + 1
-            traditional_store.add_embeddings(embeddings, chunks_info)
+        if recompute or len(traditional_store.chunks) == 0:
+            print("\nProcessing documents with traditional approach...")
+            f.write("\nProcessing documents with traditional approach...\n")
+            for doc in tqdm(documents):
+                chunks = traditional_embedder._chunk_text(doc.text)
+                embeddings = traditional_embedder.embed_chunks(chunks)
+                pos = 0
+                chunks_info = []
+                for chunk in chunks:
+                    start = doc.text.find(chunk.strip("."), pos)
+                    if start != -1:
+                        chunks_info.append((chunk, start, start + len(chunk), doc.id))
+                        pos = start + 1
+                traditional_store.add_embeddings(embeddings, chunks_info)
+            
+            # Save the traditional store
+            traditional_store.save(f"vector_stores/traditional{store_suffix}")
 
+        # Collect embeddings and document IDs for visualization from the vector stores
+        print("\nPreparing visualization data...")
+        late_chunking_embeddings = []
+        late_chunking_doc_ids = []
+        traditional_embeddings = []
+        traditional_doc_ids = []
+        
+        # Get embeddings from late chunking store
+        late_chunking_embeddings = late_chunking_store.index.reconstruct_n(0, late_chunking_store.index.ntotal)
+        late_chunking_doc_ids = [chunk[3] for chunk in late_chunking_store.chunks]  # doc_id is at index 3
+        
+        # Get embeddings from traditional store
+        traditional_embeddings = traditional_store.index.reconstruct_n(0, traditional_store.index.ntotal)
+        traditional_doc_ids = [chunk[3] for chunk in traditional_store.chunks]  # doc_id is at index 3
+            
+        # Create visualizations
+        print("\nCreating embedding visualizations...")
+        visualize_embeddings(
+            late_chunking_embeddings,
+            late_chunking_doc_ids,
+            "Late Chunking Embeddings Visualization",
+            f"visualizations/late_chunking_embeddings{store_suffix}.png"
+        )
+        visualize_embeddings(
+            traditional_embeddings,
+            traditional_doc_ids,
+            "Traditional Embeddings Visualization",
+            f"visualizations/traditional_embeddings{store_suffix}.png"
+        )
+        
         # Test queries targeting different aspects of the text
         test_queries = [
             "What is the current population of New York City and how does it compare to other US cities?",
@@ -382,5 +416,13 @@ def compare_retrieval_quality(docs_directory: str = "documents"):
         print("\nResults have been saved to 'comparison_results.txt'")
 
 if __name__ == "__main__":
-    # You can specify a different directory by passing it as an argument
-    compare_retrieval_quality("documents")
+    parser = argparse.ArgumentParser(description='Compare RAG retrieval quality with different chunking approaches')
+    parser.add_argument('--docs_directory', type=str, default="documents",
+                      help='Directory containing the documents to process')
+    parser.add_argument('--recompute', action='store_true',
+                      help='Force recomputation of embeddings instead of loading from disk')
+    parser.add_argument('--model', type=str, default=None,
+                      help='Name of the embedding model to use (from config.yaml)')
+    
+    args = parser.parse_args()
+    compare_retrieval_quality(args.docs_directory, args.recompute, args.model)
