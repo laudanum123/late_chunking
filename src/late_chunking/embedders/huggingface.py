@@ -2,14 +2,19 @@
 import torch
 from transformers import AutoTokenizer, AutoModel
 import numpy as np
-from typing import List
+from typing import List, Optional
 from pathlib import Path
 import logging
 import faiss
 import pickle
 
-from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProcessError
-from .vector_store import ChunkWithEmbedding
+from .base import (
+    BaseEmbedder,
+    EmbeddingConfig,
+    ModelLoadError,
+    EmbeddingProcessError,
+    ChunkWithEmbedding
+)
 from ..chunkers import TokenizerBasedSentenceChunker, ChunkMetadata
 
 logger = logging.getLogger(__name__)
@@ -17,13 +22,14 @@ logger = logging.getLogger(__name__)
 class HuggingFaceEmbedder(BaseEmbedder):
     """Embedder implementation using HuggingFace models."""
     
-    def __init__(self, config: EmbeddingConfig):
+    def __init__(self, config: EmbeddingConfig, vector_store_dir: Optional[str] = None):
         """Initialize the embedder.
         
         Args:
             config: Configuration for the embedder
+            vector_store_dir: Optional path to vector store directory
         """
-        super().__init__(config)
+        super().__init__(config, vector_store_dir)
         self.tokenizer = None
         self.model = None
         self.device = None
@@ -31,26 +37,31 @@ class HuggingFaceEmbedder(BaseEmbedder):
         self.index = None
         self.vector_store_path = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
-        self.chunker = None
-
-    async def __aenter__(self):
-        """Async context manager entry."""
+        
+        # Initialize model and chunker
+        self._initialize_model()
+        self.chunker = TokenizerBasedSentenceChunker(self.tokenizer)
+        
+    def _initialize_model(self):
+        """Initialize the model and tokenizer."""
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(
-                self.config.name, 
+                self.config.name,
                 trust_remote_code=True
             )
             self.model = AutoModel.from_pretrained(
-                self.config.name, 
+                self.config.name,
                 trust_remote_code=True
             )
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
             self.model.to(self.device)
-            self.chunker = TokenizerBasedSentenceChunker(self.tokenizer)
             logger.info(f"Model loaded successfully on {self.device}")
-            return self
         except Exception as e:
             raise ModelLoadError(f"Failed to load model: {str(e)}") from e
+
+    async def __aenter__(self):
+        """Async context manager entry."""
+        return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit."""
@@ -89,95 +100,84 @@ class HuggingFaceEmbedder(BaseEmbedder):
         except Exception as e:
             logger.warning(f"Error saving vector store: {str(e)}")
 
-    def _chunk_by_sentences(self, input_text: str) -> List[str]:
-        """Split text into sentences.
+    async def chunk_text(self, text: str) -> List[ChunkMetadata]:
+        """Chunk text into sentences.
         
         Args:
-            input_text: Text to split into sentences
+            text: Text to chunk
             
+        Returns:
+            List of chunk metadata
+        """
+        return self.chunker.chunk_text(text)
+
+    def _chunk_by_sentences(self, chunk: ChunkMetadata) -> List[str]:
+        """Split text into sentences.
+
+        Args:
+            chunk: Chunk metadata to split into sentences
+
         Returns:
             List of sentence chunks
         """
-        chunks = self.chunker.chunk_text(input_text, return_tokens=False)
-        return [chunk.text for chunk in chunks]
+        return [chunk.text] if isinstance(chunk, ChunkMetadata) else self.chunker.chunk_text(chunk, return_tokens=False)
 
-    async def embed_chunks(self, chunks: List[str]) -> List[ChunkWithEmbedding]:
-        """Embed a list of text chunks asynchronously.
+    async def embed_chunks(self, chunks: List[ChunkMetadata]) -> List[ChunkWithEmbedding]:
+        """Embed a list of text chunks.
         
         Args:
             chunks: List of text chunks to embed
             
         Returns:
-            List of chunks with embeddings
-        """
-        try:
-            all_chunks = []
-            for text in chunks:
-                sentence_chunks = self._chunk_by_sentences(text)
-                all_chunks.extend([c for c in sentence_chunks if c.strip()])
+            List of chunk embeddings
             
-            # Check if we have these chunks in the vector store
-            if self._load_vector_store():
-                # Check if all chunks are in the store
-                all_found = all(chunk in self.chunks for chunk in all_chunks)
-                if all_found:
-                    logger.info("Using cached embeddings from vector store")
-                    chunk_embeddings = []
-                    for chunk in all_chunks:
-                        idx = self.chunks.index(chunk)
-                        embedding = self.index.reconstruct(idx)
-                        chunk_embeddings.append(
-                            ChunkWithEmbedding(text=chunk, embedding=embedding)
-                        )
-                    return chunk_embeddings
-        
-            # If not in vector store, compute embeddings
-            try:
-                # Process in batches
-                embeddings = []
+        Raises:
+            EmbeddingProcessError: If embedding fails
+        """
+        if not chunks:
+            return []
+            
+        try:
+            # Process chunks in batches
+            all_embeddings = []
+            for i in range(0, len(chunks), self.batch_size):
+                batch = chunks[i:i + self.batch_size]
+                batch_texts = [chunk.text for chunk in batch]
                 
-                for i in range(0, len(all_chunks), self.batch_size):
-                    batch = all_chunks[i:i + self.batch_size]
-                    
-                    # Tokenize and get embeddings
-                    inputs = self.tokenizer(
-                        batch,
-                        padding=True,
-                        truncation=True,
-                        max_length=self.config.max_length,
-                        return_tensors="pt"
-                    ).to(self.device)
-                    
-                    with torch.no_grad():
-                        outputs = self.model(**inputs)
-                        
-                    # Use mean pooling to get embeddings
+                # Tokenize and encode
+                inputs = self.tokenizer(
+                    batch_texts,
+                    padding=True,
+                    truncation=True,
+                    max_length=self.config.max_length,
+                    return_tensors="pt"
+                ).to(self.device)
+                
+                # Get embeddings
+                with torch.no_grad():
+                    outputs = self.model(**inputs)
+                    # Use mean pooling
                     attention_mask = inputs["attention_mask"]
                     token_embeddings = outputs.last_hidden_state
                     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
                     embeddings_sum = torch.sum(token_embeddings * input_mask_expanded, 1)
                     mask_sum = torch.clamp(input_mask_expanded.sum(1), min=1e-9)
-                    batch_embeddings = (embeddings_sum / mask_sum).cpu().numpy()
+                    embeddings = (embeddings_sum / mask_sum).cpu().numpy()
                     
-                    # Normalize embeddings
-                    batch_embeddings = batch_embeddings / np.linalg.norm(batch_embeddings, axis=1, keepdims=True)
-                    embeddings.extend(batch_embeddings)
+                # Normalize embeddings
+                embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
                 
-                # Create ChunkWithEmbedding objects
-                chunk_embeddings = [
-                    ChunkWithEmbedding(text=chunk, embedding=embedding)
-                    for chunk, embedding in zip(all_chunks, embeddings)
-                ]
-                
-                # Add embeddings to vector store
-                embeddings_array = np.array([e for e in embeddings])
-                self._add_embeddings(embeddings_array, chunk_embeddings)
-                
-                return chunk_embeddings
-                
-            except Exception as e:
-                raise EmbeddingProcessError(f"Failed to embed chunks: {str(e)}") from e
-
+                # Create ChunkWithEmbedding instances
+                for chunk, embedding in zip(batch, embeddings):
+                    all_embeddings.append(ChunkWithEmbedding(
+                        text=chunk.text,
+                        embedding=embedding,
+                        char_span=chunk.char_span,
+                        token_span=chunk.token_span
+                    ))
+                    
+            return all_embeddings
+            
         except Exception as e:
             raise EmbeddingProcessError(f"Failed to embed chunks: {str(e)}") from e
 

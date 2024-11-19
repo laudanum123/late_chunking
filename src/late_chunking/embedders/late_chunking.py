@@ -2,7 +2,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModel
 import numpy as np
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Type
 import logging
 from pathlib import Path
 import faiss
@@ -10,20 +10,35 @@ import pickle
 
 from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProcessError
 from .vector_store import ChunkWithEmbedding
-from ..chunkers import TokenizerBasedSentenceChunker, ChunkMetadata
+from ..chunkers import (
+    Chunker,
+    TokenizerBasedSentenceChunker,
+    FixedTokenChunker,
+    ParagraphChunker,
+    ChunkMetadata
+)
 
 logger = logging.getLogger(__name__)
 
 class LateChunkingEmbedder(BaseEmbedder):
     """Embedder using late chunking strategy."""
     
-    def __init__(self, config: EmbeddingConfig):
+    def __init__(
+        self,
+        config: EmbeddingConfig,
+        vector_store_dir: Optional[str] = None,
+        chunker_class: Type[Chunker] = TokenizerBasedSentenceChunker,
+        chunker_params: Optional[dict] = None
+    ):
         """Initialize late chunking embedder.
         
         Args:
             config: EmbeddingConfig instance
+            vector_store_dir: Optional path to vector store directory
+            chunker_class: Chunking strategy class to use (default: TokenizerBasedSentenceChunker)
+            chunker_params: Optional parameters for the chunker
         """
-        super().__init__(config)
+        super().__init__(config, vector_store_dir)
         self.tokenizer = None
         self.model = None
         self.device = None
@@ -31,7 +46,9 @@ class LateChunkingEmbedder(BaseEmbedder):
         self.index = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
         self.vector_store_path = None
-        self.chunker = None  # Initialize chunker
+        self.chunker_class = chunker_class
+        self.chunker_params = chunker_params or {}
+        self.chunker = None
 
     def set_vector_store_path(self, path: Path):
         """Set the path for vector store operations."""
@@ -50,7 +67,16 @@ class LateChunkingEmbedder(BaseEmbedder):
             )
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
             self.model.to(self.device)
-            self.chunker = TokenizerBasedSentenceChunker(self.tokenizer)
+            
+            # Initialize chunker with tokenizer and any additional params
+            if self.chunker_class == TokenizerBasedSentenceChunker:
+                self.chunker = self.chunker_class(self.tokenizer)
+            else:
+                self.chunker = self.chunker_class(
+                    tokenizer=self.tokenizer,
+                    **self.chunker_params
+                )
+            
             logger.info(f"Late chunking embedder initialized on {self.device}")
             return self
         except Exception as e:
@@ -134,80 +160,88 @@ class LateChunkingEmbedder(BaseEmbedder):
             
         return chunks
 
-    async def embed_chunks(self, chunks: List[str]) -> List[ChunkWithEmbedding]:
-        """Embed a list of text chunks using late chunking.
+    async def chunk_text(self, text: str) -> List[ChunkMetadata]:
+        """Chunk text using the configured chunking strategy.
         
         Args:
-            chunks: List of text chunks to embed
+            text: Text to chunk
+            
+        Returns:
+            List of chunk metadata
+        """
+        if not self.chunker:
+            raise ValueError("Chunker not initialized. Use embedder as context manager.")
+        return self.chunker.chunk_text(text)
+
+    async def embed_chunks(self, chunks: List[ChunkMetadata]) -> List[ChunkWithEmbedding]:
+        """Embed chunks using late chunking strategy.
+        
+        This method first embeds the full context for each token, then pools
+        the token embeddings according to the chunk boundaries.
+        
+        Args:
+            chunks: List of chunks to embed
             
         Returns:
             List of chunks with embeddings
         """
         if not chunks:
             return []
-            
-        # First, process all chunks to get sentence-level chunks
-        all_sentence_chunks = []
-        for text in chunks:
-            # Process text in macro chunks
-            sentence_count = 0
-            for chunk_text, _ in self._create_macro_chunks(text):
-                sentence_chunks, _, _ = self._chunk_by_sentences(chunk_text)
-                sentence_count += len(sentence_chunks)
-                all_sentence_chunks.extend([c for c in sentence_chunks if c.strip()])
-            logger.info(f"Split document into {sentence_count} sentence-level chunks")
-            
-        # Check if we have these chunks in the vector store
-        if self._load_vector_store():
-            # Check if all chunks are in the store
-            all_found = all(chunk in self.chunks for chunk in all_sentence_chunks)
-            if all_found:
-                logger.info("Using cached embeddings from vector store")
-                chunk_embeddings = []
-                for chunk in all_sentence_chunks:
-                    idx = self.chunks.index(chunk)
-                    embedding = self.index.reconstruct(idx)
-                    chunk_embeddings.append(
-                        ChunkWithEmbedding(text=chunk, embedding=embedding)
-                    )
-                return chunk_embeddings
-        
+
         try:
-            all_chunk_embeddings = []
-            
-            # Process each document
-            for text in chunks:
-                # Process text in macro chunks
-                for chunk_text, chunk_start in self._create_macro_chunks(text):
-                    # Get sentence chunks and their spans
-                    sentence_chunks, token_spans, _ = self._chunk_by_sentences(chunk_text)
-                    
-                    # Get embeddings for all sentences in this chunk
-                    inputs = self.tokenizer(chunk_text, return_tensors='pt').to(self.device)
-                    with torch.no_grad():
-                        outputs = self.model(**inputs)
-                    
-                    # Create embeddings using late chunking
-                    embeddings = self._late_chunking(outputs, token_spans)
-                    
-                    # Create ChunkWithEmbedding objects for each sentence
-                    for chunk, embedding in zip(sentence_chunks, embeddings):
-                        if chunk.strip():  # Skip empty chunks
-                            # Normalize the embedding
-                            normalized_embedding = embedding / np.linalg.norm(embedding)
-                            all_chunk_embeddings.append(
-                                ChunkWithEmbedding(text=chunk, embedding=normalized_embedding)
-                            )
-            
-            # Add embeddings to vector store
-            embeddings_array = np.array([chunk.embedding for chunk in all_chunk_embeddings])
-            self._add_embeddings(embeddings_array, all_chunk_embeddings)
-            
-            return all_chunk_embeddings
+            # First, get the full text context for each chunk
+            all_embeddings = []
+            for chunk in chunks:
+                # Tokenize the full text context
+                inputs = self.tokenizer(
+                    chunk.text,
+                    padding=True,
+                    truncation=True,
+                    max_length=self.config.max_length,
+                    return_tensors="pt"
+                ).to(self.device)
+
+                # Get embeddings with full context
+                with torch.no_grad():
+                    outputs = self.model(**inputs)
+
+                # Use mean pooling over the chunk's token span
+                attention_mask = inputs["attention_mask"]
+                token_embeddings = outputs.last_hidden_state
+                
+                if chunk.token_span:
+                    start, end = chunk.token_span
+                    # Only pool over the chunk's tokens
+                    chunk_embeddings = token_embeddings[:, start:end, :]
+                    chunk_mask = attention_mask[:, start:end]
+                else:
+                    # If no token span, use the whole sequence
+                    chunk_embeddings = token_embeddings
+                    chunk_mask = attention_mask
+
+                # Mean pooling
+                mask_expanded = chunk_mask.unsqueeze(-1).expand(chunk_embeddings.size()).float()
+                sum_embeddings = torch.sum(chunk_embeddings * mask_expanded, 1)
+                sum_mask = torch.clamp(mask_expanded.sum(1), min=1e-9)
+                embedding = (sum_embeddings / sum_mask).cpu().numpy()[0]
+
+                # Normalize embedding
+                embedding = embedding / np.linalg.norm(embedding)
+                all_embeddings.append(embedding)
+
+            # Create ChunkWithEmbedding objects
+            return [
+                ChunkWithEmbedding(
+                    text=chunk.text,
+                    embedding=embedding,
+                    char_span=chunk.char_span,
+                    token_span=chunk.token_span
+                )
+                for chunk, embedding in zip(chunks, all_embeddings)
+            ]
 
         except Exception as e:
-            logger.error(f"Error computing embeddings: {str(e)}")
-            raise EmbeddingProcessError(f"Failed to compute embeddings: {str(e)}") from e
+            raise EmbeddingProcessError(f"Failed to embed chunks: {str(e)}") from e
 
     async def embed_query(self, query: str) -> np.ndarray:
         """Embed a query string without adding to vector store.

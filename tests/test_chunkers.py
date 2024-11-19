@@ -4,7 +4,8 @@ from transformers import AutoTokenizer
 from late_chunking.chunkers import (
     ChunkMetadata,
     TokenizerBasedSentenceChunker,
-    ParagraphChunker
+    ParagraphChunker,
+    FixedTokenChunker
 )
 
 @pytest.fixture
@@ -25,6 +26,11 @@ def sample_paragraphs():
 Second paragraph starts here. It has two sentences.
 
 Final paragraph is short."""
+
+@pytest.fixture
+def long_text():
+    """Sample text long enough to create multiple fixed-size chunks."""
+    return " ".join(["This is sentence number " + str(i) + "." for i in range(50)])
 
 def test_sentence_chunker_basic(tokenizer, sample_text):
     """Test basic sentence chunking without token spans."""
@@ -93,3 +99,83 @@ def test_empty_text(tokenizer):
     sentence_chunker = TokenizerBasedSentenceChunker(tokenizer)
     chunks = sentence_chunker.chunk_text("")
     assert len(chunks) == 0
+
+def test_fixed_token_chunker_basic(tokenizer, sample_text):
+    """Test basic fixed token chunking with default settings."""
+    chunker = FixedTokenChunker(tokenizer)
+    chunks = chunker.chunk_text(sample_text)
+    
+    # With default size 512, sample text should fit in one chunk
+    assert len(chunks) == 1
+    assert chunks[0].text == sample_text
+    assert chunks[0].token_span is None
+
+def test_fixed_token_chunker_small_size(tokenizer, long_text):
+    """Test fixed token chunking with small chunk size."""
+    chunk_size = 10
+    overlap = 2
+    chunker = FixedTokenChunker(tokenizer, chunk_size=chunk_size, overlap=overlap)
+    chunks = chunker.chunk_text(long_text, return_tokens=True)
+    
+    # Verify we get multiple chunks
+    assert len(chunks) > 1
+    
+    # Verify chunk sizes
+    for chunk in chunks[:-1]:  # All but last chunk
+        token_length = chunk.token_span[1] - chunk.token_span[0]
+        assert token_length == chunk_size
+        
+    # Verify overlap
+    for i in range(len(chunks) - 1):
+        current_end = chunks[i].token_span[1]
+        next_start = chunks[i + 1].token_span[0]
+        assert current_end - next_start == overlap
+
+def test_fixed_token_chunker_overlap_validation(tokenizer):
+    """Test that overlap is properly validated."""
+    # Overlap should be reduced if it's too large
+    chunker = FixedTokenChunker(tokenizer, chunk_size=10, overlap=15)
+    assert chunker.overlap == 9  # Should be chunk_size - 1
+    
+    # Normal overlap should be unchanged
+    chunker = FixedTokenChunker(tokenizer, chunk_size=10, overlap=5)
+    assert chunker.overlap == 5
+
+def test_fixed_token_chunker_empty_text(tokenizer):
+    """Test fixed token chunking with empty text."""
+    chunker = FixedTokenChunker(tokenizer)
+    chunks = chunker.chunk_text("")
+    assert len(chunks) == 0
+    
+    chunks = chunker.chunk_text("   ")
+    assert len(chunks) == 0
+
+def test_fixed_token_chunker_character_spans(tokenizer, long_text):
+    """Test that character spans are correct."""
+    chunker = FixedTokenChunker(tokenizer, chunk_size=20, overlap=5)
+    chunks = chunker.chunk_text(long_text)
+    
+    # Verify character spans
+    for chunk in chunks:
+        # Spans should be valid
+        assert chunk.char_span[0] < chunk.char_span[1]
+        # Text should match span
+        assert long_text[chunk.char_span[0]:chunk.char_span[1]] == chunk.text
+        
+    # Verify spans are sequential
+    for i in range(len(chunks) - 1):
+        # There should be some text overlap due to token overlap
+        assert chunks[i].char_span[1] > chunks[i + 1].char_span[0]
+
+def test_fixed_token_chunker_short_text(tokenizer):
+    """Test fixed token chunking with text shorter than chunk size."""
+    short_text = "Just a very short text."
+    chunker = FixedTokenChunker(tokenizer, chunk_size=100)
+    chunks = chunker.chunk_text(short_text, return_tokens=True)
+    
+    # Should get exactly one chunk
+    assert len(chunks) == 1
+    assert chunks[0].text == short_text
+    # Token span should cover all tokens
+    token_length = chunks[0].token_span[1] - chunks[0].token_span[0]
+    assert token_length < chunker.chunk_size
