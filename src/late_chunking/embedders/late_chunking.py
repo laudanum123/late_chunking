@@ -10,6 +10,7 @@ import pickle
 
 from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProcessError
 from .vector_store import ChunkWithEmbedding
+from ..chunkers import TokenizerBasedSentenceChunker, ChunkMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +31,7 @@ class LateChunkingEmbedder(BaseEmbedder):
         self.index = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
         self.vector_store_path = None
+        self.chunker = None  # Initialize chunker
 
     def set_vector_store_path(self, path: Path):
         """Set the path for vector store operations."""
@@ -62,36 +64,14 @@ class LateChunkingEmbedder(BaseEmbedder):
 
     def _chunk_by_sentences(self, input_text: str) -> Tuple[List[str], List[Tuple[int, int]], List[Tuple[int, int]]]:
         """Split text into sentences and return chunks with spans."""
-        inputs = self.tokenizer(input_text, return_tensors='pt', return_offsets_mapping=True)
-        punctuation_mark_id = self.tokenizer.convert_tokens_to_ids('.')
-        sep_id = self.tokenizer.convert_tokens_to_ids('[SEP]')
-        token_offsets = inputs['offset_mapping'][0]
-        token_ids = inputs['input_ids'][0]
+        chunks = self.chunker.chunk_text(input_text, return_tokens=True)
         
-        # Find sentence boundaries
-        chunk_positions = [
-            (i, int(start + 1))
-            for i, (token_id, (start, end)) in enumerate(zip(token_ids, token_offsets))
-            if token_id == punctuation_mark_id
-            and (
-                token_offsets[i + 1][0] - token_offsets[i][1] > 0
-                or token_ids[i + 1] == sep_id
-            )
-        ]
+        # Extract the components
+        texts = [chunk.text for chunk in chunks]
+        token_spans = [chunk.token_span for chunk in chunks]
+        char_spans = [chunk.char_span for chunk in chunks]
         
-        # Create text chunks and their spans
-        chunks = [
-            input_text[x[1] : y[1]]
-            for x, y in zip([(1, 0)] + chunk_positions[:-1], chunk_positions)
-        ]
-        token_spans = [
-            (x[0], y[0]) for x, y in zip([(1, 0)] + chunk_positions[:-1], chunk_positions)
-        ]
-        char_spans = [
-            (x[1], y[1]) for x, y in zip([(1, 0)] + chunk_positions[:-1], chunk_positions)
-        ]
-        
-        return chunks, token_spans, char_spans
+        return texts, token_spans, char_spans
 
     def _late_chunking(self, model_output: torch.Tensor, span_annotations: List[Tuple[int, int]]) -> List[np.ndarray]:
         """Create embeddings using late chunking approach."""

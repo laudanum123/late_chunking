@@ -15,8 +15,10 @@ from late_chunking.embedders import (
     OpenAIEmbedder,
     ModelLoadError,
     EmbeddingProcessError,
-    ChunkWithEmbedding
+    ChunkWithEmbedding,
+    LateChunkingEmbedder
 )
+from late_chunking.chunkers import TokenizerBasedSentenceChunker, ChunkMetadata
 
 @pytest.fixture
 def temp_dir():
@@ -86,6 +88,45 @@ async def test_openai_embedder_initialization(openai_config):
     with pytest.raises(ModelLoadError):
         with patch.dict(os.environ, {}, clear=True):
             OpenAIEmbedder(config_no_key)
+
+@pytest.mark.asyncio
+async def test_huggingface_chunking(hf_config):
+    """Test HuggingFace embedder chunking functionality."""
+    async with HuggingFaceEmbedder(hf_config) as embedder:
+        text = "First sentence here. Second one follows. And a third."
+        chunks = embedder._chunk_by_sentences(text)
+        
+        # Verify we get the expected chunks
+        assert len(chunks) == 3
+        assert chunks[0].strip() == "First sentence here"
+        assert chunks[1].strip() == "Second one follows"
+        assert chunks[2].strip() == "And a third"
+
+@pytest.mark.asyncio
+async def test_late_chunking_spans(hf_config):
+    """Test that late chunking embedder returns correct spans."""
+    async with LateChunkingEmbedder(hf_config) as embedder:
+        # Initialize the chunker
+        embedder.chunker = TokenizerBasedSentenceChunker(embedder.tokenizer)
+        
+        text = "First sentence here. Second one follows."
+        chunks, token_spans, char_spans = embedder._chunk_by_sentences(text)
+        
+        # Verify we get the chunks and spans
+        assert len(chunks) == 2
+        assert len(token_spans) == len(chunks)
+        assert len(char_spans) == len(chunks)
+        
+        # Verify token spans are valid
+        for span in token_spans:
+            assert isinstance(span, tuple)
+            assert len(span) == 2
+            assert span[0] < span[1]
+        
+        # Verify character spans match the text
+        for chunk, span in zip(chunks, char_spans):
+            chunk_text = text[span[0]:span[1]].strip()
+            assert chunk.strip() == chunk_text.strip()
 
 @pytest.mark.asyncio
 async def test_huggingface_embed_chunks(hf_config):

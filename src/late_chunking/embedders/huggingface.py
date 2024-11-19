@@ -10,6 +10,7 @@ import pickle
 
 from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProcessError
 from .vector_store import ChunkWithEmbedding
+from ..chunkers import TokenizerBasedSentenceChunker, ChunkMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +18,10 @@ class HuggingFaceEmbedder(BaseEmbedder):
     """Embedder implementation using HuggingFace models."""
     
     def __init__(self, config: EmbeddingConfig):
-        """Initialize HuggingFace embedder.
+        """Initialize the embedder.
         
         Args:
-            config: EmbeddingConfig instance
+            config: Configuration for the embedder
         """
         super().__init__(config)
         self.tokenizer = None
@@ -30,6 +31,7 @@ class HuggingFaceEmbedder(BaseEmbedder):
         self.index = None
         self.vector_store_path = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
+        self.chunker = None
 
     async def __aenter__(self):
         """Async context manager entry."""
@@ -44,6 +46,7 @@ class HuggingFaceEmbedder(BaseEmbedder):
             )
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
             self.model.to(self.device)
+            self.chunker = TokenizerBasedSentenceChunker(self.tokenizer)
             logger.info(f"Model loaded successfully on {self.device}")
             return self
         except Exception as e:
@@ -95,47 +98,8 @@ class HuggingFaceEmbedder(BaseEmbedder):
         Returns:
             List of sentence chunks
         """
-        # Tokenize the text
-        inputs = self.tokenizer(
-            input_text,
-            return_tensors="pt",
-            return_offsets_mapping=True,
-            add_special_tokens=False
-        )
-        
-        token_ids = inputs["input_ids"][0]
-        token_offsets = inputs["offset_mapping"][0]
-        
-        # Get the separator token id (usually period)
-        sep_id = self.tokenizer.convert_tokens_to_ids(["."])[0]
-        
-        # Find chunk positions based on sentence boundaries
-        chunk_positions = [
-            (token_offsets[i][0].item(), token_offsets[i][1].item())
-            for i in range(len(token_ids) - 1)
-            if token_ids[i] == sep_id
-            and (
-                token_offsets[i + 1][0] - token_offsets[i][1] > 0
-                or token_ids[i + 1] == sep_id
-            )
-        ]
-        
-        # Add the last position if it's not a separator
-        if token_ids[-1] != sep_id:
-            chunk_positions.append(
-                (token_offsets[-1][0].item(), token_offsets[-1][1].item())
-            )
-        
-        # Create text chunks
-        chunks = [
-            input_text[x[1]:y[1]].strip()
-            for x, y in zip([(1, 0)] + chunk_positions[:-1], chunk_positions)
-        ]
-        
-        # Filter out empty chunks
-        chunks = [chunk for chunk in chunks if chunk]
-        
-        return chunks
+        chunks = self.chunker.chunk_text(input_text, return_tokens=False)
+        return [chunk.text for chunk in chunks]
 
     async def embed_chunks(self, chunks: List[str]) -> List[ChunkWithEmbedding]:
         """Embed a list of text chunks asynchronously.
