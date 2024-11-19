@@ -10,6 +10,7 @@ class ChunkMetadata:
     text: str
     char_span: Tuple[int, int]  # Character offsets in original text
     token_span: Optional[Tuple[int, int]] = None  # Token indices in the tokenized text
+    full_text: Optional[str] = None  # Full text from which this chunk was extracted
 
 class Chunker(ABC):
     """Base class for text chunking strategies."""
@@ -100,36 +101,34 @@ class TokenizerBasedSentenceChunker(Chunker):
         prev_char_pos = 0
         
         for token_idx, char_pos in chunk_positions:
+            # Extract the text for this chunk
             chunk_text = text[prev_char_pos:char_pos].strip()
-            if chunk_text:  # Only add non-empty chunks
-                metadata = ChunkMetadata(
+            
+            # Only create chunk if there's actual text
+            if chunk_text:
+                chunk = ChunkMetadata(
                     text=chunk_text,
                     char_span=(prev_char_pos, char_pos),
-                    token_span=(prev_token_idx, token_idx) if return_tokens else None
+                    token_span=(prev_token_idx, token_idx + 1) if return_tokens else None,
+                    full_text=text
                 )
-                chunks.append(metadata)
+                chunks.append(chunk)
+                
+            # Update previous positions
             prev_token_idx = token_idx + 1
-            # Skip over the period and any whitespace
-            if token_idx + 1 < len(token_offsets):
-                prev_char_pos = token_offsets[token_idx + 1][0].item()
-            else:
-                prev_char_pos = char_pos
+            prev_char_pos = char_pos
             
-        # Add the final chunk if there's remaining text
+        # Handle any remaining text after the last boundary
         if prev_char_pos < len(text):
-            final_text = text[prev_char_pos:].strip()
-            if final_text:
-                # Remove trailing period if present
-                if final_text.endswith('.'):
-                    final_text = final_text[:-1].strip()
-                if final_text:  # Check again in case it was just a period
-                    metadata = ChunkMetadata(
-                        text=final_text,
-                        char_span=(prev_char_pos, len(text)),
-                        token_span=(prev_token_idx, len(token_ids)) if return_tokens else None
-                    )
-                    chunks.append(metadata)
-        
+            remaining_text = text[prev_char_pos:].strip()
+            if remaining_text:
+                chunks.append(ChunkMetadata(
+                    text=remaining_text,
+                    char_span=(prev_char_pos, len(text)),
+                    token_span=(prev_token_idx, len(token_ids)) if return_tokens else None,
+                    full_text=text
+                ))
+                
         return chunks
 
 class FixedTokenChunker(Chunker):
@@ -191,7 +190,8 @@ class FixedTokenChunker(Chunker):
             chunk = ChunkMetadata(
                 text=text[char_start:char_end],
                 char_span=(char_start, char_end),
-                token_span=(start_idx, end_idx) if return_tokens else None
+                token_span=(start_idx, end_idx) if return_tokens else None,
+                full_text=text
             )
             chunks.append(chunk)
             
@@ -237,7 +237,8 @@ class ParagraphChunker(Chunker):
                 para_end = current_pos + len(para)
                 metadata = ChunkMetadata(
                     text=para_text,
-                    char_span=(current_pos, para_end)
+                    char_span=(current_pos, para_end),
+                    full_text=text
                 )
                 chunks.append(metadata)
                 current_pos = para_end

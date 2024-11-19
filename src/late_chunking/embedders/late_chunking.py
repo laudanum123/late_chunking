@@ -8,8 +8,13 @@ from pathlib import Path
 import faiss
 import pickle
 
-from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProcessError
-from .vector_store import ChunkWithEmbedding
+from .base import (
+    BaseEmbedder,
+    EmbeddingConfig,
+    ModelLoadError,
+    EmbeddingProcessError,
+    ChunkWithEmbedding
+)
 from ..chunkers import (
     Chunker,
     TokenizerBasedSentenceChunker,
@@ -71,11 +76,14 @@ class LateChunkingEmbedder(BaseEmbedder):
             # Initialize chunker with tokenizer and any additional params
             if self.chunker_class == TokenizerBasedSentenceChunker:
                 self.chunker = self.chunker_class(self.tokenizer)
-            else:
+            elif self.chunker_class == FixedTokenChunker:
                 self.chunker = self.chunker_class(
                     tokenizer=self.tokenizer,
-                    **self.chunker_params
+                    chunk_size=self.chunker_params.get('chunk_size', 512),
+                    overlap=self.chunker_params.get('overlap', 50)
                 )
+            else:
+                self.chunker = self.chunker_class(**self.chunker_params)
             
             logger.info(f"Late chunking embedder initialized on {self.device}")
             return self
@@ -100,63 +108,96 @@ class LateChunkingEmbedder(BaseEmbedder):
         
         return texts, token_spans, char_spans
 
-    def _late_chunking(self, model_output: torch.Tensor, span_annotations: List[Tuple[int, int]]) -> List[np.ndarray]:
-        """Create embeddings using late chunking approach."""
-        token_embeddings = model_output[0]
-        outputs = []
+    def _late_chunking(self, token_embeddings: torch.Tensor, span_annotations: List[Tuple[int, int]]) -> List[np.ndarray]:
+        """Create embeddings using late chunking approach.
         
-        for embeddings, annotations in zip(token_embeddings, [span_annotations]):
-            if self.config.max_length is not None:
-                annotations = [
-                    (start, min(end, self.config.max_length - 1))
-                    for (start, end) in annotations
-                    if start < (self.config.max_length - 1)
-                ]
+        Args:
+            token_embeddings: Tensor of shape (batch_size, seq_len, hidden_size)
+            span_annotations: List of (start, end) token spans
             
-            pooled_embeddings = [
-                embeddings[start:end].sum(dim=0) / (end - start)
-                for start, end in annotations
-                if (end - start) >= 1
-            ]
-            # L2 normalize the embeddings
-            pooled_embeddings = [
-                (embedding / torch.norm(embedding)).detach().cpu().numpy()
-                for embedding in pooled_embeddings
-            ]
-            outputs.append(pooled_embeddings)
+        Returns:
+            List of numpy arrays containing chunk embeddings
+        """
+        # Handle batched input - we only support batch_size=1 for now
+        embeddings = token_embeddings[0]  # Shape: (seq_len, hidden_size)
         
-        return outputs[0]
+        # Filter out None spans
+        span_annotations = [span for span in span_annotations if span is not None]
+        
+        # Truncate spans if needed
+        if self.config.max_length is not None:
+            span_annotations = [
+                (start, min(end, self.config.max_length))
+                for (start, end) in span_annotations
+                if start < self.config.max_length
+            ]
+        
+        # Pool embeddings for each span
+        pooled_embeddings = []
+        for start, end in span_annotations:
+            if end <= start:
+                continue
+                
+            # Mean pooling over the span
+            span_embeddings = embeddings[start:end]
+            if len(span_embeddings) == 0:
+                continue
+                
+            pooled = span_embeddings.mean(dim=0)
+            
+            # L2 normalize, handling zero vectors
+            norm = torch.norm(pooled)
+            if norm > 0:
+                pooled = pooled / norm
+            else:
+                # If norm is 0, use a random unit vector
+                pooled = torch.randn_like(pooled)
+                pooled = pooled / torch.norm(pooled)
+                
+            pooled_embeddings.append(pooled.detach().cpu().numpy())
+        
+        return pooled_embeddings
 
     def _create_macro_chunks(self, text: str) -> List[Tuple[str, int]]:
-        """Split text into macro chunks that fit within model's context size."""
+        """Split text into macro chunks that fit within model's context size.
+        
+        Args:
+            text: Input text to split
+            
+        Returns:
+            List of (chunk_text, token_offset) tuples
+        """
         if not self.config.max_length:
             return [(text, 0)]
             
-        # Get rough character limit based on max tokens
-        # Using a conservative estimate of 4 characters per token
-        char_limit = self.config.max_length * 4
+        # Tokenize the full text to get token counts
+        inputs = self.tokenizer(
+            text,
+            add_special_tokens=False,
+            return_tensors="pt"
+        )
+        token_ids = inputs["input_ids"][0]
         
+        # If text fits in context window, return as single chunk
+        if len(token_ids) <= self.config.max_length:
+            return [(text, 0)]
+            
+        # Split into chunks that fit within context window
         chunks = []
-        start = 0
+        start_idx = 0
+        token_offset = 0
         
-        while start < len(text):
-            # Find a good breaking point near the character limit
-            end = min(start + char_limit, len(text))
+        while start_idx < len(token_ids):
+            # Get chunk size that fits in context window
+            end_idx = min(start_idx + self.config.max_length, len(token_ids))
             
-            # If we're not at the end, try to break at a sentence boundary
-            if end < len(text):
-                # Look for sentence endings (.!?) followed by whitespace
-                last_period = max(
-                    text.rfind(". ", start, end),
-                    text.rfind("! ", start, end),
-                    text.rfind("? ", start, end)
-                )
-                
-                if last_period != -1:
-                    end = last_period + 1
+            # Decode tokens back to text
+            chunk_tokens = token_ids[start_idx:end_idx]
+            chunk_text = self.tokenizer.decode(chunk_tokens, skip_special_tokens=True)
             
-            chunks.append((text[start:end], start))
-            start = end
+            chunks.append((chunk_text, token_offset))
+            token_offset += len(chunk_tokens)
+            start_idx = end_idx
             
         return chunks
 
@@ -169,9 +210,39 @@ class LateChunkingEmbedder(BaseEmbedder):
         Returns:
             List of chunk metadata
         """
-        if not self.chunker:
-            raise ValueError("Chunker not initialized. Use embedder as context manager.")
-        return self.chunker.chunk_text(text)
+        if self.chunker is None:
+            # Initialize chunker with tokenizer and any additional params
+            if self.chunker_class == TokenizerBasedSentenceChunker:
+                self.chunker = self.chunker_class(self.tokenizer)
+            elif self.chunker_class == FixedTokenChunker:
+                self.chunker = self.chunker_class(
+                    tokenizer=self.tokenizer,
+                    chunk_size=self.chunker_params.get('chunk_size', 512),
+                    overlap=self.chunker_params.get('overlap', 50)
+                )
+            else:
+                self.chunker = self.chunker_class(**self.chunker_params)
+            
+        # First create macro chunks to handle long texts
+        macro_chunks = self._create_macro_chunks(text)
+        
+        # Process each macro chunk
+        all_chunks = []
+        for chunk_text, offset in macro_chunks:
+            # Get chunks with token spans for this macro chunk
+            chunks = self.chunker.chunk_text(chunk_text, return_tokens=True)
+            
+            # Adjust token spans for offset
+            for chunk in chunks:
+                if chunk.token_span is not None:
+                    start, end = chunk.token_span
+                    chunk.token_span = (start + offset, end + offset)
+                    # Store the full text for late chunking
+                    chunk.full_text = text
+            
+            all_chunks.extend(chunks)
+            
+        return all_chunks
 
     async def embed_chunks(self, chunks: List[ChunkMetadata]) -> List[ChunkWithEmbedding]:
         """Embed chunks using late chunking strategy.
@@ -189,12 +260,30 @@ class LateChunkingEmbedder(BaseEmbedder):
             return []
 
         try:
-            # First, get the full text context for each chunk
-            all_embeddings = []
+            # Group chunks by their source text to process each document once
+            text_to_chunks = {}
             for chunk in chunks:
+                # Use the full text if available, otherwise use the chunk text
+                text = getattr(chunk, 'full_text', chunk.text)
+                if text not in text_to_chunks:
+                    text_to_chunks[text] = []
+                text_to_chunks[text].append(chunk)
+            
+            # Process each unique source text
+            all_embeddings = []
+            all_processed_chunks = []
+            
+            for text, text_chunks in text_to_chunks.items():
+                # Get token spans for all chunks in this text
+                token_spans = [chunk.token_span for chunk in text_chunks]
+                
+                # Skip if no valid token spans
+                if not any(token_spans):
+                    continue
+                
                 # Tokenize the full text context
                 inputs = self.tokenizer(
-                    chunk.text,
+                    text,
                     padding=True,
                     truncation=True,
                     max_length=self.config.max_length,
@@ -204,41 +293,25 @@ class LateChunkingEmbedder(BaseEmbedder):
                 # Get embeddings with full context
                 with torch.no_grad():
                     outputs = self.model(**inputs)
-
-                # Use mean pooling over the chunk's token span
-                attention_mask = inputs["attention_mask"]
-                token_embeddings = outputs.last_hidden_state
                 
-                if chunk.token_span:
-                    start, end = chunk.token_span
-                    # Only pool over the chunk's tokens
-                    chunk_embeddings = token_embeddings[:, start:end, :]
-                    chunk_mask = attention_mask[:, start:end]
-                else:
-                    # If no token span, use the whole sequence
-                    chunk_embeddings = token_embeddings
-                    chunk_mask = attention_mask
+                # Use late chunking to get embeddings for each span
+                chunk_embeddings = self._late_chunking(outputs.last_hidden_state, token_spans)
+                if chunk_embeddings:
+                    all_embeddings.extend(chunk_embeddings)
+                    all_processed_chunks.extend(text_chunks)
 
-                # Mean pooling
-                mask_expanded = chunk_mask.unsqueeze(-1).expand(chunk_embeddings.size()).float()
-                sum_embeddings = torch.sum(chunk_embeddings * mask_expanded, 1)
-                sum_mask = torch.clamp(mask_expanded.sum(1), min=1e-9)
-                embedding = (sum_embeddings / sum_mask).cpu().numpy()[0]
-
-                # Normalize embedding
-                embedding = embedding / np.linalg.norm(embedding)
-                all_embeddings.append(embedding)
-
-            # Create ChunkWithEmbedding objects
-            return [
-                ChunkWithEmbedding(
-                    text=chunk.text,
-                    embedding=embedding,
-                    char_span=chunk.char_span,
-                    token_span=chunk.token_span
-                )
-                for chunk, embedding in zip(chunks, all_embeddings)
-            ]
+            # Create ChunkWithEmbedding objects for chunks with valid embeddings
+            embedded_chunks = []
+            for chunk, embedding in zip(all_processed_chunks, all_embeddings):
+                if embedding is not None:
+                    embedded_chunks.append(ChunkWithEmbedding(
+                        text=chunk.text,
+                        embedding=embedding,
+                        char_span=chunk.char_span,
+                        token_span=chunk.token_span
+                    ))
+            
+            return embedded_chunks
 
         except Exception as e:
             raise EmbeddingProcessError(f"Failed to embed chunks: {str(e)}") from e
