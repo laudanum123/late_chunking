@@ -50,6 +50,7 @@ class LateChunkingEmbedder(BaseEmbedder):
             )
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
             self.model.to(self.device)
+            self.chunker = TokenizerBasedSentenceChunker(self.tokenizer)
             logger.info(f"Late chunking embedder initialized on {self.device}")
             return self
         except Exception as e:
