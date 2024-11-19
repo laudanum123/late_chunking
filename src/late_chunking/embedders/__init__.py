@@ -3,6 +3,7 @@ from .base import BaseEmbedder, EmbeddingConfig, ModelLoadError, EmbeddingProces
 from .huggingface import HuggingFaceEmbedder
 from .late_chunking import LateChunkingEmbedder
 from .vector_store import ChunkWithEmbedding
+from .openai import OpenAIEmbedder
 
 __all__ = [
     'BaseEmbedder',
@@ -11,5 +12,6 @@ __all__ = [
     'EmbeddingProcessError',
     'HuggingFaceEmbedder',
     'LateChunkingEmbedder',
-    'ChunkWithEmbedding'
+    'ChunkWithEmbedding',
+    'OpenAIEmbedder'
 ]

@@ -3,15 +3,27 @@ import pytest
 import numpy as np
 from pathlib import Path
 import os
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, AsyncMock, MagicMock
+import torch
+import tempfile
+import shutil
+from transformers import BatchEncoding
 
 from late_chunking.embedders import (
     EmbeddingConfig,
     HuggingFaceEmbedder,
     OpenAIEmbedder,
     ModelLoadError,
-    EmbeddingProcessError
+    EmbeddingProcessError,
+    ChunkWithEmbedding
 )
+
+@pytest.fixture
+def temp_dir():
+    """Create a temporary directory for testing."""
+    temp_dir = tempfile.mkdtemp()
+    yield temp_dir
+    shutil.rmtree(temp_dir)
 
 @pytest.fixture
 def hf_config():
@@ -37,35 +49,84 @@ def openai_config():
 @pytest.mark.asyncio
 async def test_huggingface_embedder_initialization(hf_config):
     """Test HuggingFace embedder initialization."""
-    with patch('transformers.AutoTokenizer.from_pretrained') as mock_tokenizer:
-        with patch('transformers.AutoModel.from_pretrained') as mock_model:
-            embedder = HuggingFaceEmbedder(hf_config)
-            assert embedder.config == hf_config
-            mock_tokenizer.assert_called_once()
-            mock_model.assert_called_once()
+    mock_tokenizer = Mock()
+    mock_model = Mock()
+    mock_model.to = Mock(return_value=mock_model)
+    
+    with patch('transformers.AutoTokenizer.from_pretrained', return_value=mock_tokenizer) as mock_tokenizer_cls:
+        with patch('transformers.AutoModel.from_pretrained', return_value=mock_model) as mock_model_cls:
+            async with HuggingFaceEmbedder(hf_config) as embedder:
+                assert embedder.config == hf_config
+                assert embedder.tokenizer == mock_tokenizer
+                assert embedder.model == mock_model
+                assert embedder.device == ('cuda' if torch.cuda.is_available() else 'cpu')
+                mock_tokenizer_cls.assert_called_once()
+                mock_model_cls.assert_called_once()
+                mock_model.to.assert_called_once_with(embedder.device)
 
 @pytest.mark.asyncio
 async def test_openai_embedder_initialization(openai_config):
     """Test OpenAI embedder initialization."""
-    with patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'}):
-        embedder = OpenAIEmbedder(openai_config)
-        assert embedder.config == openai_config
+    # Test with API key in config
+    embedder = OpenAIEmbedder(openai_config)
+    assert embedder.config == openai_config
+    
+    # Test with API key in environment
+    config_no_key = EmbeddingConfig(
+        name="text-embedding-ada-002",
+        type="openai",
+        embedding_size=1536,
+        max_length=8191
+    )
+    with patch.dict(os.environ, {'OPENAI_API_KEY': 'env-test-key'}):
+        embedder = OpenAIEmbedder(config_no_key)
+        assert embedder.config == config_no_key
+    
+    # Test with no API key
+    with pytest.raises(ModelLoadError):
+        with patch.dict(os.environ, {}, clear=True):
+            OpenAIEmbedder(config_no_key)
 
 @pytest.mark.asyncio
 async def test_huggingface_embed_chunks(hf_config):
     """Test HuggingFace embedder chunk embedding."""
-    with patch('transformers.AutoTokenizer.from_pretrained') as mock_tokenizer:
-        with patch('transformers.AutoModel.from_pretrained') as mock_model:
-            mock_output = Mock()
-            mock_output.last_hidden_state = np.random.randn(1, 1, 768)
-            mock_model.return_value.return_value = mock_output
+    # Create mock tokenizer with proper outputs
+    mock_tokenizer = Mock()
+    
+    # Create a proper BatchEncoding object that supports .to()
+    class MockBatchEncoding(BatchEncoding):
+        def to(self, device):
+            # Return self to maintain the same object with device info
+            return self
             
-            embedder = HuggingFaceEmbedder(hf_config)
-            chunks = ["Test chunk 1", "Test chunk 2"]
-            embeddings = await embedder.embed_chunks(chunks)
-            
-            assert isinstance(embeddings, np.ndarray)
-            assert embeddings.shape[1] == hf_config.embedding_size
+    # Mock tokenizer output as BatchEncoding
+    mock_tokenizer_output = MockBatchEncoding({
+        "input_ids": torch.tensor([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]),
+        "attention_mask": torch.ones((1, 10)),
+        "offset_mapping": torch.tensor([[[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], 
+                                      [5, 6], [6, 7], [7, 8], [8, 9], [9, 10]]])
+    })
+    
+    mock_tokenizer.return_value = mock_tokenizer_output
+    mock_tokenizer.convert_tokens_to_ids = Mock(return_value=[4])  # period token
+    
+    # Create mock model
+    mock_model = Mock()
+    mock_model.to = Mock(return_value=mock_model)
+    mock_output = Mock()
+    mock_output.last_hidden_state = torch.randn(1, 10, 768)
+    mock_model.return_value = mock_output
+    
+    with patch('transformers.AutoTokenizer.from_pretrained', return_value=mock_tokenizer):
+        with patch('transformers.AutoModel.from_pretrained', return_value=mock_model):
+            async with HuggingFaceEmbedder(hf_config) as embedder:
+                chunks = ["Test chunk 1", "Test chunk 2"]
+                embeddings = await embedder.embed_chunks(chunks)
+                
+                assert isinstance(embeddings, list)
+                assert len(embeddings) > 0  # At least one embedding should be produced
+                assert all(isinstance(e, ChunkWithEmbedding) for e in embeddings)
+                assert all(e.embedding.shape == (hf_config.embedding_size,) for e in embeddings)
 
 @pytest.mark.asyncio
 async def test_openai_embed_chunks(openai_config):
@@ -76,20 +137,28 @@ async def test_openai_embed_chunks(openai_config):
         }]
     }
     
-    with patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'}):
-        with patch('openai.Embedding.acreate', return_value=mock_response):
-            embedder = OpenAIEmbedder(openai_config)
-            chunks = ["Test chunk"]
-            embeddings = await embedder.embed_chunks(chunks)
-            
-            assert isinstance(embeddings, np.ndarray)
-            assert embeddings.shape[1] == openai_config.embedding_size
+    mock_acreate = AsyncMock(return_value=mock_response)
+    
+    with patch('openai.Embedding.acreate', new=mock_acreate):
+        embedder = OpenAIEmbedder(openai_config)
+        chunks = ["Test chunk"]
+        embeddings = await embedder.embed_chunks(chunks)
+        
+        assert isinstance(embeddings, np.ndarray)
+        assert embeddings.shape[1] == openai_config.embedding_size
+        mock_acreate.assert_called_once()
 
 @pytest.mark.asyncio
 async def test_invalid_chunks():
     """Test handling of invalid chunks."""
-    embedder = OpenAIEmbedder(openai_config)
-    with pytest.raises(ValueError):
-        await embedder.embed_chunks([])
-    with pytest.raises(ValueError):
-        await embedder.embed_chunks([1, 2, 3])  # Non-string chunks
+    with patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'}):
+        embedder = OpenAIEmbedder(EmbeddingConfig(
+            name="text-embedding-ada-002",
+            type="openai",
+            embedding_size=1536,
+            max_length=8191
+        ))
+        with pytest.raises(ValueError):
+            await embedder.embed_chunks([])
+        with pytest.raises(ValueError):
+            await embedder.embed_chunks([1, 2, 3])  # Non-string chunks
