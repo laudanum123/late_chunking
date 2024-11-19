@@ -143,91 +143,55 @@ late_chunking/
 │   │   └── openai.py         # OpenAI-based embedder
 │   ├── utils/                 # Utility functions
 │   │   └── wiki_extractor.py # Wikipedia content extraction
-│   ├── vector_store/         # Vector storage implementations
-│   │   └── stores/          # Generated vector stores
 │   └── visualization/        # Visualization tools
 │       ├── output/          # Generated visualizations
 │       └── web_visualizer.py # Interactive web visualization
 ├── examples/                  # Example scripts
 │   ├── basic_comparison.py   # Simple RAG comparison
 │   └── comprehensive_comparison.py # Detailed analysis
+├── outputs/                  # Generated outputs
+│   └── <example_name>/      # Example-specific outputs
+│       ├── logs/           # Log files
+│       ├── vector_stores/  # Generated vector stores
+│       ├── visualizations/ # Generated visualizations
+│       └── results.txt     # Analysis results
 ├── tests/                    # Test suite
 └── README.md                 # This file
 ```
 
 ### Key Components
 
-1. **Data Management** (`src/late_chunking/data/`)
+1. **Source Code** (`src/late_chunking/`)
+   - Core implementation of the late chunking system
+   - Modular organization by functionality
+   - Type-safe configuration and async design
+
+2. **Data Management** (`src/late_chunking/data/`)
    - Place input documents in `documents/`
    - HTML templates for visualization in `templates/`
 
-2. **Embedders** (`src/late_chunking/embedders/`)
+3. **Embedders** (`src/late_chunking/embedders/`)
    - Multiple embedding strategies
    - Configurable model parameters
    - Vector store integration
 
-3. **Utilities** (`src/late_chunking/utils/`)
-   - `wiki_extractor.py`: Extract content from Wikipedia
-   - Add custom utilities for data processing
-
-4. **Vector Stores** (`src/late_chunking/vector_store/`)
-   - Generated embeddings stored in `stores/`
-   - Organized by comparison type and strategy
+4. **Utilities** (`src/late_chunking/utils/`)
+   - Helper functions and tools
+   - Wikipedia content extraction
+   - Data processing utilities
 
 5. **Visualization** (`src/late_chunking/visualization/`)
-   - Generated plots saved to `output/`
-   - Interactive web interface in `web_visualizer.py`
+   - Interactive web visualizer
 
-### Output Structure
+6. **Examples** (`examples/`)
+   - Ready-to-run comparison scripts
+   - Demonstration of key features
+   - Usage patterns and best practices
 
-Each example stores its outputs in a dedicated directory under `outputs/`:
-
-```
-outputs/
-├── comprehensive_comparison/    # Outputs from comprehensive comparison
-│   ├── logs/                  # Log files
-│   │   └── comparison.log    # Detailed run logs
-│   ├── vector_stores/        # Generated vector stores
-│   │   ├── late_chunking/   # Late chunking embeddings
-│   │   └── traditional/     # Traditional chunking embeddings
-│   ├── visualizations/       # Generated visualizations
-│   │   ├── late_embeddings.png
-│   │   └── traditional_embeddings.png
-│   └── results.txt           # Detailed comparison results
-│
-└── basic_comparison/          # Outputs from basic comparison
-    ├── logs/                 # Log files
-    ├── vector_stores/        # Vector stores
-    └── results.txt          # Basic comparison results
-```
-
-### Output Types
-
-1. **Vector Stores**
-   - Location: `outputs/<example>/vector_stores/`
-   - Contains FAISS indices and metadata
-   - Separate stores for each chunking strategy
-
-2. **Visualizations**
-   - Location: `outputs/<example>/visualizations/`
-   - Contains:
-     * Embedding space visualizations (*.png)
-     * Comparison plots
-     * Analysis charts
-
-3. **Logs**
-   - Location: `outputs/<example>/logs/`
-   - Contains:
-     * Run logs (comparison.log)
-     * Error logs
-     * Performance metrics
-
-4. **Results**
-   - Location: `outputs/<example>/results.txt`
-   - Contains:
-     * Comparison results
-     * Metrics and scores
-     * Analysis summaries
+7. **Outputs** (`outputs/`)
+   - Generated files organized by example
+   - Logs, vector stores, and visualizations
+   - Analysis results and metrics
 
 ## Development
 
@@ -263,7 +227,6 @@ pytest tests/
 3. **New Visualization**
    - Add visualization code in `src/late_chunking/visualization/`
    - Update web interface if needed
-   - Store outputs in `visualization/output/`
 
 ### Code Organization
 
