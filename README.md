@@ -48,7 +48,7 @@ pip install -e ".[dev]"
 
 ### Running a Comprehensive Comparison
 
-1. Place your documents in the `documents/` directory.
+1. Place your documents in the `src/late_chunking/data/documents/` directory.
 
 2. Run the comprehensive comparison:
 ```bash
@@ -56,7 +56,7 @@ python examples/comprehensive_comparison.py
 ```
 
 This will:
-- Process all documents in the `documents/` directory
+- Process all documents in the `src/late_chunking/data/documents/` directory
 - Generate embeddings using both traditional and late chunking
 - Save vector stores for visualization
 - Output comparison results to `comparison_results.txt`
@@ -65,7 +65,7 @@ This will:
 
 1. Start the web visualizer:
 ```bash
-python web_visualizer.py
+python -m src.late_chunking.visualization.web_visualizer
 ```
 
 2. Open `http://localhost:5000` in your browser to see:
@@ -85,7 +85,7 @@ async def main():
     comparison = RAGComparison()
     
     # Load documents
-    doc_dir = Path("documents")
+    doc_dir = Path("src/late_chunking/data/documents")
     documents = []
     for doc_path in doc_dir.glob("*.txt"):
         with open(doc_path) as f:
@@ -129,20 +129,109 @@ embedding_models:
 - `chunk_overlap`: Overlap between chunks
 - `max_length`: Maximum sequence length for the model
 
-## Output Format
+## Project Structure
 
-The comparison results (`comparison_results.txt`) show:
-1. Query information
-2. Traditional chunking results:
-   - Similarity scores
-   - Document sources
-   - Chunk contents
-3. Late chunking results:
-   - Similarity scores
-   - Document sources
-   - Dynamically sized chunks
+```
+late_chunking/
+├── src/late_chunking/          # Main package directory
+│   ├── data/                   # Data storage
+│   │   ├── documents/         # Input documents for processing
+│   │   └── templates/         # HTML and other templates
+│   ├── embedders/             # Embedding implementations
+│   │   ├── huggingface.py    # HuggingFace-based embedder
+│   │   ├── late_chunking.py  # Late chunking embedder
+│   │   └── openai.py         # OpenAI-based embedder
+│   ├── utils/                 # Utility functions
+│   │   └── wiki_extractor.py # Wikipedia content extraction
+│   ├── vector_store/         # Vector storage implementations
+│   │   └── stores/          # Generated vector stores
+│   └── visualization/        # Visualization tools
+│       ├── output/          # Generated visualizations
+│       └── web_visualizer.py # Interactive web visualization
+├── examples/                  # Example scripts
+│   ├── basic_comparison.py   # Simple RAG comparison
+│   └── comprehensive_comparison.py # Detailed analysis
+├── tests/                    # Test suite
+└── README.md                 # This file
+```
+
+### Key Components
+
+1. **Data Management** (`src/late_chunking/data/`)
+   - Place input documents in `documents/`
+   - HTML templates for visualization in `templates/`
+
+2. **Embedders** (`src/late_chunking/embedders/`)
+   - Multiple embedding strategies
+   - Configurable model parameters
+   - Vector store integration
+
+3. **Utilities** (`src/late_chunking/utils/`)
+   - `wiki_extractor.py`: Extract content from Wikipedia
+   - Add custom utilities for data processing
+
+4. **Vector Stores** (`src/late_chunking/vector_store/`)
+   - Generated embeddings stored in `stores/`
+   - Organized by comparison type and strategy
+
+5. **Visualization** (`src/late_chunking/visualization/`)
+   - Generated plots saved to `output/`
+   - Interactive web interface in `web_visualizer.py`
+
+### Output Structure
+
+Each example stores its outputs in a dedicated directory under `outputs/`:
+
+```
+outputs/
+├── comprehensive_comparison/    # Outputs from comprehensive comparison
+│   ├── logs/                  # Log files
+│   │   └── comparison.log    # Detailed run logs
+│   ├── vector_stores/        # Generated vector stores
+│   │   ├── late_chunking/   # Late chunking embeddings
+│   │   └── traditional/     # Traditional chunking embeddings
+│   ├── visualizations/       # Generated visualizations
+│   │   ├── late_embeddings.png
+│   │   └── traditional_embeddings.png
+│   └── results.txt           # Detailed comparison results
+│
+└── basic_comparison/          # Outputs from basic comparison
+    ├── logs/                 # Log files
+    ├── vector_stores/        # Vector stores
+    └── results.txt          # Basic comparison results
+```
+
+### Output Types
+
+1. **Vector Stores**
+   - Location: `outputs/<example>/vector_stores/`
+   - Contains FAISS indices and metadata
+   - Separate stores for each chunking strategy
+
+2. **Visualizations**
+   - Location: `outputs/<example>/visualizations/`
+   - Contains:
+     * Embedding space visualizations (*.png)
+     * Comparison plots
+     * Analysis charts
+
+3. **Logs**
+   - Location: `outputs/<example>/logs/`
+   - Contains:
+     * Run logs (comparison.log)
+     * Error logs
+     * Performance metrics
+
+4. **Results**
+   - Location: `outputs/<example>/results.txt`
+   - Contains:
+     * Comparison results
+     * Metrics and scores
+     * Analysis summaries
 
 ## Development
+
+### Setting Up Development Environment
 
 1. Install development dependencies:
 ```bash
@@ -156,8 +245,32 @@ pre-commit install
 
 3. Run tests:
 ```bash
-pytest
+pytest tests/
 ```
+
+### Adding New Features
+
+1. **New Embedder**
+   - Add new embedder in `src/late_chunking/embedders/`
+   - Inherit from `BaseEmbedder`
+   - Update `__init__.py` to expose new class
+
+2. **New Chunking Strategy**
+   - Add strategy in `src/late_chunking/chunkers.py`
+   - Implement required interfaces
+   - Add tests in `tests/test_chunkers.py`
+
+3. **New Visualization**
+   - Add visualization code in `src/late_chunking/visualization/`
+   - Update web interface if needed
+   - Store outputs in `visualization/output/`
+
+### Code Organization
+
+- Keep embedders modular and independent
+- Store all data files under `src/late_chunking/data/`
+- Save all outputs to appropriate directories under `src/late_chunking/`
+- Add examples to `examples/` directory
 
 ## Contributing
 

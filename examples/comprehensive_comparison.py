@@ -64,7 +64,7 @@ def load_documents() -> Dict[str, str]:
     Returns:
         Dict mapping document names to their contents
     """
-    docs_dir = Path(__file__).parent.parent / "documents"
+    docs_dir = Path("src/late_chunking/data/documents")
     documents = {}
     
     for doc_file in docs_dir.glob("*.txt"):
@@ -117,11 +117,8 @@ def visualize_embeddings(embeddings: np.ndarray, doc_ids: List[str], title: str,
 async def main():
     """Run comprehensive RAG comparison."""
     try:
-        # Ensure we're in the project root directory
-        os.chdir(Path(__file__).parent.parent)
-        
         # Create vector store directories
-        vector_store_dir = Path("vector_stores") / "comprehensive_comparison"
+        vector_store_dir = Path("outputs/comprehensive_comparison/vector_stores")
         vector_store_dir.mkdir(parents=True, exist_ok=True)
         
         # Load documents
@@ -151,7 +148,7 @@ async def main():
                 )
             
             # Create output directory for detailed results
-            output_dir = Path("output/detailed_comparison")
+            output_dir = Path("outputs/comprehensive_comparison/visualizations")
             output_dir.mkdir(parents=True, exist_ok=True)
             
             # Process all questions at once
