@@ -12,6 +12,9 @@ wheels/
 # Environment variables
 .env
 
+# documents
+documents/
+
 # vector store
 vector_stores/
 
