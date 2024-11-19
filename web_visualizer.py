@@ -9,9 +9,6 @@ import faiss
 import pickle
 import logging
 
-from late_chunking.embedders import EmbeddingConfig
-from late_chunking.rag_comparison import RAGComparison
-
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
