@@ -57,7 +57,7 @@ class BaseEmbedder(ABC):
         """
         self.config = config
         self.name = config.name
-        self.vector_store_dir = Path("vector_stores")
+        self.vector_store_dir = Path("src/late_chunking/vector_store/stores")
         self.vector_store_dir.mkdir(exist_ok=True)
         self.index: Optional[faiss.Index] = None
         self.chunks: List[str] = []

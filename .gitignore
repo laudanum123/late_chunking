@@ -18,7 +18,8 @@ documents/
 # vector store
 vector_stores/
 
-# output files
+# Output directories
+outputs/
 visualizations/
 comparison_results.txt
 late_chunking_embeddings.png

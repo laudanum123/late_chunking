@@ -86,10 +86,10 @@ class RAGComparison:
         
         Args:
             config_path: Path to config file
-            output_dir: Optional output directory
+            output_dir: Optional output directory for storing results and logs
         """
         self.config = self._load_config(config_path)
-        self.output_dir = Path(output_dir) if output_dir else Path("output")
+        self.output_dir = Path(output_dir) if output_dir else Path("outputs/default")
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
         # Setup logging
