@@ -73,6 +73,8 @@ class TokenizerBasedSentenceChunker(Chunker):
         
         # Find chunk positions based on sentence boundaries
         chunk_positions = []
+        current_sentence_start = 0
+        
         for i in range(len(token_ids)):
             if token_ids[i] == sep_id:
                 # Check if this is a real sentence boundary
@@ -80,54 +82,46 @@ class TokenizerBasedSentenceChunker(Chunker):
                     token_offsets[i + 1][0] - token_offsets[i][1] > 0  # Gap between tokens
                     or token_ids[i + 1] == sep_id  # Multiple periods
                 ):
-                    # Get position before the period
-                    chunk_positions.append((i, token_offsets[i][0].item()))
+                    # Get the position before the period for text extraction
+                    chunk_positions.append((
+                        current_sentence_start,
+                        i + 1,  # Include period in token span
+                        token_offsets[current_sentence_start][0].item(),
+                        token_offsets[i][0].item()  # End before the period for text
+                    ))
+                    current_sentence_start = i + 1
         
-        # Add the last position to capture the final sentence
-        if len(token_ids) > 0:
+        # Add the last sentence if it doesn't end with a period
+        if current_sentence_start < len(token_ids):
             last_token_idx = len(token_ids) - 1
-            # If the last token is a period, use its start position
+            end_char = token_offsets[last_token_idx][1].item()
+            # If last token is a period, exclude it from text
             if token_ids[last_token_idx] == sep_id:
-                last_pos = (last_token_idx, token_offsets[last_token_idx][0].item())
-            else:
-                last_pos = (last_token_idx, token_offsets[last_token_idx][1].item())
-                
-            if not chunk_positions or last_pos[1] > chunk_positions[-1][1]:
-                chunk_positions.append(last_pos)
+                end_char = token_offsets[last_token_idx][0].item()
+            
+            chunk_positions.append((
+                current_sentence_start,
+                last_token_idx + 1,
+                token_offsets[current_sentence_start][0].item(),
+                end_char
+            ))
             
         # Create chunks with spans
         chunks = []
-        prev_token_idx = 0
-        prev_char_pos = 0
         
-        for token_idx, char_pos in chunk_positions:
+        for start_token, end_token, start_char, end_char in chunk_positions:
             # Extract the text for this chunk
-            chunk_text = text[prev_char_pos:char_pos].strip()
+            chunk_text = text[start_char:end_char].strip()
             
             # Only create chunk if there's actual text
             if chunk_text:
                 chunk = ChunkMetadata(
                     text=chunk_text,
-                    char_span=(prev_char_pos, char_pos),
-                    token_span=(prev_token_idx, token_idx + 1) if return_tokens else None,
+                    char_span=(start_char, end_char),
+                    token_span=(start_token, end_token) if return_tokens else None,
                     full_text=text
                 )
                 chunks.append(chunk)
-                
-            # Update previous positions
-            prev_token_idx = token_idx + 1
-            prev_char_pos = char_pos
-            
-        # Handle any remaining text after the last boundary
-        if prev_char_pos < len(text):
-            remaining_text = text[prev_char_pos:].strip()
-            if remaining_text:
-                chunks.append(ChunkMetadata(
-                    text=remaining_text,
-                    char_span=(prev_char_pos, len(text)),
-                    token_span=(prev_token_idx, len(token_ids)) if return_tokens else None,
-                    full_text=text
-                ))
                 
         return chunks
 
