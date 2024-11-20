@@ -80,17 +80,20 @@ class RAGComparison:
     def __init__(
             self,
             config_path: str = "config.yaml",
-            output_dir: Optional[str] = None
+            output_dir: Optional[str] = None,
+            vector_store_paths: Optional[Dict[str, str]] = None
         ):
         """Initialize RAG comparison.
         
         Args:
             config_path: Path to config file
             output_dir: Optional output directory for storing results and logs
+            vector_store_paths: Optional dictionary mapping 'late_chunking' and 'traditional' to vector store paths
         """
         self.config = self._load_config(config_path)
         self.output_dir = Path(output_dir) if output_dir else Path("outputs/default")
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.vector_store_paths = vector_store_paths or {}
         
         # Setup logging
         log_dir = self.output_dir / "logs"
@@ -119,8 +122,14 @@ class RAGComparison:
             additional_params=self.config['model'].get('additional_params', {})
         )
         
-        self.trad_embedder = await HuggingFaceEmbedder(config).__aenter__()
-        self.late_embedder = await LateChunkingEmbedder(config).__aenter__()
+        self.trad_embedder = await HuggingFaceEmbedder(
+            config, 
+            vector_store_dir=self.vector_store_paths.get('traditional')
+        ).__aenter__()
+        self.late_embedder = await LateChunkingEmbedder(
+            config,
+            vector_store_dir=self.vector_store_paths.get('late_chunking')
+        ).__aenter__()
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
@@ -144,29 +153,32 @@ class RAGComparison:
         Returns:
             Tuple of (traditional_embeddings, late_chunking_embeddings)
         """
-        logger.info("Embedding documents with traditional approach...")
-        trad_embeddings = []
-        for doc, doc_id in zip(documents, doc_ids):
-            chunks = await self.trad_embedder.embed_chunks([doc])
-            for chunk in chunks:
-                chunk.doc_id = doc_id
-            trad_embeddings.extend(chunks)
-        
+        logger.info("Computing new embeddings...")
+
+        # Process late chunking first
         logger.info("Embedding documents with late chunking approach...")
         late_embeddings = []
-
         for doc, doc_id in zip(documents, doc_ids):
             logger.info(f"Processing document: {doc_id}")
-            chunks = await self.late_embedder.embed_chunks([doc])
+            # First chunk the document
+            chunk_metadata = await self.late_embedder.chunk_text(doc)
+            # Then embed the chunks
+            chunks = await self.late_embedder.embed_chunks(chunk_metadata)
             for chunk in chunks:
                 chunk.doc_id = doc_id
             late_embeddings.extend(chunks)
-        
-        # Note: We can iterate over documents for both embedders.
-        # The previous approach for late chunking was unnecessarily complex.
-        # It doesn't cause problems with the vector store, as the store is managed
-        # internally by the LateChunkingEmbedder.
-        # Both approaches work similarly now, simplifying the code and making it more consistent.
+
+        # Then process traditional approach
+        logger.info("Embedding documents with traditional approach...")
+        trad_embeddings = []
+        for doc, doc_id in zip(documents, doc_ids):
+            # First chunk the document
+            chunk_metadata = await self.trad_embedder.chunk_text(doc)
+            # Then embed the chunks
+            chunks = await self.trad_embedder.embed_chunks(chunk_metadata)
+            for chunk in chunks:
+                chunk.doc_id = doc_id
+            trad_embeddings.extend(chunks)
         
         return trad_embeddings, late_embeddings
 

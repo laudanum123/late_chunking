@@ -256,60 +256,81 @@ class LateChunkingEmbedder(BaseEmbedder):
         Returns:
             List of chunks with embeddings
         """
-        if not chunks:
-            return []
-
         try:
-            # Group chunks by their source text to process each document once
+            # Group chunks by their full text to process together
             text_to_chunks = {}
             for chunk in chunks:
-                # Use the full text if available, otherwise use the chunk text
-                text = getattr(chunk, 'full_text', chunk.text)
-                if text not in text_to_chunks:
-                    text_to_chunks[text] = []
-                text_to_chunks[text].append(chunk)
+                text_to_chunks.setdefault(chunk.full_text, []).append(chunk)
             
-            # Process each unique source text
             all_embeddings = []
             all_processed_chunks = []
             
+            # Process each unique text
             for text, text_chunks in text_to_chunks.items():
-                # Get token spans for all chunks in this text
-                token_spans = [chunk.token_span for chunk in text_chunks]
+                # Create macro chunks for long texts
+                macro_chunks = self._create_macro_chunks(text)
                 
-                # Skip if no valid token spans
-                if not any(token_spans):
-                    continue
-                
-                # Tokenize the full text context
-                inputs = self.tokenizer(
-                    text,
-                    padding=True,
-                    truncation=True,
-                    max_length=self.config.max_length,
-                    return_tensors="pt"
-                ).to(self.device)
-
-                # Get embeddings with full context
-                with torch.no_grad():
-                    outputs = self.model(**inputs)
-                
-                # Use late chunking to get embeddings for each span
-                chunk_embeddings = self._late_chunking(outputs.last_hidden_state, token_spans)
-                if chunk_embeddings:
+                # Process each macro chunk
+                for chunk_text, token_offset in macro_chunks:
+                    # Get relevant chunks for this macro chunk
+                    relevant_chunks = []
+                    for chunk in text_chunks:
+                        start, end = chunk.token_span
+                        # Check if chunk overlaps with macro chunk
+                        if start >= token_offset and start < token_offset + self.config.max_length:
+                            relevant_chunks.append(chunk)
+                    
+                    if not relevant_chunks:
+                        continue
+                        
+                    # Get span annotations
+                    span_annotations = []
+                    for chunk in relevant_chunks:
+                        start, end = chunk.token_span
+                        # Adjust spans relative to macro chunk
+                        span_annotations.append((
+                            start - token_offset,
+                            end - token_offset
+                        ))
+                    
+                    # Tokenize and get embeddings
+                    inputs = self.tokenizer(
+                        chunk_text,
+                        padding=True,
+                        truncation=True,
+                        max_length=self.config.max_length,
+                        return_tensors="pt"
+                    ).to(self.device)
+                    
+                    with torch.no_grad():
+                        outputs = self.model(**inputs)
+                    
+                    # Get embeddings for each span
+                    chunk_embeddings = self._late_chunking(
+                        outputs.last_hidden_state,
+                        span_annotations
+                    )
+                    
                     all_embeddings.extend(chunk_embeddings)
-                    all_processed_chunks.extend(text_chunks)
+                    all_processed_chunks.extend(relevant_chunks)
 
             # Create ChunkWithEmbedding objects for chunks with valid embeddings
             embedded_chunks = []
+            embeddings_array = []
             for chunk, embedding in zip(all_processed_chunks, all_embeddings):
                 if embedding is not None:
-                    embedded_chunks.append(ChunkWithEmbedding(
+                    chunk_with_embedding = ChunkWithEmbedding(
                         text=chunk.text,
                         embedding=embedding,
                         char_span=chunk.char_span,
                         token_span=chunk.token_span
-                    ))
+                    )
+                    embedded_chunks.append(chunk_with_embedding)
+                    embeddings_array.append(embedding)
+            
+            # Add embeddings to vector store
+            if embeddings_array:
+                self._add_embeddings(np.array(embeddings_array), embedded_chunks)
             
             return embedded_chunks
 

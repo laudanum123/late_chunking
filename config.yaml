@@ -25,5 +25,5 @@ embedders:
     api_key: "${OPENAI_API_KEY}"  # Will be loaded from environment variable
 
 # Output configuration
-output_dir: "output"
+output_dir: "outputs"
 cache_dir: "cache"  # Optional cache directory for model downloads

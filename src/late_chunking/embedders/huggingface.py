@@ -134,19 +134,17 @@ class HuggingFaceEmbedder(BaseEmbedder):
         Raises:
             EmbeddingProcessError: If embedding fails
         """
-        if not chunks:
-            return []
-            
         try:
-            # Process chunks in batches
             all_embeddings = []
+            embeddings_array = []
+            
+            # Process chunks in batches
             for i in range(0, len(chunks), self.batch_size):
                 batch = chunks[i:i + self.batch_size]
-                batch_texts = [chunk.text for chunk in batch]
                 
-                # Tokenize and encode
+                # Tokenize all texts in batch
                 inputs = self.tokenizer(
-                    batch_texts,
+                    [chunk.text for chunk in batch],
                     padding=True,
                     truncation=True,
                     max_length=self.config.max_length,
@@ -166,6 +164,7 @@ class HuggingFaceEmbedder(BaseEmbedder):
                     
                 # Normalize embeddings
                 embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+                embeddings_array.extend(embeddings)
                 
                 # Create ChunkWithEmbedding instances
                 for chunk, embedding in zip(batch, embeddings):
@@ -175,7 +174,10 @@ class HuggingFaceEmbedder(BaseEmbedder):
                         char_span=chunk.char_span,
                         token_span=chunk.token_span
                     ))
-                    
+            
+            # Add embeddings to vector store
+            self._add_embeddings(np.array(embeddings_array), all_embeddings)
+            
             return all_embeddings
             
         except Exception as e:
