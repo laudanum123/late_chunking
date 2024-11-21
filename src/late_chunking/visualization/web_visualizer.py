@@ -9,15 +9,13 @@ import faiss
 import pickle
 import logging
 
-from late_chunking.embedders import EmbeddingConfig
-from late_chunking.rag_comparison import RAGComparison
-
-app = Flask(__name__)
+template_dir = Path(__file__).parent.parent / 'data' / 'templates'
+app = Flask(__name__, template_folder=str(template_dir))
 logger = logging.getLogger(__name__)
 
 def load_embedding_data(model_name=None):
     """Load embedding data from saved vector stores"""
-    vector_store_dir = Path("vector_stores") / "comprehensive_comparison"
+    vector_store_dir = Path("outputs/comprehensive_comparison/vector_stores")
     late_store_path = vector_store_dir / "late_chunking"
     trad_store_path = vector_store_dir / "traditional"
     

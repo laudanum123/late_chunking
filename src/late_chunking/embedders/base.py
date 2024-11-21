@@ -31,6 +31,21 @@ class EmbeddingConfig:
     api_key: Optional[str] = None
     additional_params: Optional[Dict[str, Any]] = None
 
+@dataclass
+class ChunkWithEmbedding:
+    """A text chunk with its embedding.
+    
+    Attributes:
+        text: The text content of the chunk
+        embedding: The embedding vector for the chunk
+        char_span: Character span (start, end) in the original text
+        token_span: Token span (start, end) in the original text
+    """
+    text: str
+    embedding: np.ndarray
+    char_span: Optional[tuple[int, int]] = None
+    token_span: Optional[tuple[int, int]] = None
+
 class EmbeddingError(Exception):
     """Base exception for embedding-related errors."""
     pass
@@ -46,19 +61,21 @@ class EmbeddingProcessError(EmbeddingError):
 class BaseEmbedder(ABC):
     """Abstract base class for all embedders."""
     
-    def __init__(self, config: EmbeddingConfig):
+    def __init__(self, config: EmbeddingConfig, vector_store_dir: Optional[str] = None):
         """Initialize the embedder with configuration.
         
         Args:
             config: EmbeddingConfig instance containing model settings
+            vector_store_dir: Optional path to vector store directory. If not provided,
+                            defaults to "src/late_chunking/vector_store/stores"
             
         Raises:
             ModelLoadError: If model initialization fails
         """
         self.config = config
         self.name = config.name
-        self.vector_store_dir = Path("vector_stores")
-        self.vector_store_dir.mkdir(exist_ok=True)
+        self.vector_store_dir = Path(vector_store_dir or "src/late_chunking/vector_store/stores")
+        self.vector_store_dir.mkdir(exist_ok=True, parents=True)
         self.index: Optional[faiss.Index] = None
         self.chunks: List[str] = []
         self.dimension: Optional[int] = None
@@ -156,7 +173,7 @@ class BaseEmbedder(ABC):
         self._save_vector_store()
     
     @abstractmethod
-    async def embed_chunks(self, chunks: List[str]) -> np.ndarray:
+    async def embed_chunks(self, chunks: List[Any]) -> np.ndarray:
         """Embed a list of text chunks asynchronously.
         
         Args:
@@ -181,19 +198,19 @@ class BaseEmbedder(ABC):
         """
         raise NotImplementedError("Subclasses must implement embed_query")
 
-    def _validate_chunks(self, chunks: List[str]) -> None:
+    def _validate_chunks(self, chunks: List[Any]) -> None:
         """Validate input chunks.
         
         Args:
-            chunks: List of text chunks to validate
+            chunks: List of chunks to validate
             
         Raises:
             ValueError: If chunks are invalid
         """
         if not chunks:
             raise ValueError("Empty chunk list provided")
-        if any(not isinstance(chunk, str) for chunk in chunks):
-            raise ValueError("All chunks must be strings")
+        if any(not isinstance(chunk, ChunkMetadata) for chunk in chunks):
+            raise ValueError("All chunks must be ChunkMetadata objects")
             
     def _normalize_embeddings(self, embeddings: np.ndarray) -> np.ndarray:
         """L2 normalize embeddings.
