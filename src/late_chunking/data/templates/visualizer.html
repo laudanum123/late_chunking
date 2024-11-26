@@ -71,6 +71,71 @@
             margin-bottom: 10px;
             color: #333;
         }
+        .query-container {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .query-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .query-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .query-input button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .query-input button:hover {
+            background-color: #0056b3;
+        }
+        .matches-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .matches {
+            flex: 1;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .match-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .match-item .doc-id {
+            font-weight: bold;
+            color: #0056b3;
+            margin-bottom: 5px;
+        }
+        .match-item .distance {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .match-item .text {
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
@@ -89,16 +154,32 @@
     <div class="container">
         <div id="error" class="error"></div>
         <div id="loading" class="loading">Loading visualizations...</div>
+        
+        <div class="query-container">
+            <div class="query-input">
+                <input type="text" id="query-input" placeholder="Enter your query here..." />
+                <button onclick="processQuery()">Search</button>
+            </div>
+        </div>
+        
         <div class="plot-container">
             <div class="plot">
                 <div class="plot-title">Late Chunking Embeddings</div>
                 <div id="late-chunking-plot"></div>
                 <div id="late-chunking-hover" class="hover-info">Hover over points to see the text content...</div>
+                <div class="matches">
+                    <h3>Top Matches (Late Chunking)</h3>
+                    <div id="late-chunking-matches"></div>
+                </div>
             </div>
             <div class="plot">
                 <div class="plot-title">Traditional Chunking Embeddings</div>
                 <div id="traditional-plot"></div>
                 <div id="traditional-hover" class="hover-info">Hover over points to see the text content...</div>
+                <div class="matches">
+                    <h3>Top Matches (Traditional)</h3>
+                    <div id="traditional-matches"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -109,6 +190,96 @@
                 const text = data.points[0].customdata[0];
                 const docId = data.points[0].data.name || 'Unknown Document';
                 hoverDiv.innerHTML = `<strong>Document:</strong> ${docId}\n<strong>Text:</strong>\n${text}`;
+            }
+        }
+
+        function displayMatches(matches, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = matches.map(match => `
+                <div class="match-item">
+                    <div class="doc-id">Document: ${match.doc_id}</div>
+                    <div class="distance">Distance: ${match.distance.toFixed(4)}</div>
+                    <div class="text">${match.text}</div>
+                </div>
+            `).join('');
+        }
+
+        async function processQuery() {
+            const query = document.getElementById('query-input').value.trim();
+            if (!query) {
+                showError('Please enter a query');
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+
+            try {
+                const response = await fetch('/process_query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query }),
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    // Update plots
+                    const config = {
+                        displayModeBar: true,
+                        scrollZoom: true
+                    };
+
+                    const layoutUpdate = {
+                        hovermode: 'closest',
+                        hoverlabel: { enabled: false }
+                    };
+
+                    data.late_chunking.layout = {
+                        ...data.late_chunking.layout,
+                        ...layoutUpdate
+                    };
+                    data.traditional.layout = {
+                        ...data.traditional.layout,
+                        ...layoutUpdate
+                    };
+
+                    Plotly.newPlot('late-chunking-plot', 
+                        data.late_chunking.data,
+                        data.late_chunking.layout,
+                        config
+                    );
+                    
+                    Plotly.newPlot('traditional-plot',
+                        data.traditional.data,
+                        data.traditional.layout,
+                        config
+                    );
+
+                    // Display matches
+                    displayMatches(data.matches.late_chunking, 'late-chunking-matches');
+                    displayMatches(data.matches.traditional, 'traditional-matches');
+
+                    // Add hover event listeners
+                    const lateChunkingHover = document.getElementById('late-chunking-hover');
+                    const traditionalHover = document.getElementById('traditional-hover');
+
+                    document.getElementById('late-chunking-plot').on('plotly_hover', function(data) {
+                        updateHoverInfo(lateChunkingHover, data);
+                    });
+
+                    document.getElementById('traditional-plot').on('plotly_hover', function(data) {
+                        updateHoverInfo(traditionalHover, data);
+                    });
+                }
+            } catch (error) {
+                showError('Error processing query: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
             }
         }
 
@@ -184,6 +355,13 @@
             errorDiv.style.display = 'block';
             document.getElementById('loading').style.display = 'none';
         }
+
+        // Add event listener for Enter key in query input
+        document.getElementById('query-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processQuery();
+            }
+        });
 
         // Initial load
         loadVisualizations();
