@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Embedding Space Visualization</title>
+    <title>Vector Store Visualizer</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,353 +19,329 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #333;
+        .header {
             text-align: center;
-            margin-bottom: 30px;
-        }
-        .plot-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .plot {
-            flex: 1;
-            min-width: 600px;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .hover-info {
-            margin-top: 10px;
-            padding: 10px;
-            min-height: 100px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            overflow-y: auto;
-            max-height: 200px;
-        }
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #666;
-        }
-        .error {
-            color: #d32f2f;
-            text-align: center;
-            padding: 20px;
-            background-color: #ffebee;
-            border-radius: 4px;
-            margin: 20px 0;
-            display: none;
-        }
-        .plot-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .query-container {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-        .query-input {
-            display: flex;
-            gap: 10px;
-            align-items: center;
             margin-bottom: 20px;
         }
-        .query-input input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ced4da;
+        .controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
             border-radius: 4px;
-            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
         }
-        .query-input button {
-            padding: 10px 20px;
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toggle-label {
+            font-size: 14px;
+            color: #666;
+            user-select: none;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #007bff;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        .visualizations.hidden {
+            display: none;
+        }
+        .query-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button {
             background-color: #007bff;
             color: white;
+            padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
         }
-        .query-input button:hover {
+        .button:hover {
             background-color: #0056b3;
         }
-        .matches-container {
-            margin-top: 20px;
+        .visualizations {
             display: flex;
+            flex-wrap: wrap;
             gap: 20px;
         }
-        .matches {
+        .visualization {
             flex: 1;
-            padding: 15px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .match-item {
-            margin-bottom: 15px;
+            min-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             padding: 10px;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
             background-color: #f8f9fa;
             border-radius: 4px;
-            border: 1px solid #dee2e6;
         }
-        .match-item .doc-id {
-            font-weight: bold;
-            color: #0056b3;
-            margin-bottom: 5px;
+        .results-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
         }
-        .match-item .distance {
-            font-size: 12px;
+        .results-column {
+            flex: 1;
+            min-width: 0; /* Prevent flex items from overflowing */
+        }
+        .result-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-wrap: break-word; /* Handle long text */
+        }
+        .result-text {
+            margin: 5px 0;
+        }
+        .result-distance {
             color: #666;
-            margin-bottom: 5px;
+            font-size: 0.9em;
         }
-        .match-item .text {
-            font-size: 14px;
-            white-space: pre-wrap;
+        .result-doc-id {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #ffebee;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Embedding Space Visualization</h1>
-        <div class="controls">
-            <label for="model-select">Embedding Model:</label>
-            <select id="model-select" onchange="loadVisualizations()">
-                {% for model in models %}
-                <option value="{{ model }}">{{ model }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    
     <div class="container">
-        <div id="error" class="error"></div>
-        <div id="loading" class="loading">Loading visualizations...</div>
+        <div class="header">
+            <h1>Vector Store Visualizer</h1>
+        </div>
         
-        <div class="query-container">
-            <div class="query-input">
-                <input type="text" id="query-input" placeholder="Enter your query here..." />
-                <button onclick="processQuery()">Search</button>
+        <div class="controls">
+            <div class="control-group">
+                <select id="experiment" class="query-input">
+                    <option value="fixed">Fixed Token Comparison</option>
+                    <option value="comprehensive">Comprehensive Comparison</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <input type="text" id="query" class="query-input" placeholder="Enter your query...">
+            </div>
+            <div class="control-group">
+                <input type="number" id="k" class="query-input" value="10" min="1" max="100" placeholder="Number of results (k)">
+            </div>
+            <div class="control-group toggle-group">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="viz-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Show Visualization</span>
+            </div>
+            <div class="control-group">
+                <button onclick="processQuery()" class="button">Search</button>
             </div>
         </div>
         
-        <div class="plot-container">
-            <div class="plot">
-                <div class="plot-title">Late Chunking Embeddings</div>
-                <div id="late-chunking-plot"></div>
-                <div id="late-chunking-hover" class="hover-info">Hover over points to see the text content...</div>
-                <div class="matches">
-                    <h3>Top Matches (Late Chunking)</h3>
-                    <div id="late-chunking-matches"></div>
-                </div>
-            </div>
-            <div class="plot">
-                <div class="plot-title">Traditional Chunking Embeddings</div>
+        <div class="visualizations">
+            <div class="visualization">
                 <div id="traditional-plot"></div>
-                <div id="traditional-hover" class="hover-info">Hover over points to see the text content...</div>
-                <div class="matches">
-                    <h3>Top Matches (Traditional)</h3>
-                    <div id="traditional-matches"></div>
+            </div>
+            <div class="visualization">
+                <div id="late-chunking-plot"></div>
+            </div>
+        </div>
+        
+        <div class="results">
+            <h2>Query Results</h2>
+            <div id="error" class="error" style="display: none;"></div>
+            <div class="results-container">
+                <div class="results-column">
+                    <div id="traditional-results"></div>
+                </div>
+                <div class="results-column">
+                    <div id="late-chunking-results"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function updateHoverInfo(hoverDiv, data) {
-            if (data) {
-                const text = data.points[0].customdata[0];
-                const docId = data.points[0].data.name || 'Unknown Document';
-                hoverDiv.innerHTML = `<strong>Document:</strong> ${docId}\n<strong>Text:</strong>\n${text}`;
+        // Load initial visualizations
+        $(document).ready(function() {
+            loadVisualizations();
+            
+            // Add visualization toggle handler
+            $('#viz-toggle').change(function() {
+                $('.visualizations').toggleClass('hidden', !this.checked);
+                if (this.checked) {
+                    loadVisualizations();
+                }
+            });
+        });
+        
+        function loadVisualizations(skipViz = false) {
+            const experiment = $('#experiment').val();
+            const showViz = $('#viz-toggle').is(':checked');
+            
+            if (!showViz) {
+                $('.visualizations').addClass('hidden');
+                return;
             }
+            
+            $.get(`/get_visualizations?experiment=${experiment}&skip_viz=${skipViz}`, function(data) {
+                if (!skipViz) {
+                    // Update layout to remove legend
+                    const layout = {
+                        showlegend: false,
+                        margin: {l: 20, r: 20, t: 40, b: 20},
+                        plot_bgcolor: 'white',
+                        title_x: 0.5,
+                        title_y: 0.95
+                    };
+                    
+                    Plotly.newPlot('traditional-plot', data.traditional.data, 
+                        {...data.traditional.layout, ...layout});
+                    Plotly.newPlot('late-chunking-plot', data.late_chunking.data, 
+                        {...data.late_chunking.layout, ...layout});
+                    
+                    $('.visualizations').removeClass('hidden');
+                }
+            }).fail(function(jqXHR) {
+                showError(jqXHR.responseJSON ? jqXHR.responseJSON.error : 'Failed to load visualizations');
+            });
         }
-
-        function displayMatches(matches, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = matches.map(match => `
-                <div class="match-item">
-                    <div class="doc-id">Document: ${match.doc_id}</div>
-                    <div class="distance">Distance: ${match.distance.toFixed(4)}</div>
-                    <div class="text">${match.text}</div>
-                </div>
-            `).join('');
-        }
-
-        async function processQuery() {
-            const query = document.getElementById('query-input').value.trim();
+        
+        function processQuery() {
+            const query = $('#query').val();
+            const experiment = $('#experiment').val();
+            const k = $('#k').val();
+            const showViz = $('#viz-toggle').is(':checked');
+            
             if (!query) {
                 showError('Please enter a query');
                 return;
             }
-
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('error').style.display = 'none';
-
-            try {
-                const response = await fetch('/process_query', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ query }),
-                });
-
-                const data = await response.json();
-                
-                if (data.error) {
-                    showError(data.error);
-                } else {
-                    // Update plots
-                    const config = {
-                        displayModeBar: true,
-                        scrollZoom: true
-                    };
-
-                    const layoutUpdate = {
-                        hovermode: 'closest',
-                        hoverlabel: { enabled: false }
-                    };
-
-                    data.late_chunking.layout = {
-                        ...data.late_chunking.layout,
-                        ...layoutUpdate
-                    };
-                    data.traditional.layout = {
-                        ...data.traditional.layout,
-                        ...layoutUpdate
-                    };
-
-                    Plotly.newPlot('late-chunking-plot', 
-                        data.late_chunking.data,
-                        data.late_chunking.layout,
-                        config
-                    );
-                    
-                    Plotly.newPlot('traditional-plot',
-                        data.traditional.data,
-                        data.traditional.layout,
-                        config
-                    );
-
-                    // Display matches
-                    displayMatches(data.matches.late_chunking, 'late-chunking-matches');
-                    displayMatches(data.matches.traditional, 'traditional-matches');
-
-                    // Add hover event listeners
-                    const lateChunkingHover = document.getElementById('late-chunking-hover');
-                    const traditionalHover = document.getElementById('traditional-hover');
-
-                    document.getElementById('late-chunking-plot').on('plotly_hover', function(data) {
-                        updateHoverInfo(lateChunkingHover, data);
-                    });
-
-                    document.getElementById('traditional-plot').on('plotly_hover', function(data) {
-                        updateHoverInfo(traditionalHover, data);
-                    });
-                }
-            } catch (error) {
-                showError('Error processing query: ' + error.message);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
-        }
-
-        function loadVisualizations() {
-            const modelSelect = document.getElementById('model-select');
-            const selectedModel = modelSelect.value;
             
-            fetch(`/get_visualizations?model=${selectedModel}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        showError(data.error);
-                    } else {
-                        // Hide loading message
-                        document.getElementById('loading').style.display = 'none';
-                        
-                        // Configure hover modes
-                        const config = {
-                            displayModeBar: true,
-                            scrollZoom: true
-                        };
-
-                        // Update layout to disable hover labels
-                        const layoutUpdate = {
-                            hovermode: 'closest',
-                            hoverlabel: { enabled: false }
-                        };
-
-                        // Merge layout updates
-                        data.late_chunking.layout = {
-                            ...data.late_chunking.layout,
-                            ...layoutUpdate
-                        };
-                        data.traditional.layout = {
-                            ...data.traditional.layout,
-                            ...layoutUpdate
+            // Clear previous results
+            $('#error').hide();
+            $('#traditional-results').empty();
+            $('#late-chunking-results').empty();
+            
+            $.ajax({
+                url: '/process_query',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    query: query,
+                    experiment: experiment,
+                    k: parseInt(k),
+                    skip_viz: !showViz
+                }),
+                success: function(response) {
+                    // Update visualizations if enabled
+                    if (showViz && response.visualizations) {
+                        const layout = {
+                            showlegend: false,
+                            margin: {l: 20, r: 20, t: 40, b: 20},
+                            plot_bgcolor: 'white',
+                            title_x: 0.5,
+                            title_y: 0.95
                         };
                         
-                        // Create plots
-                        Plotly.newPlot('late-chunking-plot', 
-                            data.late_chunking.data,
-                            data.late_chunking.layout,
-                            config
-                        );
-                        
-                        Plotly.newPlot('traditional-plot',
-                            data.traditional.data,
-                            data.traditional.layout,
-                            config
-                        );
-
-                        // Add hover event listeners
-                        const lateChunkingHover = document.getElementById('late-chunking-hover');
-                        const traditionalHover = document.getElementById('traditional-hover');
-
-                        document.getElementById('late-chunking-plot').on('plotly_hover', function(data) {
-                            updateHoverInfo(lateChunkingHover, data);
-                        });
-
-                        document.getElementById('traditional-plot').on('plotly_hover', function(data) {
-                            updateHoverInfo(traditionalHover, data);
-                        });
+                        Plotly.newPlot('traditional-plot', response.visualizations.traditional.data,
+                            {...response.visualizations.traditional.layout, ...layout});
+                        Plotly.newPlot('late-chunking-plot', response.visualizations.late_chunking.data,
+                            {...response.visualizations.late_chunking.layout, ...layout});
                     }
-                })
-                .catch(error => {
-                    showError('Error loading visualizations: ' + error.message);
-                });
+                    
+                    // Display results
+                    displayResults('traditional', response.matches.traditional);
+                    displayResults('late_chunking', response.matches.late_chunking);
+                },
+                error: function(jqXHR) {
+                    showError(jqXHR.responseJSON ? jqXHR.responseJSON.error : 'Failed to process query');
+                }
+            });
         }
-
+        
+        function displayResults(type, matches) {
+            const resultsDiv = $(`#${type.replace('_', '-')}-results`);
+            resultsDiv.empty();
+            
+            const title = type === 'traditional' ? 'Traditional Chunking Results' : 'Late Chunking Results';
+            resultsDiv.append(`<h3>${title}</h3>`);
+            
+            matches.forEach(function(match) {
+                const resultItem = $('<div class="result-item"></div>');
+                resultItem.append(`<div class="result-doc-id">Document: ${match.doc_id}</div>`);
+                resultItem.append(`<div class="result-text">${match.text}</div>`);
+                resultItem.append(`<div class="result-distance">Distance: ${match.distance.toFixed(4)}</div>`);
+                resultsDiv.append(resultItem);
+            });
+        }
+        
         function showError(message) {
-            const errorDiv = document.getElementById('error');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            document.getElementById('loading').style.display = 'none';
+            const errorDiv = $('#error');
+            errorDiv.text(message);
+            errorDiv.show();
         }
-
-        // Add event listener for Enter key in query input
-        document.getElementById('query-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                processQuery();
-            }
+        
+        // Update visualizations when experiment changes
+        $('#experiment').change(function() {
+            loadVisualizations();
         });
-
-        // Initial load
-        loadVisualizations();
     </script>
 </body>
 </html>
