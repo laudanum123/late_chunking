@@ -18,46 +18,113 @@ logger = logging.getLogger(__name__)
 
 # Sample questions about the cities
 QUESTIONS = [
-    "What is the current population of New York City and how does it compare to other US cities?",
-    "How did New York City get its name and what was it called before?",
-    "What role does Wall Street play in New York's economy and global finance?",
-    "What are the five boroughs of New York City and how are they different?",
-    "How does New York City's public transportation system work, especially the subway?",
-    "What is the significance of Central Park and when was it established?",
-    "How did the September 11, 2001 attacks impact New York City?",
-    "What makes New York City a global cultural capital, especially in terms of arts and entertainment?",
-    "What are the major tourist attractions in New York City and how many visitors does it receive annually?",
-    "How has immigration shaped New York City's demographics and culture?",
-    "What is the history of Broadway theater and its impact on New York's culture?",
-    "How does New York City's climate vary throughout the year?",
-    "What are the major sports teams in New York City and where do they play?",
-    "How has New York's architecture evolved, especially its famous skyscrapers?",
-    "What role does education play in New York City, including its universities and schools?",
-    "How does New York City handle environmental challenges and sustainability?",
-    "What is unique about New York City's food culture and cuisine?",
-    "How does the New York City government structure work?",
-    "What are the major bridges and tunnels connecting New York's boroughs?",
-    "How has technology and Silicon Alley contributed to New York's economy?",
-    "What is the current role of Bonn in German government?",
-    "Tell me about Bonn's history as a capital city",
-    "What international organizations are located in Bonn?",
-    "How can I visit Beethoven's birthplace?",
-    "What are the main transportation options in Bonn?",
-    "What is the significance of the University of Bonn?",
-    "What major companies are headquartered in Bonn?",
-    "How is Bonn connected to the Rhine river?",
-    "What museums can I visit in Bonn?",
-    "How did Bonn's role change after German reunification?",
-    "What is the climate like in Bonn?",
-    "How old is the city of Bonn?",
-    "What role did Bonn play during Roman times?",
-    "What cultural attractions can tourists visit in Bonn?",
-    "How is public transportation organized in Bonn?",
-    "What is special about Bonn's educational institutions?",
-    "What UN organizations are based in Bonn?",
-    "How did Bonn become the capital of West Germany?",
-    "What are the main leisure areas in Bonn?",
-    "What is Bonn's connection to Beethoven?"
+    'Kann man eine Briefmarke selbst gestalten?',
+    'Wie können Unterrichtsmaterialien bestellt werden?',
+    'Darf ich Medikamente per Brief versenden?',
+    'Ich habe mich bei Ihnen beworben. Ich habe immer noch keine Antwort erhalten',
+    'Was mache ich mit einer Sponsoring Anfrage?',
+    'Kostet GoGreen für Pakete extra?',
+    'Kann eine Privatperson ein Brief mit Nachnahme versenden?',
+    'Ich wollte mich über eine Filiale beschweren. Die Mitarbeiter waren alle sehr unfreundlich und haben mir nicht weitergeholfen.',
+    'Kann ich mein Päkchen und die Frankierung online bezahlen?',
+    'Warum kann ich meine Sendung nicht umleiten?',
+    'Ich kann aus gesundheitlichen Gründen das Paket aus der Packstation nicht abholen',
+    'Warum wurde mein Paket nicht zugestellt, ich war den ganzen Tag zuhause?',
+    'Ich habe eine kostenlose Abholung gebucht. Der Zusteller hat sich aber geweigert das Paket mitzunehmen.',
+    'Kann ich ein Paket als Retoure im Paket-Shop abgeben?',
+    'Ich habe mein Passwort für das Kundenkonto vergessen. Was muss ich tun?',
+    'Wieso ist mein Brief unzustellbar?',
+    'Der Zusteller hat mit dem Auto meine Hauswand beschädigt.',
+    'Ich möchte mein Paket immer auf meine Terasse geliefert bekommen.',
+    'Ich habe eine Benachrichtigung bekommen das mein Paket bald ankommt. Ich habe aber nichts bestellt.',
+    'Muss der Name am Briefkasten oder an der Klingel stehen?',
+    'Kann der Zusteller Sendungen in eine RENZbox einstellen?',
+    'Kann man ein Päckchen in den Briefkasten werfen?',
+    'Kann man eine Urne versenden?',
+    'Der Inhalt von meinem Paket ist zerstört. Was passiert jetzt?',
+    'Wo kann man einen Bahntransport buchen?',
+    'Wie kann man den Lagerservice beauftragen?',
+    'Wie funktiniert der Lagerservice?',
+    'Kann man 5 Euro für die Portokasse aufladen?',
+    'Ich habe geheiratet. Wo kann ich meinen Namen ändern?',
+    'Ich möchte eine 2F Authentifizierung in meinem Kundenkonto',
+    'Kunde soll über SMS 1,99 EUR Zoll bezahlen - warum?',
+    'Die DHL App funktioniert nicht und zeigt an ""App angehalten"".',
+    'Wie kann ich ein aktiviertes Gerät entfernen?',
+    'Die Geräteaktivierung funktioniert nicht.',
+    'Kunde möchte keine digitale Benachrichtigung mehr.',
+    'Was tun wenn eine Briefsendung beschädigt wurde?',
+    'Paketsendung wurde beschädigt',
+    'Sendung wurde in die Packstation fehlerhaft eingestellt.',
+    'Was bedeutet ""nicht AGB konform""?',
+    'Wie fülle ich in MySMF das Feld ""Melder"" aus?',
+    'Kann man eine Ersatzzustellung an Nachbarn ausschließen?',
+    'Bekomme ich einen Rabatt bei einer Online Briefmarke?',
+    'Ich möchte mich über meinen Postboten beschweren.',
+    'Was mache ich wenn sich ein Anwalt für einen Kunden meldet?',
+    'Kann ein Paket in Folie umwickelt versendet werden?',
+    'Der Zusteller hat den Kunden beleidigt.',
+    'Wie lange dauert es noch bis mein Brief ankommt?',
+    'Wie kann ich eine kostenlose Paketmitnahme buchen?',
+    'Kann ich den Liefertag ändern?',
+    'Wie kann eine Firma einen Ablagevertrag hinterlegen?',
+    'Ab wie viel Euro Warenwert muss ich Zollgebühren bezahlen?',
+    'Kann der Empfänger eine Nachforschung zu einer Warenpost Sendung einleiten?',
+    'Ich möchte ein Brief per Einschreiben versenden, wie teuer ist das?',
+    'Ich möchte mein DHL Kundenkonto kündigen, wie funktioniert das?',
+    'Kann ich einen Familienangehörigen im Kundenkonto für einen Ablagevertrag eintragen?',
+    'Was ist ein Familienkonto?',
+    'Mein Vater ist verstorben, was passiert mit seiner Post?',
+    'Wie kann ich die Annahme einer Sendung verweigern?',
+    'Was mache ich wenn Sendung nur elektronisch angekündigt wurde?',
+    'Was sind PAN Daten?',
+    'Kann man ein Jagdgewehr versenden?',
+    'Warum geht meine Sendung zurück an den Absender?',
+    'Wie lange dauert der Versand eines Paket wenn der Service Bahntransport mit beauftragt wird?',
+    'Die Packstation am Münsterplatz ist total mit Graffiti versaut. Kann man das nicht mal sauber machen?',
+    'Briefkasten am Münsterplatz in Bonn ist total verdreckt. Kunde wünscht Reinigung',
+    'Ich habe versehentlich meinen Schlüssel beim Einwurf meiner Briefe in den Briefkasten mit in diesen geworfen. Ich möchte meinen Schlüssel sofort wiederhaben.',
+    'Paket wurde an Betrüger geschickt. Wie kann die Zustellung verhindert werden?',
+    'Kunde hat selbst einen Nachsendeauftrag, erhält aber darüber Sendungen einer anderen Person',
+    'Kunde erhält Sendungen mit Aufkleber „kein aktiver Auftrag vorhanden“',
+    'Was muss ich tun, damit meine Pakete immer bei meiner Nachbarin in Haus abgegeben werden? Die ist immer zuhause.',
+    'Wie kann ich meinen Zusteller erreichen? Ich möchte ihm was wegen der Zustellung sagen.',
+    'Wie hoch ist der Zuschlag, für ein Paket das ich als Sperrgut versendet wird?',
+    'Wie lange lange wäre mein Paket von Hamburg nach München unterwegs?',
+    'Ist es möglich bei uns auf dem Firmengelände eine Packstation aufzustellen? Wir haben sehr viele Mitarbeiter und Pakete die diese sich an die Firmenadresse senden lassen?',
+    'Ich möchte mein Einschreiben abholen. Jetzt habe ich gehört ich muss mich ausweisen dafür. Reicht mein Führerscheindafür?',
+    'Ich möchte mein Paket abholen. Jetzt habe ich gehört ich muss mich ausweisen dafür. Reicht dafür mein Führerschein?',
+    'Ich möchte ein großes Paket ins Ausland versenden',
+    'Ich möchte meinen Ablagevertrag kündigen, wie funktioniert das?',
+    'Ich habe meine Postcard verloren',
+    'Ich möchte in meinem Laden ein DHL Paket Shop betreiben',
+    'Ich möchte bei der Post oder der DHL arbeiten',
+    'Ich möchte eine Transportversicherung abschließen',
+    'Meine Sendung wurde in eine zu weit entfernte Packstation eingestellt',
+    'Mein Paket befindet sich in einer Filiale die zu weit weg ist.',
+    'Ich möchte einen Brief an meinem Mann schreiben, er ist Soldat in einem Kriegsgebiet. Was muss beachtet werden?',
+    'Ich wollte ein benachrichtigtes Einschreiben für meine Schwester in der Filiale abholen. Die sagten mir dort ich brauche eine Vollmacht von ihr. Wie soll diese aussehen?',
+    'Ich wollte ein Paket für meine Schwester in der Filiale abholen. Die sagten mir dort ich brauche eine Vollmacht von ihr. Wie soll diese aussehen?',
+    'Kann ich mir einen Brief direkt an eine Filiale schicken lassen?',
+    'Wie muss ich ein Paket beschriften, wenn ich es direkt an eine Filiale schicken möchte?',
+    'Fach klemt ich konnte die Pakete nicht entnehmen',
+    'Packstation hat sich nicht geöffnet mein Paket liegt in Fach',
+    'wie kan ich eine Vollmacht austellen',
+    'ich möchte meine Kosten wegen de beschädigten Inhalt der Sendung erstattet haben',
+    'Ich habe von Amazon ein Paket bekommen und musste Nachentgelt bezahlen. Warum? Ich möchte mein Geld zurück.',
+    'ich habe keine Benachrichtigungs karte erhalten wie soll ich mein Paket abholen (Packstation)',
+    'ich habe keine Benachrichtigungs karte erhalten wie soll ich mein Paket abholen (Filiale)',
+    'Wie lange dauert eine Nach Forschungsauftrag',
+    'Empfanger ist nicht zu ermitteln',
+    'Wie kan ich eine Abholung buchen',
+    'Wie kan ich eine Paket im Packstation bekomen',
+    'Die Sendung liegt nicht in der Packstation',
+    'Die Sendung wurde an den Falschen Empfänger zugestellt',
+    'Zusteller hatte nicht geklingelt',
+    'Was muss der Kunde tun, damit ein Paket beim Nachbar abgeben werden kann.',
+    'Wie kan ich jemanden bevollmächtigen und eine Sendung abzuholen',
+    'kan ich die lagger frist in Packstation verlängern',
+    'kan ich die lager frist in Filiale verlängern',
 ]
 
 def load_documents() -> Dict[str, str]:
@@ -103,10 +170,9 @@ def visualize_embeddings(embeddings: np.ndarray, doc_ids: List[str], title: str,
     for doc_id in unique_docs:
         mask = [d == doc_id for d in doc_ids]
         points = reduced_embeddings[mask]
-        plt.scatter(points[:, 0], points[:, 1], c=[doc_to_color[doc_id]], label=doc_id, alpha=0.6)
+        plt.scatter(points[:, 0], points[:, 1], c=[doc_to_color[doc_id]], alpha=0.6)
     
     plt.title(title)
-    plt.legend()
     
     # Save the plot
     plt.savefig(output_file)
@@ -126,7 +192,7 @@ async def main():
         # Initialize comparison with FixedTokenChunker
         async with RAGComparison() as comparison:
             # Configure chunkers
-            tokenizer = AutoTokenizer.from_pretrained("jinaai/jina-embeddings-v2-base-en")
+            tokenizer = AutoTokenizer.from_pretrained("jinaai/jina-embeddings-v2-base-de")
             fixed_token_chunker = FixedTokenChunker(tokenizer=tokenizer, chunk_size=256, overlap=20)  # Using smaller chunks with overlap
             comparison.late_embedder.chunker = fixed_token_chunker
             comparison.trad_embedder.chunker = fixed_token_chunker
@@ -145,68 +211,106 @@ async def main():
                 late_embeddings = comparison.late_embedder.chunks
             else:
                 logger.info("Computing new embeddings...")
-                # Get all embeddings first
-                trad_embeddings, late_embeddings = await comparison._embed_documents(
+                # Process late chunking first
+                logger.info("Computing late chunking embeddings...")
+                late_embeddings = await comparison._embed_documents_late(
                     list(documents.values()),
                     list(documents.keys())  # Use document names as IDs
                 )
+                # Save late chunking embeddings immediately
+                logger.info("Saving late chunking vector store...")
+                # Convert embeddings to numpy array and verify shape
+                late_embeddings_array = np.array([chunk.embedding for chunk in late_embeddings])
+                if len(late_embeddings) != late_embeddings_array.shape[0]:
+                    raise ValueError(f"Mismatch between number of chunks ({len(late_embeddings)}) and embeddings ({late_embeddings_array.shape[0]})")
+                
+                # Reset embedder state
+                comparison.late_embedder.chunks = []
+                comparison.late_embedder.index = None
+                
+                # Add and save embeddings
+                comparison.late_embedder._add_embeddings(late_embeddings_array, late_embeddings)
+                comparison.late_embedder._save_vector_store()
+                logger.info(f"Late chunking vector store saved successfully with {len(late_embeddings)} chunks")
+                
+                # Then process traditional approach
+                logger.info("Computing traditional embeddings...")
+                trad_embeddings = await comparison._embed_documents_traditional(
+                    list(documents.values()),
+                    list(documents.keys())  # Use document names as IDs
+                )
+                
+                # Save traditional embeddings immediately
+                logger.info("Saving traditional vector store...")
+                # Convert embeddings to numpy array and verify shape
+                trad_embeddings_array = np.array([chunk.embedding for chunk in trad_embeddings])
+                if len(trad_embeddings) != trad_embeddings_array.shape[0]:
+                    raise ValueError(f"Mismatch between number of chunks ({len(trad_embeddings)}) and embeddings ({trad_embeddings_array.shape[0]})")
+                
+                # Reset embedder state
+                comparison.trad_embedder.chunks = []
+                comparison.trad_embedder.index = None
+                
+                # Add and save embeddings
+                comparison.trad_embedder._add_embeddings(trad_embeddings_array, trad_embeddings)
+                comparison.trad_embedder._save_vector_store()
+                logger.info(f"Traditional vector store saved successfully with {len(trad_embeddings)} chunks")
             
             # Create output directory for detailed results
             output_dir = Path("outputs/fixed_token_comparison/results")
             output_dir.mkdir(parents=True, exist_ok=True)
             
-            # Visualize embeddings
-            logger.info("Creating embedding visualizations...")
+            # Process all questions
+            results = []
+            for question in QUESTIONS:
+                result = await comparison._process_query(question, trad_embeddings, late_embeddings)
+                results.append(result)
+
+            # Save results to file
+            output_path = output_dir / "comparison_results.txt"
+            with open(output_path, "w", encoding="utf-8") as f:
+                for result in results:
+                    f.write(f"{result}\n")
+            logger.info(f"Results saved to {output_path}")
+
+            # Create visualizations
+            def get_embeddings_and_ids(chunks):
+                """Extract embeddings and doc_ids from chunks, handling both ChunkWithEmbedding and dict formats."""
+                embeddings = []
+                doc_ids = []
+                for chunk in chunks:
+                    if isinstance(chunk, dict):
+                        embeddings.append(chunk['embedding'])
+                        doc_ids.append(chunk.get('doc_id', 'unknown'))
+                    elif hasattr(chunk, 'embedding') and hasattr(chunk, 'doc_id'):
+                        embeddings.append(chunk.embedding)
+                        doc_ids.append(chunk.doc_id)
+                    else:
+                        logger.warning(f"Skipping chunk without proper attributes: {chunk}")
+                return np.array(embeddings), doc_ids
+
+            # Process traditional embeddings
+            trad_embeddings_array, trad_doc_ids = get_embeddings_and_ids(trad_embeddings)
+            if len(trad_embeddings_array) > 0:
+                visualize_embeddings(
+                    trad_embeddings_array,
+                    trad_doc_ids,
+                    "Traditional Chunking Embeddings",
+                    str(output_dir / "traditional_embeddings.png")
+                )
+                logger.info("Traditional embeddings visualization created")
+
+            # Process late chunking embeddings
+            late_embeddings_array, late_doc_ids = get_embeddings_and_ids(late_embeddings)
+            if len(late_embeddings_array) > 0:
+                visualize_embeddings(
+                    late_embeddings_array,
+                    late_doc_ids,
+                    "Late Chunking Embeddings",
+                    str(output_dir / "late_chunking_embeddings.png")
+                )
+                logger.info("Late chunking embeddings visualization created")
             
-            # Traditional embeddings
-            visualize_embeddings(
-                np.array([chunk.embedding for chunk in trad_embeddings]),
-                [chunk.doc_id for chunk in trad_embeddings],
-                "Traditional Embeddings (Fixed Token Chunks)",
-                output_dir / "traditional_embeddings.png"
-            )
-            
-            # Late chunking embeddings
-            visualize_embeddings(
-                np.array([chunk.embedding for chunk in late_embeddings]),
-                [chunk.doc_id for chunk in late_embeddings],
-                "Late Chunking Embeddings (Fixed Token Chunks)",
-                output_dir / "late_chunking_embeddings.png"
-            )
-            
-            # Run queries and save results
-            logger.info("Running queries...")
-            results_file = output_dir / "query_results.txt"
-            with open(results_file, "w", encoding="utf-8") as f:
-                f.write("Fixed Token Chunking RAG Comparison Results\n")
-                f.write("=" * 80 + "\n\n")
-                
-                # Process all questions and collect results
-                results = []
-                for question in QUESTIONS:
-                    result = await comparison._process_query(question, trad_embeddings, late_embeddings)
-                    results.append(result)
-                
-                # Write summary statistics
-                f.write("Summary Statistics\n")
-                f.write("-" * 80 + "\n")
-                trad_scores = [r.traditional_score for r in results]
-                late_scores = [r.late_score for r in results]
-                f.write(f"Average Traditional Score: {np.mean(trad_scores):.4f}\n")
-                f.write(f"Average Late Chunking Score: {np.mean(late_scores):.4f}\n")
-                f.write(f"Traditional Score Range: {min(trad_scores):.4f} - {max(trad_scores):.4f}\n")
-                f.write(f"Late Chunking Score Range: {min(late_scores):.4f} - {max(late_scores):.4f}\n\n")
-                
-                # Write detailed results for each query
-                f.write("Detailed Results\n")
-                f.write("=" * 80 + "\n\n")
-                for i, (question, result) in enumerate(zip(QUESTIONS, results), 1):
-                    f.write(f"Question {i}: {question}\n")
-                    f.write("-" * 80 + "\n")
-                    f.write(str(result))
-                    f.write("\n\n" + "=" * 80 + "\n\n")
-            
-            logger.info(f"Results saved to {results_file}")
             return 0
             
     except Exception as e:
@@ -217,9 +321,11 @@ if __name__ == "__main__":
     try:
         exit_code = asyncio.run(main())
         exit(exit_code)
+    except Exception as e:
+        import traceback
+        logger.error(f"Error in main: {str(e)}")
+        logger.error(f"Traceback:\n{traceback.format_exc()}")
+        exit(1)
     except KeyboardInterrupt:
         logger.info("Interrupted by user")
         exit(130)
-    except Exception as e:
-        logger.error(f"Unhandled exception: {e}")
-        exit(1)
