@@ -75,73 +75,137 @@ class BaseEmbedder(ABC):
         self.config = config
         self.name = config.name
         self.vector_store_dir = Path(vector_store_dir or "src/late_chunking/vector_store/stores")
+        self.vector_store_path = self.vector_store_dir  # Initialize to same as vector_store_dir
         self.vector_store_dir.mkdir(exist_ok=True, parents=True)
         self.index: Optional[faiss.Index] = None
         self.chunks: List[str] = []
         self.dimension: Optional[int] = None
         self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
         
-    def _get_store_path(self, suffix: str = "") -> Path:
-        """Get path for vector store files.
+    def set_vector_store_path(self, path: Path) -> None:
+        """Set the path for vector store operations.
         
         Args:
-            suffix: Optional suffix for the filename
-            
-        Returns:
-            Path to vector store file
+            path: New path for vector store operations
         """
-        base_name = f"{self.name.lower()}{suffix}"
-        return self.vector_store_dir / base_name
+        self.vector_store_path = path
+        self.vector_store_path.mkdir(exist_ok=True, parents=True)
     
-    def _save_vector_store(self) -> None:
+    def _save_vector_store(self):
         """Save vector store to disk."""
-        if self.index is None or not self.chunks:
-            logger.warning("No index or chunks to save")
-            return
-            
         try:
+            # Verify index and chunks are in sync before saving
+            if self.index is None or len(self.chunks) == 0:
+                logger.warning("No embeddings to save")
+                return
+                
+            if self.index.ntotal != len(self.chunks):
+                logger.error(f"Cannot save vector store: index has {self.index.ntotal} vectors but chunks list has {len(self.chunks)} items")
+                raise ValueError("Index and chunks list are out of sync")
+            
+            # Create parent directory if it doesn't exist
+            self.vector_store_path.mkdir(parents=True, exist_ok=True)
+            
             # Save the FAISS index
-            index_path = self._get_store_path(".index")
+            index_path = self.vector_store_path / "index.faiss"
             faiss.write_index(self.index, str(index_path))
             
-            # Save the chunk texts and metadata
-            state = {
-                'chunks': self.chunks,
-                'dimension': self.dimension
-            }
-            state_path = self._get_store_path(".state")
-            with open(state_path, 'wb') as f:
-                pickle.dump(state, f)
+            # Save the chunks and metadata
+            chunks_path = self.vector_store_path / "chunks.pkl"
+            with open(chunks_path, 'wb') as f:
+                # Convert chunks to serializable format
+                chunk_data = [
+                    {
+                        'text': chunk.text if hasattr(chunk, 'text') else str(chunk),
+                        'embedding': chunk.embedding if hasattr(chunk, 'embedding') else None,
+                        'char_span': chunk.char_span if hasattr(chunk, 'char_span') else None,
+                        'token_span': chunk.token_span if hasattr(chunk, 'token_span') else None,
+                        'doc_id': chunk.doc_id if hasattr(chunk, 'doc_id') else None
+                    }
+                    for chunk in self.chunks
+                ]
+                pickle.dump({
+                    'chunks': chunk_data,
+                    'dimension': self.dimension,
+                    'total_vectors': self.index.ntotal
+                }, f)
                 
-            logger.info(f"Vector store saved to {self.vector_store_dir}")
+            logger.info(f"Vector store saved to {self.vector_store_path} with {self.index.ntotal} vectors and {len(self.chunks)} chunks")
             
         except Exception as e:
             logger.error(f"Error saving vector store: {str(e)}")
-    
+            raise
+
     def _load_vector_store(self) -> bool:
         """Load vector store from disk.
         
         Returns:
             bool: True if successfully loaded
         """
-        index_path = self._get_store_path(".index")
-        state_path = self._get_store_path(".state")
-        
-        if not index_path.exists() or not state_path.exists():
-            logger.info("No existing vector store found")
-            return False
-            
         try:
-            # Load the FAISS index
+            if not self.vector_store_path:
+                logger.warning("No vector store path set")
+                return False
+                
+            index_path = self.vector_store_path / "index.faiss"
+            chunks_path = self.vector_store_path / "chunks.pkl"
+            
+            if not index_path.exists() or not chunks_path.exists():
+                logger.info("No existing vector store found")
+                return False
+                
+            # Load the FAISS index first to get embeddings
             self.index = faiss.read_index(str(index_path))
             
-            # Load the chunk texts and metadata
-            with open(state_path, 'rb') as f:
-                state = pickle.load(f)
-            self.chunks = state['chunks']
-            self.dimension = state['dimension']
+            # Load chunks and metadata
+            with open(chunks_path, 'rb') as f:
+                data = pickle.load(f)
+                chunk_data = data['chunks']
+                self.dimension = data['dimension']
+                expected_vectors = data['total_vectors']
+                
+                # Convert loaded data back to ChunkWithEmbedding objects
+                self.chunks = []
+                for i, chunk in enumerate(chunk_data):
+                    if isinstance(chunk, dict):
+                        # Get embedding from FAISS index if not in chunk data
+                        if chunk['embedding'] is None and i < self.index.ntotal:
+                            embedding = np.zeros((1, self.dimension), dtype=np.float32)
+                            self.index.reconstruct(i, embedding.reshape(-1))
+                            chunk['embedding'] = embedding.reshape(-1)
+                            
+                        chunk_obj = ChunkWithEmbedding(
+                            text=chunk['text'],
+                            embedding=chunk['embedding'],
+                            char_span=chunk['char_span'],
+                            token_span=chunk['token_span']
+                        )
+                        if chunk.get('doc_id') is not None:
+                            chunk_obj.doc_id = chunk['doc_id']
+                        self.chunks.append(chunk_obj)
+                    else:
+                        # Handle legacy format or plain strings
+                        if i < self.index.ntotal:
+                            embedding = np.zeros((1, self.dimension), dtype=np.float32)
+                            self.index.reconstruct(i, embedding.reshape(-1))
+                            chunk_obj = ChunkWithEmbedding(
+                                text=str(chunk),
+                                embedding=embedding.reshape(-1)
+                            )
+                            self.chunks.append(chunk_obj)
+                        else:
+                            logger.warning(f"Skipping chunk {i} as it has no embedding")
             
-            logger.info(f"Vector store loaded from {self.vector_store_dir}")
+            # Verify loaded data
+            if self.index.ntotal != expected_vectors:
+                logger.error(f"Index corruption detected: saved index had {expected_vectors} vectors but loaded index has {self.index.ntotal}")
+                return False
+                
+            if self.index.ntotal != len(self.chunks):
+                logger.error(f"Data corruption: index has {self.index.ntotal} vectors but chunks list has {len(self.chunks)} items")
+                return False
+            
+            logger.info(f"Vector store loaded from {self.vector_store_path} with {self.index.ntotal} vectors")
             return True
             
         except Exception as e:
@@ -158,19 +222,34 @@ class BaseEmbedder(ABC):
             self.dimension = dimension
             self.index = faiss.IndexFlatL2(dimension)
             
-    def _add_embeddings(self, embeddings: np.ndarray, texts: List[str]) -> None:
-        """Add embeddings to index.
+    def _add_embeddings(self, embeddings_array, chunks):
+        """Add new embeddings to vector store.
         
         Args:
-            embeddings: Embedding vectors
-            texts: Corresponding text chunks
+            embeddings_array: numpy array of embeddings to add
+            chunks: list of chunks corresponding to the embeddings
         """
-        if self.index is None:
-            self._init_index(embeddings.shape[1])
+        try:
+            # Initialize or reset the index if needed
+            if self.index is None:
+                self.dimension = embeddings_array.shape[1]
+                self.index = faiss.IndexFlatL2(self.dimension)
+                self.chunks = []  # Reset chunks when creating new index
             
-        self.index.add(embeddings)
-        self.chunks.extend(texts)
-        self._save_vector_store()
+            # Add embeddings to index
+            self.index.add(embeddings_array)
+            
+            # Update chunks list
+            self.chunks.extend(chunks)
+            
+            # Verify index and chunks are in sync
+            if self.index.ntotal != len(self.chunks):
+                logger.error(f"Index-chunks mismatch after adding embeddings: index has {self.index.ntotal} vectors but chunks list has {len(self.chunks)} items")
+                raise ValueError("Index and chunks list are out of sync")
+                
+        except Exception as e:
+            logger.error(f"Error adding to vector store: {str(e)}")
+            raise
     
     @abstractmethod
     async def embed_chunks(self, chunks: List[Any]) -> np.ndarray:
@@ -209,8 +288,8 @@ class BaseEmbedder(ABC):
         """
         if not chunks:
             raise ValueError("Empty chunk list provided")
-        if any(not isinstance(chunk, ChunkMetadata) for chunk in chunks):
-            raise ValueError("All chunks must be ChunkMetadata objects")
+        if any(not isinstance(chunk, ChunkWithEmbedding) for chunk in chunks):
+            raise ValueError("All chunks must be ChunkWithEmbedding objects")
             
     def _normalize_embeddings(self, embeddings: np.ndarray) -> np.ndarray:
         """L2 normalize embeddings.
