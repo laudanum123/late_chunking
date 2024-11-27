@@ -5,7 +5,6 @@ description = "Retrieval-Augmented Generation (RAG) comparison with late chunkin
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "torch>=2.0.0",
     "transformers>=4.30.0",
     "numpy>=1.24.0",
     "openai>=1.0.0",
@@ -14,6 +13,15 @@ dependencies = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
     "PyYAML>=6.0.0",
+    "pyarrow>=18.1.0",
+    "pandas>=2.2.3",
+    "matplotlib>=3.9.2",
+    "scikit-learn>=1.5.2",
+    "faiss-cpu>=1.9.0.post1",
+    "torch>=2.5.1",
+    "torchvision>=0.20.1",
+    "flask>=3.1.0",
+    "plotly>=5.24.1",
 ]
 
 [project.optional-dependencies]
@@ -41,3 +49,16 @@ target-version = ["py310"]
 [tool.isort]
 profile = "black"
 multi_line_output = 3
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu124", marker = "platform_system != 'Darwin'"},
+]
+torchvision = [
+  { index = "pytorch-cu124", marker = "platform_system != 'Darwin'"},
+]
