@@ -23,10 +23,10 @@ class HuggingFaceEmbedder(BaseEmbedder):
     """Embedder implementation using HuggingFace models."""
     
     def __init__(self, config: EmbeddingConfig, vector_store_dir: Optional[str] = None):
-        """Initialize the embedder.
+        """Initialize HuggingFace embedder.
         
         Args:
-            config: Configuration for the embedder
+            config: EmbeddingConfig instance
             vector_store_dir: Optional path to vector store directory
         """
         super().__init__(config, vector_store_dir)
@@ -35,7 +35,6 @@ class HuggingFaceEmbedder(BaseEmbedder):
         self.device = None
         self.chunks = []
         self.index = None
-        self.vector_store_path = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
         
         # Initialize model and chunker
@@ -69,36 +68,6 @@ class HuggingFaceEmbedder(BaseEmbedder):
             self.model.cpu()
             torch.cuda.empty_cache()
             logger.info("Model resources cleaned up")
-
-    def set_vector_store_path(self, path: Path):
-        """Set the path for vector store operations."""
-        self.vector_store_path = path
-
-    def save_vector_store(self):
-        """Save the current vector store state to disk."""
-        try:
-            if self.vector_store_path and self.index is not None:
-                self.vector_store_path.mkdir(parents=True, exist_ok=True)
-                index_path = self.vector_store_path / "index.faiss"
-                chunks_path = self.vector_store_path / "chunks.pkl"
-                
-                # Count embeddings by document ID
-                doc_id_counts = {}
-                for chunk in self.chunks:
-                    doc_id = getattr(chunk, 'doc_id', 'unknown')
-                    doc_id_counts[doc_id] = doc_id_counts.get(doc_id, 0) + 1
-                
-                # Log counts
-                logger.info(f"Saving vector store to {self.vector_store_path}")
-                for doc_id, count in doc_id_counts.items():
-                    logger.info(f"Document {doc_id}: {count} embeddings")
-                
-                faiss.write_index(self.index, str(index_path))
-                with open(chunks_path, 'wb') as f:
-                    pickle.dump(self.chunks, f)
-                logger.info(f"Total embeddings saved: {len(self.chunks)}")
-        except Exception as e:
-            logger.warning(f"Error saving vector store: {str(e)}")
 
     async def chunk_text(self, text: str) -> List[ChunkMetadata]:
         """Chunk text into sentences.

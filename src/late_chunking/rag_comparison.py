@@ -139,23 +139,20 @@ class RAGComparison:
         if self.late_embedder:
             await self.late_embedder.__aexit__(exc_type, exc_val, exc_tb)
 
-    async def _embed_documents(
-            self,
-            documents: List[str],
-            doc_ids: List[str]
-        ) -> Tuple[List[ChunkWithEmbedding], List[ChunkWithEmbedding]]:
-        """Embed all documents using both approaches.
+    async def _embed_documents_late(
+        self,
+        documents: List[str],
+        doc_ids: List[str]
+    ) -> List[ChunkWithEmbedding]:
+        """Embed documents using late chunking approach.
         
         Args:
             documents: List of documents to search
             doc_ids: List of document IDs
             
         Returns:
-            Tuple of (traditional_embeddings, late_chunking_embeddings)
+            List of chunks with embeddings
         """
-        logger.info("Computing new embeddings...")
-
-        # Process late chunking first
         logger.info("Embedding documents with late chunking approach...")
         late_embeddings = []
         for doc, doc_id in zip(documents, doc_ids):
@@ -167,11 +164,26 @@ class RAGComparison:
             for chunk in chunks:
                 chunk.doc_id = doc_id
             late_embeddings.extend(chunks)
+        return late_embeddings
 
-        # Then process traditional approach
+    async def _embed_documents_traditional(
+        self,
+        documents: List[str],
+        doc_ids: List[str]
+    ) -> List[ChunkWithEmbedding]:
+        """Embed documents using traditional approach.
+        
+        Args:
+            documents: List of documents to search
+            doc_ids: List of document IDs
+            
+        Returns:
+            List of chunks with embeddings
+        """
         logger.info("Embedding documents with traditional approach...")
         trad_embeddings = []
         for doc, doc_id in zip(documents, doc_ids):
+            logger.info(f"Processing document: {doc_id}")
             # First chunk the document
             chunk_metadata = await self.trad_embedder.chunk_text(doc)
             # Then embed the chunks
@@ -179,8 +191,7 @@ class RAGComparison:
             for chunk in chunks:
                 chunk.doc_id = doc_id
             trad_embeddings.extend(chunks)
-        
-        return trad_embeddings, late_embeddings
+        return trad_embeddings
 
     async def _process_query(
             self,
@@ -268,7 +279,8 @@ class RAGComparison:
         logger.info("Starting RAG comparison")
         
         # First embed all documents with both approaches
-        trad_embeddings, late_embeddings = await self._embed_documents(documents, doc_ids)
+        trad_embeddings = await self._embed_documents_traditional(documents, doc_ids)
+        late_embeddings = await self._embed_documents_late(documents, doc_ids)
         
         # Save vector stores after all documents are processed
         logger.info("Saving vector stores...")

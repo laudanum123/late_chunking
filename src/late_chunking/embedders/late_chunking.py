@@ -50,14 +50,9 @@ class LateChunkingEmbedder(BaseEmbedder):
         self.chunks = []
         self.index = None
         self.batch_size = config.additional_params.get('batch_size', 32) if config.additional_params else 32
-        self.vector_store_path = None
         self.chunker_class = chunker_class
         self.chunker_params = chunker_params or {}
         self.chunker = None
-
-    def set_vector_store_path(self, path: Path):
-        """Set the path for vector store operations."""
-        self.vector_store_path = path
 
     async def __aenter__(self):
         """Async context manager entry."""
